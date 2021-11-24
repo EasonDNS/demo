@@ -1,8 +1,20 @@
-import { createStore } from 'vuex'
-
+import { createStore, Store, useStore as usevuexStore } from 'vuex'
+import { loginModule } from './login/login'
+import { Istate } from './type'
 export default createStore({
-  state: {},
+  state() {
+    return {
+      name: '',
+      password: ''
+    }
+  },
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {
+    loginModule
+  }
 })
+
+export function useStore(): Store<Istate> {
+  return usevuexStore()
+}

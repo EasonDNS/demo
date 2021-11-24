@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prettier": "prettier --write ."
@@ -15,6 +16,7 @@
     "element-plus": "^1.2.0-beta.3",
     "mitt": "^3.0.0",
     "normalize.css": "^8.0.1",
+    "unplugin-vue-components": "^0.17.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

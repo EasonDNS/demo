@@ -1,5 +1,11 @@
 <template>
-  <div class="login"></div>
+  <div class="login">
+    <div class="header"></div>
+
+    <div class="content"></div>
+
+    <div class="footer"></div>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue'

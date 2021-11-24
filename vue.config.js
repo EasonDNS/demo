@@ -1,5 +1,7 @@
 const path = require('path')
 
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 module.exports = {
   // 1.配置方式一: CLI提供的属性
   outputDir: './build',
@@ -7,7 +9,7 @@ module.exports = {
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://152.136.185.210:4000',
+        target: 'http://152.136.185.210:5000',
         pathRewrite: {
           '^/api': ''
         },
@@ -21,7 +23,12 @@ module.exports = {
       alias: {
         components: '@/components'
       }
-    }
+    },
+    Plugin: [
+      Components({
+        resolvers: [ElementPlusResolver()]
+      })
+    ]
   }
   // configureWebpack: (config) => {
   //   config.resolve.alias = {
