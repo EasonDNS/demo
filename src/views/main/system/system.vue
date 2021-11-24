@@ -1,6 +1,6 @@
 <template>
   <div class="system">
-    {{msg}}
+    {{ msg }}
   </div>
 </template>
 <script lang="ts">
