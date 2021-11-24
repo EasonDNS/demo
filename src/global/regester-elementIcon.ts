@@ -12,7 +12,9 @@ import {
   Goods,
   Monitor,
   Setting,
-  Share
+  Share,
+  User,
+  UserFilled
 } from '@element-plus/icons'
 
 const iconNames = [
@@ -28,7 +30,9 @@ const iconNames = [
   Coffee,
   ChatLineRound,
   Delete,
-  DeleteFilled
+  DeleteFilled,
+  UserFilled,
+  User
 ]
 
 const comicon = (app: App): void => {

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+
 import localcach from '@/utils/localcach'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    redirect: '/home',
-    component: Home
+    name: 'main',
+    redirect: '/main',
+    component: () => import('@/views/main/main.vue')
   },
   {
     path: '/about',
@@ -22,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/Login.vue')
+  },
+  {
+    path: '/main',
+    name: 'main',
+    component: () => import('@/views/main/main.vue')
   }
 ]
 

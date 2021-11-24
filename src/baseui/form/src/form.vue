@@ -1,22 +1,23 @@
 <template>
   <div class="form">
-    <el-form :model="formData">
+    <el-form :model="formData" :rules="searchFormConfig.rules" ref="formRef">
       <el-row justify="center">
         <template v-for="item of searchFormConfig.formitems" :key="item.label">
           <el-col
             :span="
               searchFormConfig?.formStyle?.colSpan ?? defaultFormStyle.colSpan
             "
-            v-bind="searchFormConfig?.formStyle?.layout ?? defaultLayout"
+            v-bind="searchFormConfig?.formStyle?.layout ?? {}"
           >
             <el-form-item
               :prop="item.prop ?? item.field"
               :label="item.label"
-              :rules="item.rules ?? defaultRules"
+              :rules="item.rules"
               :label-width="
                 searchFormConfig?.formStyle?.labelWidth ??
                 defaultFormStyle.labelWidth
               "
+              :required="item.isRequired ?? isRequired"
             >
               <!-- input password -->
               <template
@@ -53,6 +54,9 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
+
+import { ElForm } from 'element-plus'
+
 import { IForm } from './type'
 export default defineComponent({
   props: {
@@ -65,7 +69,10 @@ export default defineComponent({
       required: true
     }
   },
+
   setup(prop, content) {
+    const formRef = ref<InstanceType<typeof ElForm>>()
+
     const defaultLayout = {
       xs: 24,
       sm: 12,
@@ -77,11 +84,7 @@ export default defineComponent({
       colSpan: 6,
       labelWidth: '80px'
     }
-    const defaultRules = [
-      {
-        trigger: blur
-      }
-    ]
+
     let formData = ref({
       ...prop.modelValue
     })
@@ -93,11 +96,13 @@ export default defineComponent({
       { deep: true }
     )
 
+    const isRequired = ref(false)
     return {
       defaultLayout,
       defaultFormStyle,
-      defaultRules,
-      formData
+      formData,
+      isRequired,
+      formRef
     }
   }
 })

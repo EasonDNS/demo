@@ -1,3 +1,3 @@
 import { mitt } from './mitt/mitt'
-
-export { mitt }
+import { jxlsaxios } from './axios'
+export { mitt, jxlsaxios }

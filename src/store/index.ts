@@ -1,7 +1,7 @@
 import { createStore, Store, useStore as usevuexStore } from 'vuex'
 import { loginModule } from './login/login'
 import { Istate } from './type'
-export default createStore({
+export const store = createStore({
   state() {
     return {
       name: '',
@@ -15,6 +15,9 @@ export default createStore({
   }
 })
 
+export const setStoreLocal = () => {
+  store.dispatch('loginModule/setStoreLocalAction')
+}
 export function useStore(): Store<Istate> {
   return usevuexStore()
 }
