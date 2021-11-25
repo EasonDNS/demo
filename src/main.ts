@@ -6,6 +6,7 @@ import 'normalize.css'
 import 'element-plus/theme-chalk/display.css'
 import { regesterGlobal } from '@/global'
 const app = createApp(App)
+
 app.use(store)
 app.use(setStoreLocal)
 app.use(regesterGlobal)

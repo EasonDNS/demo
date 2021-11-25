@@ -1,5 +1,7 @@
 import { App } from 'vue'
 import {
+  CaretLeft,
+  CaretRight,
   ChatDotRound,
   ChatLineRound,
   ChatRound,
@@ -13,6 +15,7 @@ import {
   Monitor,
   Setting,
   Share,
+  Smoking,
   User,
   UserFilled
 } from '@element-plus/icons'
@@ -32,7 +35,10 @@ const iconNames = [
   Delete,
   DeleteFilled,
   UserFilled,
-  User
+  User,
+  Smoking,
+  CaretLeft,
+  CaretRight
 ]
 
 const comicon = (app: App): void => {

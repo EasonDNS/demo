@@ -44,8 +44,10 @@ const loginConfig: IForm = {
   ],
   pageName: 'login',
   formStyle: {
-    colSpan: 24,
-    labelWidth: '80px'
+    labelWidth: '80px',
+    layout: {
+      span: 24
+    }
   },
   rules
 }

@@ -45,7 +45,7 @@ export default defineComponent({
   components: {
     jxlsForm
   },
-  setup(prop, content) {
+  setup() {
     const store = useStore()
     const router = useRouter()
     const userLogin = ref({

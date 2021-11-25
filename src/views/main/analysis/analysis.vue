@@ -1,18 +1,16 @@
 <template>
-  <div class="analysis">
-    <h2>analysis</h2>
-  </div>
+  <div class=""></div>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
 
 export default defineComponent({
   name: 'analysis',
+  components: {},
   setup() {
+    const msg = ref('msg in app')
     return {}
   }
 })
 </script>
-
-<style scoped></style>
+<style lang="less" scoped></style>

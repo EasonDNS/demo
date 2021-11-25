@@ -1,18 +1,15 @@
 <template>
-  <div class="user">
-    <h2>user</h2>
-  </div>
+  <div class=""></div>
 </template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, reactive, computed } from 'vue'
 
 export default defineComponent({
-  name: 'user',
+  components: {},
   setup() {
+    const msg = ref('msg in app')
     return {}
   }
 })
 </script>
-
-<style scoped></style>
+<style lang="less" scoped></style>

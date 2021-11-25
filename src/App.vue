@@ -1,8 +1,6 @@
 <template>
-  <div class="a">
-    <div>
-      <router-view />
-    </div>
+  <div class="nav">
+    <router-view />
   </div>
 </template>
 
@@ -33,8 +31,12 @@ body {
   color: #2c3e50;
   height: 100%;
   // background-color: orange;
-  display: flex;
+  // display: flex;
   justify-content: center;
   align-items: center;
+  .nav {
+    height: 100%;
+    height: 100%;
+  }
 }
 </style>

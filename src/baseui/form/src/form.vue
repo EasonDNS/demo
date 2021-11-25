@@ -1,13 +1,17 @@
 <template>
   <div class="form">
-    <el-form :model="formData" :rules="searchFormConfig.rules" ref="formRef">
+    <el-form
+      :model="formData"
+      :rules="searchFormConfig.rules"
+      ref="formRef"
+      v-bind="searchFormConfig.formStyle.formAttr ?? defaultFormStyle.formAttr"
+    >
       <el-row justify="center">
-        <template v-for="item of searchFormConfig.formitems" :key="item.label">
+        <template v-for="item of searchFormConfig.formitems" :key="item.field">
           <el-col
-            :span="
-              searchFormConfig?.formStyle?.colSpan ?? defaultFormStyle.colSpan
+            v-bind="
+              searchFormConfig?.formStyle?.layout ?? defaultFormStyle.layout
             "
-            v-bind="searchFormConfig?.formStyle?.layout ?? {}"
           >
             <el-form-item
               :prop="item.prop ?? item.field"
@@ -45,6 +49,16 @@
                   v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
+
+              <template v-else-if="item.type === 'select'">
+                <el-select
+                  v-model="formData[`${item.field}`]"
+                  :placeholder="item.placeholder"
+                  v-bind="item.options"
+                >
+                  <el-option v-bind="item.options"></el-option>
+                </el-select>
+              </template>
             </el-form-item>
           </el-col>
         </template>
@@ -72,17 +86,20 @@ export default defineComponent({
 
   setup(prop, content) {
     const formRef = ref<InstanceType<typeof ElForm>>()
-
-    const defaultLayout = {
-      xs: 24,
-      sm: 12,
-      md: 8,
-      lg: 6,
-      xl: 4
-    }
+    // 默认样式
     const defaultFormStyle = {
-      colSpan: 6,
-      labelWidth: '80px'
+      labelWidth: '80px',
+      layout: {
+        span: 12,
+        xs: 24,
+        sm: 12,
+        md: 8,
+        lg: 6,
+        xl: 4
+      },
+      formAttr: {
+        size: 'medium'
+      }
     }
 
     let formData = ref({
@@ -96,15 +113,19 @@ export default defineComponent({
       { deep: true }
     )
 
-    const isRequired = ref(false)
     return {
-      defaultLayout,
       defaultFormStyle,
       formData,
-      isRequired,
       formRef
     }
   }
 })
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.el-row {
+  padding-bottom: 10px;
+}
+.el-col {
+  padding-top: 10px;
+}
+</style>

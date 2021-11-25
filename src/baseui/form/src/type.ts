@@ -24,9 +24,9 @@ type IFormItemType =
   | 'inputnumber'
 
 interface IFormStyle {
-  colSpan?: number
   layout?: any
   labelWidth?: string
+  formAttr?: any
 }
 
 export { IForm, IFormItem }
