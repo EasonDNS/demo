@@ -15,7 +15,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/main',
     name: 'main',
-    component: () => import('@/views/main.vue')
+    component: () => import('@/views/main.vue'),
+    children: [
+      {
+        path: 'go',
+        name: 'go',
+        component: () => import('@/views/main/system/user/user.vue')
+      }
+    ]
   }
 ]
 

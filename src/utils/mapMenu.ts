@@ -1,15 +1,44 @@
-import { RouteRecordRaw, routerKey } from 'vue-router'
-class mapMenu {
-  jxls(): RouteRecordRaw[] {
-    const routes: RouteRecordRaw[] = []
-    const allFiles = require.context('/src/router/main/', true, /\.ts/)
-    allFiles.keys().forEach((item) => {
-      const route = require('../router' + item.split('.')[1])
-      console.log(route)
-      routes.push(route)
+import { RouteRecordRaw } from 'vue-router'
+
+class MapMenu {
+  regRoute(menus: any): RouteRecordRaw[] {
+    const userRoutes: RouteRecordRaw[] = []
+    // 得到 所有
+    const allRoutes: RouteRecordRaw[] = []
+
+    const routeFiles = require.context('../router/main', true, /\.ts/)
+    routeFiles.keys().forEach((key) => {
+      const route = require('../router/main' + key.split('.')[1])
+      allRoutes.push(route.default)
     })
-    console.log(routes)
-    return routes
+
+    const _recurseGetRoute = (menus: any[]) => {
+      for (const item of menus) {
+        if (item.type === 2) {
+          const route = allRoutes.find((route) => item.url === route.path)
+          if (route) {
+            userRoutes.push(route)
+          }
+        } else {
+          _recurseGetRoute(item.children)
+        }
+      }
+    }
+    _recurseGetRoute(menus)
+    return userRoutes
+  }
+  findByid(menus: any, id: number) {
+    for (const item of menus) {
+      if (item.id === id) {
+        return item
+      } else if (item.type === 1) {
+        const subitem: any = this.findByid(item.children, id)
+        if (subitem) {
+          return subitem
+        }
+      }
+    }
   }
 }
-export default new mapMenu()
+
+export default new MapMenu()

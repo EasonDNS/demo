@@ -39,7 +39,7 @@ import { useRouter } from 'vue-router'
 
 import { loginConfig } from '../config/login-config'
 import { jxlsForm } from '@/baseui/form'
-import { localcach } from '@/utils'
+import { localcach, mapMenu } from '@/utils'
 
 export default defineComponent({
   components: {
@@ -80,6 +80,8 @@ export default defineComponent({
             router.push({
               path: '/main'
             })
+            const a = mapMenu.findByid(store.state.loginModule.userMenuList, 38)
+            console.log(a)
           } else {
             localcach.delete('name')
             localcach.delete('password')

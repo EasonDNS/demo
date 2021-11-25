@@ -10,7 +10,9 @@
         <el-header>
           <nav-header></nav-header>
         </el-header>
-        <el-main>4 </el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -23,7 +25,6 @@ import NavAside from '@/components/nav-aside'
 
 import { mitt } from '@/services'
 
-import { mapMenu } from '@/utils'
 export default defineComponent({
   components: {
     NavAside,
@@ -36,7 +37,6 @@ export default defineComponent({
       isFold.value = pay
     })
 
-    mapMenu.jxls()
     return {}
   }
 })

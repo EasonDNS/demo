@@ -17,7 +17,7 @@ const config: jaxiosRequestconfig = {
           Authorization: `Bearer ${token}`
         }
       }
-      console.log(config)
+      // console.log(config)
       return config
     },
     responeseintercepter: (res: any) => {

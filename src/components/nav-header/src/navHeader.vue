@@ -23,14 +23,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
+import { useStore } from '@/store'
 import { mitt } from '@/services'
 export default defineComponent({
   components: {},
   setup() {
+    const store = useStore()
     const isFold = ref(false)
     const foldClick = () => {
       isFold.value = !isFold.value
       mitt.emit('isFold', isFold.value)
+      store.dispatch('loginModule/getUserMenuAction', { url: '/menu/list' })
     }
     return {
       isFold,

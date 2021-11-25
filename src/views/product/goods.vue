@@ -1,15 +1,15 @@
 <template>
-  <div class=""></div>
+  <div class="">................</div>
 </template>
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue'
 
 export default defineComponent({
-  name: 'analysis',
+  name: 'goods',
   components: {},
   setup() {
     const msg = ref('msg in app')
-    return {}
+    return { msg }
   }
 })
 </script>

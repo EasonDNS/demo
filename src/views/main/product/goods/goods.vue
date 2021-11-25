@@ -1,8 +1,8 @@
 <template>
-  <div class=""></div>
+  <div class="">goods</div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   components: {},
