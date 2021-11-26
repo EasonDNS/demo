@@ -5,9 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "vue-cli-service serve",
+    "se": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "prettier": "prettier --write ."
+    "pt": "prettier --write ."
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
@@ -18,7 +19,7 @@
     "mitt": "^3.0.0",
     "normalize.css": "^8.0.1",
     "unplugin-vue-components": "^0.17.2",
-    "vue": "^3.0.0",
+    "vue": "^3.2.23",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
