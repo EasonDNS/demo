@@ -30,42 +30,41 @@ const loginModule: Module<IloginState, IrootState> = {
     },
     changeUserMenuList(state, pay: any) {
       state.userMenuList = pay
-
-      // mapMenusToRoutes(pay).forEach((route) => {
-      //   console.log(route)
-      //   router.addRoute('main', route)
-
-      // // })
-      // console.log('============================')
-      // const a = mapMenu.findByid(pay, 39)
-      // console.log(a)
-      // console.log('============================')
       mapMenu.regRoute(pay).forEach((route) => {
         router.addRoute('main', route)
       })
     }
   },
   actions: {
-    async accountLoignAction({ commit }, payload: any) {
+    async accountLoignAction({ commit, dispatch }, payload: any) {
       const resultUserData = await accountLogin(payload.url, payload.data)
       commit('changeName', resultUserData.data.name)
       commit('changeToken', resultUserData.data.token)
       localcach.set('token', resultUserData.data.token)
-      // mapMenu.regesRoutes(resultUserData.data.list)
-    },
 
-    async getUserMenuAction({ commit }, payload: any) {
-      const resultUserMenu = await getUserMenu(payload.url)
-
+      const resultUserMenu = await getUserMenu({ url: '/menu/list' })
+      console.log(resultUserMenu)
       commit('changeUserMenuList', resultUserMenu.data.list)
       localcach.set('userMenuList', resultUserMenu.data.list)
 
-      // mapMenu.regesRoutes(resultUserMenu.data.list).forEach((route) => {
-      //   console.log('==============')
-      //   console.log(route)
-      //   router.addRoute('main', route)
-      // })
+      // dispatch('loginModule/getUserMenuAction', { url: '/menu/list' })
+      // 拿到菜单再跳转
+      router.push('/main')
+      // mapMenu.regesRoutes(resultUserData.data.list)
     },
+
+    // async getUserMenuAction({ commit }, payload: any) {
+    //   const resultUserMenu = await getUserMenu(payload.url)
+
+    //   commit('changeUserMenuList', resultUserMenu.data.list)
+    //   localcach.set('userMenuList', resultUserMenu.data.list)
+
+    //   // mapMenu.regesRoutes(resultUserMenu.data.list).forEach((route) => {
+    //   //   console.log('==============')
+    //   //   console.log(route)
+    //   //   router.addRoute('main', route)
+    //   // })
+    // },
 
     setStoreLocalAction({ commit }) {
       const name = localcach.get('name')

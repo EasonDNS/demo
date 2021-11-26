@@ -34,7 +34,6 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.path !== '/login') {
     const token = localcach.get('token')
-
     if (!token) {
       return '/login'
     }

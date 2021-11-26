@@ -70,18 +70,6 @@ export default defineComponent({
               url: '/login',
               data: userLogin.value
             })
-
-            // 3, 再分发去去拿 到菜单
-            store.dispatch('loginModule/getUserMenuAction', {
-              url: '/menu/list'
-            })
-
-            // 4, 跳转
-            router.push({
-              path: '/main'
-            })
-            const a = mapMenu.findByid(store.state.loginModule.userMenuList, 38)
-            console.log(a)
           } else {
             localcach.delete('name')
             localcach.delete('password')

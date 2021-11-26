@@ -11,10 +11,10 @@ const accountLogin = (url: string, data: any) => {
     })
 }
 
-const getUserMenu = (url: string) => {
+const getUserMenu = (pay: any) => {
   return jxlsaxios
     .post<any>({
-      url: url
+      url: pay.url
     })
     .then((res) => {
       return res.data
