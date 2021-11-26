@@ -3,17 +3,25 @@
     <h1>
       {{ msg }}
     </h1>
+    <jxls-form
+      :searchFormConfig="searchFormConfig"
+      v-model="formData"
+    ></jxls-form>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
+
+import { jxlsForm } from '@/baseui/form'
+import { searchFormConfig } from './config/search.config'
 
 export default defineComponent({
-  components: {},
+  components: { jxlsForm },
   setup() {
-    const msg = ref('msg in app')
+    const formData = ref({})
     return {
-      msg
+      searchFormConfig,
+      formData
     }
   }
 })

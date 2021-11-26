@@ -72,6 +72,7 @@ import { defineComponent, PropType, ref, watch } from 'vue'
 import { ElForm } from 'element-plus'
 
 import { IForm } from './type'
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -79,7 +80,8 @@ export default defineComponent({
       required: true
     },
     searchFormConfig: {
-      type: Object as PropType<IForm>,
+      // type: Object as PropType<IForm>,
+      type: Object,
       required: true
     }
   },
@@ -96,10 +98,10 @@ export default defineComponent({
         md: 8,
         lg: 6,
         xl: 4
-      },
-      formAttr: {
-        size: 'medium'
       }
+      // formAttr: {
+      //   // size: 'medium'
+      // }
     }
 
     let formData = ref({

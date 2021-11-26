@@ -3,17 +3,14 @@
     <div class="left">
       <i @click="foldClick">
         <template v-if="isFold">
-          <el-icon class="jxls"><caret-right /></el-icon>
+          <el-icon><expand /></el-icon>
         </template>
         <template v-else>
-          <el-icon><caret-left /></el-icon>
+          <el-icon><fold /></el-icon>
         </template>
       </i>
 
-      <el-breadcrumb>
-        <el-breadcrumb-item> 111</el-breadcrumb-item>
-        <el-breadcrumb-item> 111</el-breadcrumb-item>
-      </el-breadcrumb>
+      <jxls-breadcrumb></jxls-breadcrumb>
     </div>
     <div class="right">
       <el-button> 用户 </el-button>
@@ -23,17 +20,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-import { useStore } from '@/store'
 import { mitt } from '@/services'
+
+import jxlsBreadcrumb from './cpns/breadcrumb.vue'
 export default defineComponent({
-  components: {},
+  components: { jxlsBreadcrumb },
   setup() {
-    const store = useStore()
     const isFold = ref(false)
     const foldClick = () => {
       isFold.value = !isFold.value
       mitt.emit('isFold', isFold.value)
-      store.dispatch('loginModule/getUserMenuAction', { url: '/menu/list' })
     }
     return {
       isFold,
@@ -44,11 +40,12 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .nav-header {
-  margin-top: 20px;
+  // margin-top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(23, 139, 38, 0.815);
+  background-color: rgba(107, 16, 107, 0.829);
+  // border-radius: 10px;
 
   .left {
     display: flex;

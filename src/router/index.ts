@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-import localcach from '@/utils/localcach'
+import { localcach, mapMenu } from '@/utils'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,8 +34,12 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.path !== '/login') {
     const token = localcach.get('token')
+
     if (!token) {
       return '/login'
+    }
+    if (to.path === '/main') {
+      return mapMenu.firstMenu.url
     }
   }
 })

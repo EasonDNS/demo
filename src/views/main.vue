@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside>
+      <el-aside :width="isFold ? '60' : '300'">
         <el-menu>
           <nav-aside></nav-aside>
         </el-menu>
@@ -37,7 +37,9 @@ export default defineComponent({
       isFold.value = pay
     })
 
-    return {}
+    return {
+      isFold
+    }
   }
 })
 </script>
@@ -52,13 +54,14 @@ export default defineComponent({
     height: 100%;
   }
   .el-aside {
-    background-color: rgba(255, 166, 0, 0.116);
+    background-color: #545c64;
+    // border-right: none;
+    .el-menu {
+      border-right: none;
+    }
   }
-  // .el-header {
-  //   background-color: orange;
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  // }
+  .el-header {
+    padding: 0;
+  }
 }
 </style>

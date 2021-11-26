@@ -35,11 +35,11 @@ const loginModule: Module<IloginState, IrootState> = {
       //   console.log(route)
       //   router.addRoute('main', route)
 
-      // })
-      console.log('============================')
-      const a = mapMenu.findByid(pay, 39)
-      console.log(a)
-      console.log('============================')
+      // // })
+      // console.log('============================')
+      // const a = mapMenu.findByid(pay, 39)
+      // console.log(a)
+      // console.log('============================')
       mapMenu.regRoute(pay).forEach((route) => {
         router.addRoute('main', route)
       })

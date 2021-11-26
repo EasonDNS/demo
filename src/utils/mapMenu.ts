@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
 class MapMenu {
+  firstMenu: any = null
   regRoute(menus: any): RouteRecordRaw[] {
     const userRoutes: RouteRecordRaw[] = []
     // 得到 所有
@@ -15,6 +16,9 @@ class MapMenu {
     const _recurseGetRoute = (menus: any[]) => {
       for (const item of menus) {
         if (item.type === 2) {
+          if (!this.firstMenu) {
+            this.firstMenu = item
+          }
           const route = allRoutes.find((route) => item.url === route.path)
           if (route) {
             userRoutes.push(route)
@@ -33,6 +37,18 @@ class MapMenu {
         return item
       } else if (item.type === 1) {
         const subitem: any = this.findByid(item.children, id)
+        if (subitem) {
+          return subitem
+        }
+      }
+    }
+  }
+  findByPath(menus: any, path: string) {
+    for (const item of menus) {
+      if (item.url === path) {
+        return item
+      } else if (item.type === 1) {
+        const subitem: any = this.findByPath(item.children, path)
         if (subitem) {
           return subitem
         }

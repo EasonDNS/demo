@@ -1,10 +1,22 @@
 <template>
   <div class="nav-asdie">
+    <div class="herder">
+      <div class="image" ref="imgRef">
+        <el-image :src="require('/src/assets/girl.jpg')" fit="contain" />
+      </div>
+      <transition name="el-zoom-in-center">
+        <template v-if="!isCollapse">
+          <strong>吉祥超市</strong>
+        </template>
+      </transition>
+    </div>
     <el-menu
       v-bind="defaultUserMenuStyle"
       :default-active="defaultActive"
-      :collapase="isFold"
+      :collapse="isCollapse"
       @open="handleOpen"
+      @close="handleClose"
+      @select="handleSelect"
     >
       <template v-for="item of userMenuList" :key="item.id">
         <template v-if="item.type === 1">
@@ -31,7 +43,7 @@
                   <chatLineRound />
                 </el-icon>
               </template>
-              <strong>
+              <strong v-if="!isCollapse">
                 {{ item.name }}
               </strong>
             </template>
@@ -54,48 +66,86 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { useStore } from '@/store'
-
+import { mapMenu } from '@/utils'
 import { mitt } from '@/services'
 export default defineComponent({
   components: {},
   setup() {
     const store = useStore()
+    const route = useRoute()
 
+    const imgSize = ref('60px')
     const defaultUserMenuStyle = ref({
-      backgroundColor: '#FF6F61',
-      activeTextColor: '#007070',
+      backgroundColor: '#545c64',
+      textColor: '#fff',
+      activeTextColor: '#ffd04b',
       router: true
     })
-
-    const isFold: any = ref(false)
+    const imgRef = ref()
+    const isCollapse: any = ref(false)
     mitt.on('isFold', (pay) => {
-      isFold.value = pay
-      console.log(isFold.value)
+      isCollapse.value = pay
+
+      imgRef.value.style.width = '30px'
     })
     // 默认需要打开的第一个子菜单
-    const defaultActive = '/main/analysis/overview'
+
+    const defaultActive = ref(mapMenu.firstMenu.url)
 
     // 这里监听 的是 菜单的打开  elsubmenu 会返回 type 1的 index 菜单
-    const handleOpen = (pay: any) => {
-      console.log(pay)
+    const handleOpen = (subitem: any) => {
+      mitt.emit('handleOpen', subitem)
+      // console.log(mapMenu.firstMenu)
+      const a = mapMenu.findByPath(
+        store.state.loginModule.userMenuList,
+        route.path
+      )
+      defaultActive.value = a.url
     }
+    const handleClose = (subitem: any) => {
+      mitt.emit('handleClose', subitem)
+      // console.log(subitem)
+    }
+    const handleSelect = (item: any) => {
+      mitt.emit('handleSelect', item)
+      // console.log(item)
+    }
+
     const userMenuList = computed(() => store.state.loginModule.userMenuList)
     return {
       userMenuList,
       defaultUserMenuStyle,
-      isFold,
+      isCollapse,
       defaultActive,
-      handleOpen
+      handleOpen,
+      handleClose,
+      handleSelect,
+      imgSize,
+      imgRef
     }
   }
 })
 </script>
 <style lang="less" scoped>
-.nav-aside {
-  height: 100%;
-  // background-color: rgba(190, 223, 45, 0.87);
+.nav-asdie {
+  background-color: #545c64;
+}
+.el-menu {
+  border-right: none;
+}
+
+.herder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #545c64;
+  .image {
+    width: 60px;
+    padding-right: 5px;
+  }
 }
 </style>

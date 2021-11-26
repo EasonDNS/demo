@@ -1,11 +1,11 @@
-interface IForm {
-  formitems: IFormItem[]
+export interface IForm {
+  formItems: IFormItem[]
   pageName: string
   rules?: any
   formStyle?: IFormStyle
 }
 
-interface IFormItem {
+export interface IFormItem {
   field: string
   type: IFormItemType
   label: string
@@ -29,4 +29,4 @@ interface IFormStyle {
   formAttr?: any
 }
 
-export { IForm, IFormItem }
+// export { IForm, IFormItem }

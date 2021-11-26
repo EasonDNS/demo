@@ -1,7 +1,7 @@
 import { IForm } from '@/baseui/form'
 import { rules } from './login-roules'
 const loginConfig: IForm = {
-  formitems: [
+  formItems: [
     {
       field: 'name',
       prop: 'name',
