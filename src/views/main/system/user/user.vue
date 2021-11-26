@@ -1,27 +1,41 @@
 <template>
   <div class="">
-    <h1>
-      {{ msg }}
-    </h1>
+    <h1>msg</h1>
     <jxls-form
       :searchFormConfig="searchFormConfig"
       v-model="formData"
     ></jxls-form>
   </div>
+  <hr />
+  <div>
+    <jxls-table :tableConfig="tableConfig" :listData="listData"></jxls-table>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-
+import { computed, defineComponent, ref, onMounted } from 'vue'
+import { jxlsTable } from '@/baseui/tabel'
 import { jxlsForm } from '@/baseui/form'
-import { searchFormConfig } from './config/search.config'
 
+import { useStore } from '@/store'
+
+import { searchFormConfig } from './config/formConfig'
+import { tableConfig } from './config/tableConfig'
 export default defineComponent({
-  components: { jxlsForm },
+  components: { jxlsForm, jxlsTable },
   setup() {
     const formData = ref({})
+    const store = useStore()
+    const listData = computed(() => store.state.userModule.userList)
+
+    onMounted(() => {
+      store.dispatch('userModule/getUserDataAction', { url: '/users/list' })
+    })
+
     return {
       searchFormConfig,
-      formData
+      tableConfig,
+      formData,
+      listData
     }
   }
 })

@@ -1,13 +1,8 @@
 <template>
   <div class="form">
-    <el-form
-      :model="formData"
-      :rules="searchFormConfig.rules"
-      ref="formRef"
-      v-bind="searchFormConfig.formStyle.formAttr ?? defaultFormStyle.formAttr"
-    >
+    <el-form :model="formData" :rules="searchFormConfig.rules" ref="formRef">
       <el-row justify="center">
-        <template v-for="item of searchFormConfig.formitems" :key="item.field">
+        <template v-for="item of searchFormConfig.formItems" :key="item.field">
           <el-col
             v-bind="
               searchFormConfig?.formStyle?.layout ?? defaultFormStyle.layout
@@ -80,8 +75,7 @@ export default defineComponent({
       required: true
     },
     searchFormConfig: {
-      // type: Object as PropType<IForm>,
-      type: Object,
+      type: Object as PropType<IForm>,
       required: true
     }
   },
@@ -123,6 +117,7 @@ export default defineComponent({
   }
 })
 </script>
+
 <style lang="less" scoped>
 .el-row {
   padding-bottom: 10px;
