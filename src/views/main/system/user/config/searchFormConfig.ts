@@ -1,4 +1,4 @@
-import { IForm } from '@/baseui/form'
+import { IForm } from '@/baseui/form/src/type'
 
 export const searchFormConfig: IForm = {
   formItems: [
@@ -43,5 +43,6 @@ export const searchFormConfig: IForm = {
       }
     }
   ],
+  isShow: true,
   pageName: 'user'
 }

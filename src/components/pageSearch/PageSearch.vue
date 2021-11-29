@@ -3,14 +3,14 @@
     <div class="header">
       <slot name="header">
         <h2>
-          {{ pageSearchConfig.pageName }}
+          {{ searchFormConfig.pageName }}
         </h2>
       </slot>
     </div>
 
     <div class="content">
       <jxls-form
-        :searchFormConfig="pageSearchConfig"
+        :searchFormConfig="searchFormConfig"
         v-model="formData"
       ></jxls-form>
     </div>
@@ -33,11 +33,12 @@ import { defineComponent, ref, PropType } from 'vue'
 import { useStore } from '@/store'
 
 import { switchPage } from '@/utils/switchPage'
-import { IForm, jxlsForm } from '@/baseui/form'
+import { IForm } from '@/baseui/form/src/type'
+import jxlsForm from '@/baseui/form/src/form.vue'
 export default defineComponent({
   components: { jxlsForm },
   props: {
-    pageSearchConfig: {
+    searchFormConfig: {
       type: Object as PropType<IForm>,
       required: true
     }
@@ -45,11 +46,12 @@ export default defineComponent({
   setup(prop) {
     const store = useStore()
     const formData: any = ref({})
-    const oFormData = () => {
-      for (const item of prop.pageSearchConfig.formitems) {
-        formData.value[item.field] = ''
-      }
-    }
+
+    // const oFormData = () => {
+    //   for (const item of prop.searchFormConfig.formItems) {
+    //     formData.value[item.field] = ''
+    //   }
+    // }
     const tagReset = ref({
       name: 'reSet',
       data: formData.value
@@ -59,25 +61,25 @@ export default defineComponent({
       data: formData.value
     })
     //初始化 formdata 数据
-    oFormData()
+    // oFormData()
     // 通过switch 得到需要分发的 ative url
     const handleReset = () => {
-      oFormData()
+      // oFormData()
       // 这里分发的 任务应该是得到所有的 list
       store.dispatch(
         // 把 tag 和 formdata 传进 switch  通过 tag 去返回 action
-        switchPage(prop.pageSearchConfig.pageName, tagReset.value).action,
+        switchPage(prop.searchFormConfig.pageName, tagReset.value).action,
         {
-          url: switchPage(prop.pageSearchConfig.pageName, tagReset.value).url,
+          url: switchPage(prop.searchFormConfig.pageName, tagReset.value).url,
           queryInfo: formData.value
         }
       )
     }
     const handleReSearch = () => {
       store.dispatch(
-        switchPage(prop.pageSearchConfig.pageName, tagResearch.value).action,
+        switchPage(prop.searchFormConfig.pageName, tagResearch.value).action,
         {
-          url: switchPage(prop.pageSearchConfig.pageName, tagResearch.value)
+          url: switchPage(prop.searchFormConfig.pageName, tagResearch.value)
             .url,
           queryInfo: formData.value
         }

@@ -1,11 +1,12 @@
-interface IForm {
+export interface IForm {
   formItems: IFormItem[]
   pageName: string
   rules?: any
   formStyle?: IFormStyle
+  isShow?: boolean
 }
 
-interface IFormItem {
+export interface IFormItem {
   field: string
   type: IFormItemType
   label: string
@@ -13,6 +14,7 @@ interface IFormItem {
   options?: any
   placeholder?: string
   prop?: string
+  otherOptions?: any[]
   isRequired?: boolean
 }
 type IFormItemType =
@@ -22,11 +24,20 @@ type IFormItemType =
   | 'datepicker'
   | 'checkbox'
   | 'inputnumber'
+  | 'radio'
 
 interface IFormStyle {
   layout?: any
   labelWidth?: string
   formAttr?: any
+  footer?: Ifooter
 }
 
-export { IForm, IFormItem }
+interface Ifooter {
+  resetName?: string
+  researchName?: string
+  style?: {
+    textAlign: string
+  }
+}
+// export { IForm, IFormItem }

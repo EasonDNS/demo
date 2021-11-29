@@ -1,11 +1,17 @@
-interface ITableConfig {
-  isShowSerial?: boolean
-  isShowSecelection?: boolean
+export interface IterTableConfig {
   propList: any[]
+  isShowSerial?: boolean
+  isShowButton?: boolean
+  isShowSecelection?: boolean
   pageName?: string
 }
 
-interface IPropListType {
-  name: string
+// export { IterTableConfig }
+import { IForm } from '@/baseui/form/src/type'
+export interface IDialogConfig {
+  dialogData: any
+  pageName?: string
+  isShowDialog?: boolean
+  dialogStyle?: any
+  formConfig: IForm
 }
-export { ITableConfig }

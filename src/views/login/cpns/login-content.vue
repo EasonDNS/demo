@@ -35,11 +35,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
 
 import { loginConfig } from '../config/login-config'
 import { jxlsForm } from '@/baseui/form'
-import { localcach, mapMenu } from '@/utils'
+import { localcach } from '@/utils'
 
 export default defineComponent({
   components: {
@@ -47,7 +46,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
-    const router = useRouter()
+
     const userLogin = ref({
       name: localcach.get('name') ?? '',
       password: localcach.get('password') ?? ''

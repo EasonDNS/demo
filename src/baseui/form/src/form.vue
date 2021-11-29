@@ -1,5 +1,12 @@
 <template>
   <div class="form">
+    <div v-if="searchFormConfig.isShow ?? false">
+      <slot name="header">
+        <h2>
+          {{ searchFormConfig.pageName }}
+        </h2>
+      </slot>
+    </div>
     <el-form :model="formData" :rules="searchFormConfig.rules" ref="formRef">
       <el-row justify="center">
         <template v-for="item of searchFormConfig.formItems" :key="item.field">
@@ -44,7 +51,7 @@
                   v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
-
+              <!-- select -->
               <template v-else-if="item.type === 'select'">
                 <el-select
                   v-model="formData[`${item.field}`]"
@@ -54,11 +61,39 @@
                   <el-option v-bind="item.options"></el-option>
                 </el-select>
               </template>
+
+              <!-- radio -->
+              <template v-else-if="item.type === 'radio'">
+                <template
+                  v-for="subitem of item.otherOptions"
+                  :key="subitem.label"
+                >
+                  <el-radio
+                    v-model="formData[`${item.field}`]"
+                    :label="subitem.label"
+                    >{{ subitem.placeholder }}
+                  </el-radio>
+                </template>
+              </template>
             </el-form-item>
           </el-col>
         </template>
       </el-row>
     </el-form>
+    <div
+      class="footer"
+      v-if="searchFormConfig.isShow ?? false"
+      style="text-algin: center"
+    >
+      <slot name="footer">
+        <el-button type="primary" size="mini" @click="handleReset"
+          >{{ searchFormConfig.formStyle?.footer?.resetName ?? '重置' }}
+        </el-button>
+        <el-button type="primary" size="mini" @click="handleReSearch">
+          {{ searchFormConfig.formStyle?.footer?.researchName ?? '搜索' }}
+        </el-button>
+      </slot>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -79,7 +114,7 @@ export default defineComponent({
       required: true
     }
   },
-
+  emits: ['handleReset', 'handleReSearch', 'update:modelValue'],
   setup(prop, content) {
     const formRef = ref<InstanceType<typeof ElForm>>()
     // 默认样式
@@ -109,10 +144,27 @@ export default defineComponent({
       { deep: true }
     )
 
+    const resetData = () => {
+      for (const item of prop.searchFormConfig.formItems) {
+        formData.value[item.field] = ''
+      }
+    }
+    resetData()
+    const handleReset = () => {
+      resetData()
+      content.emit('handleReset')
+    }
+    const handleReSearch = () => {
+      content.emit('handleReSearch', formData.value)
+    }
+    const isRequired = ref(false)
     return {
       defaultFormStyle,
       formData,
-      formRef
+      formRef,
+      isRequired,
+      handleReset,
+      handleReSearch
     }
   }
 })
@@ -124,5 +176,12 @@ export default defineComponent({
 }
 .el-col {
   padding-top: 10px;
+}
+.footer {
+  // box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+  text-align: right;
+  padding-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

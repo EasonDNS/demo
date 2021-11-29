@@ -20,6 +20,7 @@
     "normalize.css": "^8.0.1",
     "unplugin-vue-components": "^0.17.2",
     "vue": "^3.2.23",
+    "vue-cli": "^2.9.6",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

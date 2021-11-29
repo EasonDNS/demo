@@ -38,7 +38,8 @@ const iconNames = [
   User,
   Smoking,
   CaretLeft,
-  CaretRight
+  CaretRight,
+  DeleteFilled
 ]
 
 const comicon = (app: App): void => {

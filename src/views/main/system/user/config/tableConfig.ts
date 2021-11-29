@@ -1,5 +1,6 @@
 // import { IPageContentConfigType } from '@/components/pageContent/type'
-const tableConfig: any = {
+import { IterTableConfig } from '@/baseui/tabel/src/type'
+const tableConfig: IterTableConfig = {
   propList: [
     {
       label: '用户id',
@@ -48,7 +49,7 @@ const tableConfig: any = {
     },
     {
       label: '操作',
-      prop: 'handlerBtn',
+      prop: 'handleBtn',
       align: 'center',
       minWidth: '100px',
       soltName: 'handlerBtn'
@@ -56,7 +57,8 @@ const tableConfig: any = {
   ],
 
   pageName: 'user',
-  isShowSerial: false,
+  isShowButton: true,
+  isShowSerial: true,
   isShowSecelection: true
 }
 

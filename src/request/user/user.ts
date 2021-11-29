@@ -9,5 +9,15 @@ const resGetUserData = (url: string) => {
       return res.data
     })
 }
+const resSearchUserData = (pay: any) => {
+  return jxlsaxios
+    .post<any>({
+      url: pay.url,
+      data: pay.data
+    })
+    .then((res) => {
+      return res.data
+    })
+}
 
-export { resGetUserData }
+export { resGetUserData, resSearchUserData }

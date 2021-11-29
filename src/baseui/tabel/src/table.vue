@@ -3,8 +3,15 @@
     <div>
       <slot name="tableHeader">
         <div class="table-header">
-          <span> 用户列表00 </span>
-          <el-button type="primary" size="medium"> 新建用户 </el-button>
+          <strong> {{ tableConfig.pageName }}</strong>
+          <div class="right">
+            <el-button type="primary" size="medium" @click="handleRegester">
+              新建
+            </el-button>
+            <el-button type="primary" size="medium" @click="handleRefresh">
+              刷新
+            </el-button>
+          </div>
         </div>
       </slot>
     </div>
@@ -29,9 +36,42 @@
           <el-table-column v-bind="item">
             <template #default="scop">
               <!-- 设置插槽 为item 的 prop 数据字段  再把 row 数据传递出去   -->
-              <slot :name="item.slotName ?? item.prop" :row="scop.row">
-                {{ scop.row[item.prop] }}
-              </slot>
+              <template
+                v-if="item.prop === 'createAt' || item.prop === 'updateAt'"
+              >
+                <slot :name="item.slotName" ?? item.prop :row="scop.row">
+                  {{ day.utc({ time: scop.row[item.prop] }) }}
+                </slot>
+              </template>
+              <template v-else-if="item.prop === 'handleBtn'">
+                <slot :name="item.slotName" :row="scop.row" label>
+                  <template v-if="tableConfig.isShowButton">
+                    <el-button
+                      size="mini"
+                      type="info"
+                      @click="handleEdit(scop.row)"
+                    >
+                      <el-icon>
+                        <Edit />
+                      </el-icon>
+                      编辑
+                    </el-button>
+                    <el-button
+                      type="danger"
+                      size="mini"
+                      @click="handleRemove(scop.row)"
+                    >
+                      <el-icon> <DeleteFilled /></el-icon>
+                      删除
+                    </el-button>
+                  </template>
+                </slot>
+              </template>
+              <template v-else>
+                <slot :name="item.slotName ?? item.prop" :row="scop.row">
+                  {{ scop.row[item.prop] }}
+                </slot>
+              </template>
             </template>
 
             <template #empty> _null_ </template>
@@ -39,16 +79,21 @@
         </template>
       </el-table>
     </div>
+    <div class="dialog">
+      <!-- <jxls-dialog></jxls-dialog> -->
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 
-import { ITableConfig } from './type'
+import { IterTableConfig } from './type'
+
+import { day } from '@/utils'
 export default defineComponent({
   props: {
     tableConfig: {
-      type: Object as PropType<ITableConfig>,
+      type: Object as PropType<IterTableConfig>,
       required: true
     },
     listData: {
@@ -56,6 +101,14 @@ export default defineComponent({
       required: true
     }
   },
+  emits: [
+    'handleEdit',
+    'handleRemove',
+    'handlerSelect',
+    'handleRegester',
+    'handleRefresh'
+  ],
+  // components: { jxlsDialog },
   setup(prop, conten) {
     const select = (pay: any) => {
       // console.log(pay)
@@ -65,10 +118,29 @@ export default defineComponent({
     // serial 序号
     const isShowSerial = ref(prop.tableConfig.isShowSerial ?? false)
     const isShowSecelection = ref(prop.tableConfig.isShowSecelection ?? false)
+
+    const handleEdit = (row: any) => {
+      conten.emit('handleEdit', row)
+    }
+    const handleRemove = (row: any) => {
+      conten.emit('handleRemove', row)
+    }
+    const handleRegester = () => {
+      console.log(1)
+      conten.emit('handleRegester')
+    }
+    const handleRefresh = () => {
+      conten.emit('handleRefresh')
+    }
     return {
       select,
       isShowSerial,
-      isShowSecelection
+      isShowSecelection,
+      day,
+      handleEdit,
+      handleRemove,
+      handleRegester,
+      handleRefresh
     }
   }
 })
@@ -104,5 +176,7 @@ export default defineComponent({
       padding: 2px;
     }
   }
+}
+.jxls-dialog {
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="nav-asdie">
-    <div class="herder">
+    <div class="header">
       <div class="image" ref="imgRef">
         <el-image :src="require('/src/assets/girl.jpg')" fit="contain" />
       </div>
@@ -138,7 +138,7 @@ export default defineComponent({
   border-right: none;
 }
 
-.herder {
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,6 +146,9 @@ export default defineComponent({
   .image {
     width: 60px;
     padding-right: 5px;
+  }
+  strong {
+    color: white;
   }
 }
 </style>

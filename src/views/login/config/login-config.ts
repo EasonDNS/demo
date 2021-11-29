@@ -1,6 +1,7 @@
-import { IForm } from '@/baseui/form'
+import { IForm } from '@/baseui/form/src/type'
 import { rules } from './login-roules'
 const loginConfig: IForm = {
+  isShow: false,
   formItems: [
     {
       field: 'name',
@@ -26,8 +27,8 @@ const loginConfig: IForm = {
       type: 'password',
       prop: 'password',
       label: '密码:',
-      placeholder: '请输入密码:',
-      isRequired: true
+      placeholder: '请输入密码:'
+
       //     rules: [
       //       {
       //         required: true,
