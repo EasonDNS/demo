@@ -25,56 +25,65 @@
               "
               :required="item.isRequired ?? isRequired"
             >
-              <!-- input password -->
-              <template
-                v-if="item.type === 'input' || item.type === 'password'"
+              <slot
+                :name="item.slotName ?? item.field"
+                :row="formData[`${item.field}`]"
               >
-                <el-input
-                  :placeholder="item.placeholder"
-                  :show-password="item.type === 'password'"
-                  v-model="formData[`${item.field}`]"
-                />
-              </template>
-              <!-- inputnumber -->
-              <template v-else-if="item.type === 'inputnumber'">
-                <el-input-number
-                  :placeholder="item.placeholder"
-                  v-model="formData[`${item.field}`]"
-                />
-              </template>
-
-              <!--  datepicker -->
-              <template v-else-if="item.type === 'datepicker'">
-                <el-date-picker
-                  style="width: 100%"
-                  v-bind="item.options"
-                  v-model="formData[`${item.field}`]"
-                ></el-date-picker>
-              </template>
-              <!-- select -->
-              <template v-else-if="item.type === 'select'">
-                <el-select
-                  v-model="formData[`${item.field}`]"
-                  :placeholder="item.placeholder"
-                  v-bind="item.options"
-                >
-                  <el-option v-bind="item.options"></el-option>
-                </el-select>
-              </template>
-
-              <!-- radio -->
-              <template v-else-if="item.type === 'radio'">
+                <!-- input password -->
                 <template
-                  v-for="subitem of item.otherOptions"
-                  :key="subitem.label"
+                  v-if="item.type === 'input' || item.type === 'password'"
                 >
-                  <el-radio
+                  <el-input
+                    :placeholder="item.placeholder"
+                    :show-password="item.type === 'password'"
                     v-model="formData[`${item.field}`]"
-                    :label="subitem.label"
-                    >{{ subitem.placeholder }}
-                  </el-radio>
+                  />
                 </template>
-              </template>
+                <!-- inputnumber -->
+                <template v-else-if="item.type === 'inputnumber'">
+                  <el-input-number
+                    :placeholder="item.placeholder"
+                    v-model="formData[`${item.field}`]"
+                  />
+                </template>
+
+                <!--  datepicker -->
+                <template v-else-if="item.type === 'datepicker'">
+                  <el-date-picker
+                    style="width: 100%"
+                    v-bind="item.options"
+                    v-model="formData[`${item.field}`]"
+                  ></el-date-picker>
+                </template>
+                <!-- select -->
+                <template v-else-if="item.type === 'select'">
+                  <el-select
+                    v-model="formData[`${item.field}`]"
+                    :placeholder="item.placeholder"
+                    v-bind="item.options"
+                  >
+                    <el-option v-bind="item.options"></el-option>
+                  </el-select>
+                </template>
+
+                <!-- radio -->
+                <template v-else-if="item.type === 'radio'">
+                  <template
+                    v-for="subitem of item.otherOptions"
+                    :key="subitem.label"
+                  >
+                    <el-radio
+                      v-model="formData[`${item.field}`]"
+                      :label="subitem.label"
+                      >{{ subitem.placeholder }}
+                    </el-radio>
+                  </template>
+                </template>
+                <!-- tree -->
+                <template v-else-if="item.type === 'tree'">
+                  {{ item }}
+                </template>
+              </slot>
             </el-form-item>
           </el-col>
         </template>
@@ -149,7 +158,7 @@ export default defineComponent({
         formData.value[item.field] = ''
       }
     }
-    resetData()
+    // resetData()
     const handleReset = () => {
       resetData()
       content.emit('handleReset')

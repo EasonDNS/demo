@@ -3,41 +3,28 @@ import { IterTableConfig } from '@/baseui/tabel/src/type'
 const tableConfig: IterTableConfig = {
   propList: [
     {
-      label: '用户id',
-      prop: 'id',
+      label: '上司',
+      prop: 'leader',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'id'
+      soltName: 'leader'
       // resizable: true
     },
     {
-      label: '用户名',
+      label: '部门名',
       prop: 'name',
       align: 'center',
       minWidth: '50px',
       sortable: true,
       soltName: 'name'
     },
-    {
-      label: '手机号',
-      prop: 'cellphone',
-      align: 'center',
-      minWidth: '50px',
-      soltName: 'cellphone'
-    },
-    {
-      label: '状态',
-      prop: 'enable',
-      align: 'center',
-      minWidth: '50px',
-      soltName: 'status'
-    },
+
     {
       label: '部门ID',
-      prop: 'departmentId',
+      prop: 'id',
       align: 'center',
-      width: '50',
+      width: '80',
       soltName: 'departmentId'
     },
     {
@@ -63,7 +50,7 @@ const tableConfig: IterTableConfig = {
     }
   ],
 
-  pageName: 'user',
+  pageName: 'department',
   isShowButton: true,
   isShowSerial: true,
   isShowSecelection: true

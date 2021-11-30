@@ -174,9 +174,14 @@ export default defineComponent({
     justify-content: space-around;
     .el-button {
       padding: 2px;
+
+      margin-left: 2px;
+      margin-right: 2px;
     }
   }
 }
-.jxls-dialog {
+
+.el-button--danger {
+  margin-left: 0;
 }
 </style>

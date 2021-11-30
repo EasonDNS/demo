@@ -9,8 +9,12 @@
     <div></div>
   </div>
   <hr />
-  <div v-if="isShowDig">
-    <user-dialog :config="dialogConfig" v-model="dialogData"></user-dialog>
+  <div>
+    <user-dialog
+      :config="dialogConfig"
+      v-model="dialogData"
+      ref="userdialogRef"
+    ></user-dialog>
   </div>
   <hr />
   <div>
@@ -49,9 +53,10 @@ export default defineComponent({
   setup() {
     const formData = ref({})
     const store = useStore()
-    const isShowDig = ref(true)
+
     const dialogData: any = ref({})
     // const dialogConfig = ref({})
+    const userdialogRef = ref<InstanceType<typeof userDialog>>()
 
     const listData = computed(() => store.state.userModule.userList)
 
@@ -68,11 +73,11 @@ export default defineComponent({
     }
 
     const handleEdit = (row: any) => {
-      console.log(row)
-
       for (const prop in row) {
         dialogData.value[prop] = row[prop]
       }
+
+      userdialogRef.value?.dialogOpen()
     }
     const handleRemove = (scop: any) => {
       console.log(scop)
@@ -82,10 +87,10 @@ export default defineComponent({
       searchFormConfig,
       dialogConfig,
       tableConfig,
+      userdialogRef,
       formData,
       listData,
       dialogData,
-      isShowDig,
       handleReset,
       handleReSearch,
       handleEdit,

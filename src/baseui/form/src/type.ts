@@ -16,6 +16,7 @@ export interface IFormItem {
   prop?: string
   otherOptions?: any[]
   isRequired?: boolean
+  slotName?: string
 }
 type IFormItemType =
   | 'input'
@@ -25,6 +26,7 @@ type IFormItemType =
   | 'checkbox'
   | 'inputnumber'
   | 'radio'
+  | 'tree'
 
 interface IFormStyle {
   layout?: any
