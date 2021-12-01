@@ -1,5 +1,4 @@
 import { IForm } from '@/baseui/form/src/type'
-import department from '@/router/main/system/department/department'
 
 export const dialogConfig: IForm = {
   formItems: [
@@ -57,16 +56,27 @@ export const dialogConfig: IForm = {
       label: 'departmentId: ',
       placeholder: '请选择部门 id ~',
       slotName: 'dapartmentId',
-      options: {
-        value: 'departmentId'
-      }
+      selectOptions: []
     },
     {
       field: 'createAt',
       type: 'datepicker',
-      label: 'createAt',
+      label: '创建时间',
       placeholder: '请选择创建时间~',
-      slotName: 'createAt'
+      slotName: 'createAt',
+      options: {
+        // readonly: true
+      }
+    },
+    {
+      field: 'updateAt',
+      type: 'datepicker',
+      label: '更新时间',
+      placeholder: '请选择更新时间~',
+      slotName: 'updateAt',
+      options: {
+        // readonly: true
+      }
     }
   ],
   isShow: true,

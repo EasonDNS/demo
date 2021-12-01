@@ -37,7 +37,7 @@ const tableConfig: IterTableConfig = {
       label: '部门ID',
       prop: 'departmentId',
       align: 'center',
-      width: '50',
+      width: '80',
       soltName: 'departmentId'
     },
     {

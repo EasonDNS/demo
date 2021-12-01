@@ -36,12 +36,15 @@
                   <el-input
                     :placeholder="item.placeholder"
                     :show-password="item.type === 'password'"
+                    v-bind="item.options ?? {}"
                     v-model="formData[`${item.field}`]"
                   />
                 </template>
                 <!-- inputnumber -->
                 <template v-else-if="item.type === 'inputnumber'">
                   <el-input-number
+                    v-bind="item.options ?? {}"
+                    :type="item.options.type ?? 'date'"
                     :placeholder="item.placeholder"
                     v-model="formData[`${item.field}`]"
                   />
@@ -50,8 +53,9 @@
                 <!--  datepicker -->
                 <template v-else-if="item.type === 'datepicker'">
                   <el-date-picker
+                    format="YYYY-MM-DD HH:mm:ss"
                     style="width: 100%"
-                    v-bind="item.options"
+                    v-bind="item.options ?? {}"
                     v-model="formData[`${item.field}`]"
                   ></el-date-picker>
                 </template>
@@ -60,9 +64,16 @@
                   <el-select
                     v-model="formData[`${item.field}`]"
                     :placeholder="item.placeholder"
-                    v-bind="item.options"
+                    v-bind="item.options ?? {}"
+                    @change="handleChange"
+                    @visible-change="handleVisibleChange"
                   >
-                    <el-option v-bind="item.options"></el-option>
+                    <el-option
+                      v-for="op of item.selectOptions"
+                      :key="op.value"
+                      :value="op.value"
+                      :label="op.lable"
+                    ></el-option>
                   </el-select>
                 </template>
 
@@ -75,6 +86,7 @@
                     <el-radio
                       v-model="formData[`${item.field}`]"
                       :label="subitem.label"
+                      v-bind="item.options ?? {}"
                       >{{ subitem.placeholder }}
                     </el-radio>
                   </template>
@@ -107,12 +119,13 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from 'vue'
-
+import { day } from '@/utils'
 import { ElForm } from 'element-plus'
 
 import { IForm } from './type'
 
 export default defineComponent({
+  // 1, 接受的参数
   props: {
     modelValue: {
       type: Object,
@@ -123,7 +136,14 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['handleReset', 'handleReSearch', 'update:modelValue'],
+  // 2,发 出的 事件
+  emits: [
+    'handleReset',
+    'handleReSearch',
+    'handleChange',
+    'handleVisibleChange',
+    'update:modelValue'
+  ],
   setup(prop, content) {
     const formRef = ref<InstanceType<typeof ElForm>>()
     // 默认样式
@@ -142,7 +162,7 @@ export default defineComponent({
       // }
     }
 
-    let formData = ref({
+    let formData = ref<any>({
       ...prop.modelValue
     })
     watch(
@@ -152,19 +172,42 @@ export default defineComponent({
       },
       { deep: true }
     )
-
     const resetData = () => {
       for (const item of prop.searchFormConfig.formItems) {
         formData.value[item.field] = ''
       }
     }
-    // resetData()
+    const handleChange = (pay: any) => {
+      content.emit('handleChange', pay)
+    }
     const handleReset = () => {
       resetData()
       content.emit('handleReset')
     }
     const handleReSearch = () => {
+      // console.log(formData.value)
+      // 对时间 格式的处理....
+      for (const item in formData.value) {
+        // console.log('================')
+        if (item === 'upateAt') {
+          formData.value[item] = day.format(formData.value[item])
+        }
+        if (item === 'createAt') {
+          formData.value[item] = day.format(formData.value[item])
+        }
+        // if (item === 'createAt' && item.length > 1) {
+        //   // formData[item][0] = day.format(formData[item][0])
+
+        //   formData.value['createAt'] = day.format(formData.value[item][0])
+        //   formData.value['updateAt'] = day.format(formData.value[item][1])
+        // }
+
+        // 对时间 格式 的处理
+      }
       content.emit('handleReSearch', formData.value)
+    }
+    const handleVisibleChange = () => {
+      content.emit('handleVisibleChange')
     }
     const isRequired = ref(false)
     return {
@@ -172,8 +215,10 @@ export default defineComponent({
       formData,
       formRef,
       isRequired,
+      handleChange,
       handleReset,
-      handleReSearch
+      handleReSearch,
+      handleVisibleChange
     }
   }
 })

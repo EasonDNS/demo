@@ -6,12 +6,6 @@ import 'normalize.css'
 import 'element-plus/theme-chalk/display.css'
 import { regesterGlobal } from '@/global'
 const app = createApp(App)
-
-// const a = require.context('../src/router/', true, /\.ts/)
-// a.keys().forEach((item) => {
-//   console.log(item)
-// })
-
 app.use(store)
 app.use(setStoreLocal)
 app.use(regesterGlobal)

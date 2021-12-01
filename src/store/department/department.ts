@@ -27,7 +27,6 @@ export const departmentModule: Module<IDepartmentState, IrootState> = {
       const reslultDepartmentList = await getDepartmentList({
         url: '/department/list'
       })
-      console.log(reslultDepartmentList)
       commit('changeDepartmentList', reslultDepartmentList.data.list)
       commit('changeTotalCount', reslultDepartmentList.data.totalCount)
     },

@@ -3,7 +3,7 @@ interface IloginState {
   password: string
   token: string
   userMenuList: any
-  other?: any
+  userPermissions: string[]
 }
 
 export { IloginState }

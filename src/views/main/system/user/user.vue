@@ -24,13 +24,18 @@
       @handleEdit="handleEdit"
       @handleRemove="handleRemove"
     >
-      <template #status="scop">
-        <template v-if="scop.row.prop === 1">
+      <template #enable>
+        0000
+        <!-- <template v-if="scop.row.prop === 1">
           <el-button type="primary">正常</el-button>
         </template>
         <template v-else-if="scop.row.prop === 0">
           <el-button type="danger">掉线</el-button>
-        </template>
+        </template> -->
+      </template>
+
+      <template #departmentId="scop">
+        {{ mapName.findDeparmentNamebyId(scop.row.departmentId) }}
       </template>
     </jxls-table>
   </div>
@@ -47,7 +52,8 @@ import { jxlsTable } from '@/baseui/tabel'
 import { tableConfig } from './config/tableConfig'
 
 import { dialogConfig } from './config/dialogConfig'
-
+import { mapMenu, mapName } from '@/utils'
+import { day } from '@/utils'
 export default defineComponent({
   components: { jxlsForm, jxlsTable, userDialog },
   setup() {
@@ -68,10 +74,18 @@ export default defineComponent({
       store.dispatch('userModule/getUserDataAction', { url: 'users/list' })
     }
     const handleReSearch = (data: any) => {
+      console.log('====================')
       console.log(data)
+      const a = day.format(data[0])
+      console.log(a)
+      console.log('====================')
       store.dispatch('userModule/resSearchUserDataAction', formData.value)
     }
 
+    const isRight = mapMenu.verificationJurisdiction('system:users:create')
+    // console.log('====================')
+    // console.log(isRight)
+    // console.log('====================')
     const handleEdit = (row: any) => {
       for (const prop in row) {
         dialogData.value[prop] = row[prop]
@@ -94,7 +108,8 @@ export default defineComponent({
       handleReset,
       handleReSearch,
       handleEdit,
-      handleRemove
+      handleRemove,
+      mapName
     }
   }
 })

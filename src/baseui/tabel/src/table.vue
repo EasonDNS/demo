@@ -40,9 +40,11 @@
                 v-if="item.prop === 'createAt' || item.prop === 'updateAt'"
               >
                 <slot :name="item.slotName" ?? item.prop :row="scop.row">
-                  {{ day.utc({ time: scop.row[item.prop] }) }}
+                  <!-- {{ scop.row[item.prop] }} -->
+                  {{ day.format(day.utc({ time: scop.row[item.prop] })) }}
                 </slot>
               </template>
+              <!-- // 操作的插槽 -->
               <template v-else-if="item.prop === 'handleBtn'">
                 <slot :name="item.slotName" :row="scop.row" label>
                   <template v-if="tableConfig.isShowButton">

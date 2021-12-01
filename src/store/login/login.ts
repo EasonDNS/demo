@@ -15,7 +15,7 @@ const loginModule: Module<IloginState, IrootState> = {
       password: '',
       token: '',
       userMenuList: '',
-      other: ''
+      userPermissions: []
     }
   },
   mutations: {
@@ -33,40 +33,31 @@ const loginModule: Module<IloginState, IrootState> = {
       mapMenu.regRoute(pay).forEach((route) => {
         router.addRoute('main', route)
       })
+      // 权限数组
+      const permissions = mapMenu.findJurisdiction(pay)
+      state.userPermissions = permissions
     }
   },
   actions: {
     async accountLoignAction({ commit, dispatch }, payload: any) {
+      // 1, 登陆 拿 到token
       const resultUserData = await accountLogin(payload.url, payload.data)
       commit('changeName', resultUserData.data.name)
       commit('changeToken', resultUserData.data.token)
       localcach.set('token', resultUserData.data.token)
-
+      // 2,去拿到菜单
       const resultUserMenu = await getUserMenu({ url: '/menu/list' })
-      console.log(resultUserMenu)
       commit('changeUserMenuList', resultUserMenu.data.list)
       localcach.set('userMenuList', resultUserMenu.data.list)
+      // 3, 去拿到departmentInfo
+      dispatch('departmentModule/getDepartmentListAction', null, { root: true })
+      // 4, 拿 roleinfo
 
-      // dispatch('loginModule/getUserMenuAction', { url: '/menu/list' })
-      // 拿到菜单再跳转
+      dispatch('roleModule/getRoleListAction', null, { root: true })
       router.push('/main')
-      // mapMenu.regesRoutes(resultUserData.data.list)
     },
 
-    // async getUserMenuAction({ commit }, payload: any) {
-    //   const resultUserMenu = await getUserMenu(payload.url)
-
-    //   commit('changeUserMenuList', resultUserMenu.data.list)
-    //   localcach.set('userMenuList', resultUserMenu.data.list)
-
-    //   // mapMenu.regesRoutes(resultUserMenu.data.list).forEach((route) => {
-    //   //   console.log('==============')
-    //   //   console.log(route)
-    //   //   router.addRoute('main', route)
-    //   // })
-    // },
-
-    setStoreLocalAction({ commit }) {
+    setStoreLocalAction({ commit, dispatch }) {
       const name = localcach.get('name')
       const password = localcach.get('password')
       const token = localcach.get('token')
@@ -79,10 +70,17 @@ const loginModule: Module<IloginState, IrootState> = {
       }
       if (token) {
         commit('changeToken', token)
+        dispatch('roleModule/getRoleListAction', null, { root: true })
+        dispatch('departmentModule/getDepartmentListAction', null, {
+          root: true
+        })
       }
       if (userMenuList) {
         commit('changeUserMenuList', userMenuList)
       }
+      // console.log('================1')
+      // dispatch('roleModule/getRoleListAciton', null, { root: true })
+      // dispatch('getDepartmentListAciton', {}, { root: true })
     }
   }
 }

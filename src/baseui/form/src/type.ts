@@ -14,7 +14,9 @@ export interface IFormItem {
   options?: any
   placeholder?: string
   prop?: string
+  selectOptions?: any
   otherOptions?: any[]
+  isShow?: boolean
   isRequired?: boolean
   slotName?: string
 }

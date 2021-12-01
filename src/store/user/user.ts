@@ -3,7 +3,11 @@ import { Module } from 'vuex'
 import { IuserState } from './type'
 import { IrootState } from '../type'
 
-import { resGetUserData, resSearchUserData } from '@/request/user/user'
+import {
+  resGetUserData,
+  resSearchUserData,
+  resPatchUserData
+} from '@/request/user/user'
 const userModule: Module<IuserState, IrootState> = {
   namespaced: true,
   state() {
@@ -27,12 +31,18 @@ const userModule: Module<IuserState, IrootState> = {
 
       commit('changeUserList', resultUserData.data.list)
     },
+
     async resSearchUserDataAction({ commit }, pay: any) {
       const resultUserData = await resSearchUserData({
         url: '/users/list',
         data: pay
       })
       commit('changeUserList', resultUserData.data.list)
+    },
+
+    async resPatchUserDataAction({ dispatch }, data: any) {
+      await resPatchUserData({ url: `/users/${data.id}`, data: { ...data } })
+      // dispatch('resSearchUserDataAction', { url: '/users/list', data: {} })
     }
   }
 }

@@ -18,6 +18,7 @@ const config: jaxiosRequestconfig = {
         }
       }
       // console.log(config)
+      // console.log(config)
       return config
     },
     responeseintercepter: (res: any) => {
