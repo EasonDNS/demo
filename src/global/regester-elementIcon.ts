@@ -13,6 +13,7 @@ import {
   Fold,
   Goods,
   Monitor,
+  Refresh,
   Setting,
   Share,
   Smoking,
@@ -39,7 +40,8 @@ const iconNames = [
   Smoking,
   CaretLeft,
   CaretRight,
-  DeleteFilled
+  DeleteFilled,
+  Refresh
 ]
 
 const comicon = (app: App): void => {

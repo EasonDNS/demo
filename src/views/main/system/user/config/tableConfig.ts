@@ -8,7 +8,7 @@ const tableConfig: IterTableConfig = {
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'id'
+      slotName: 'id'
       // resizable: true
     },
     {
@@ -17,49 +17,49 @@ const tableConfig: IterTableConfig = {
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'name'
+      slotName: 'name'
     },
     {
       label: '手机号',
       prop: 'cellphone',
       align: 'center',
       minWidth: '50px',
-      soltName: 'cellphone'
+      slotName: 'cellphone'
     },
     {
       label: '状态',
       prop: 'enable',
       align: 'center',
       minWidth: '50px',
-      soltName: 'status'
+      slotName: 'status'
     },
     {
       label: '部门ID',
       prop: 'departmentId',
       align: 'center',
       width: '80',
-      soltName: 'departmentId'
+      slotName: 'departmentId'
     },
     {
       label: '创建时间',
       prop: 'createAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'createAt'
+      slotName: 'createAt'
     },
     {
       label: '更新时间',
       prop: 'updateAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'updateAt'
+      slotName: 'updateAt'
     },
     {
       label: '操作',
       prop: 'handleBtn',
       align: 'center',
       minWidth: '100px',
-      soltName: 'handlerBtn'
+      slotName: 'handlerBtn'
     }
   ],
 

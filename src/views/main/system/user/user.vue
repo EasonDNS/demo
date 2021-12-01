@@ -23,15 +23,15 @@
       :listData="listData"
       @handleEdit="handleEdit"
       @handleRemove="handleRemove"
+      @handleRegester="handleRegester"
     >
-      <template #enable>
-        0000
-        <!-- <template v-if="scop.row.prop === 1">
-          <el-button type="primary">正常</el-button>
+      <template #status="scop">
+        <template v-if="scop.row.enable === 1">
+          <el-button type="primary" size="mini" plain>正常</el-button>
         </template>
-        <template v-else-if="scop.row.prop === 0">
-          <el-button type="danger">掉线</el-button>
-        </template> -->
+        <template v-else-if="scop.row.enable === 0">
+          <el-button type="danger" size="mini" plain>掉线</el-button>
+        </template>
       </template>
 
       <template #departmentId="scop">
@@ -74,14 +74,13 @@ export default defineComponent({
       store.dispatch('userModule/getUserDataAction', { url: 'users/list' })
     }
     const handleReSearch = (data: any) => {
-      console.log('====================')
-      console.log(data)
       const a = day.format(data[0])
-      console.log(a)
-      console.log('====================')
       store.dispatch('userModule/resSearchUserDataAction', formData.value)
     }
 
+    const handleRegester = () => {
+      console.log(1)
+    }
     const isRight = mapMenu.verificationJurisdiction('system:users:create')
     // console.log('====================')
     // console.log(isRight)
@@ -90,7 +89,6 @@ export default defineComponent({
       for (const prop in row) {
         dialogData.value[prop] = row[prop]
       }
-
       userdialogRef.value?.dialogOpen()
     }
     const handleRemove = (scop: any) => {
@@ -104,6 +102,7 @@ export default defineComponent({
       userdialogRef,
       formData,
       listData,
+      handleRegester,
       dialogData,
       handleReset,
       handleReSearch,

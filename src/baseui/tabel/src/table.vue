@@ -5,11 +5,22 @@
         <div class="table-header">
           <strong> {{ tableConfig.pageName }}</strong>
           <div class="right">
-            <el-button type="primary" size="medium" @click="handleRegester">
-              新建
+            <el-button
+              type="danger"
+              plain
+              size="medium"
+              @click="handleRegester"
+            >
+              <el-icon>
+                <edit />
+              </el-icon>
+              <strong>新建</strong>
             </el-button>
-            <el-button type="primary" size="medium" @click="handleRefresh">
-              刷新
+            <el-button type="info" plain size="medium" @click="handleRefresh">
+              <el-icon>
+                <refresh />
+              </el-icon>
+              <strong>刷新</strong>
             </el-button>
           </div>
         </div>
@@ -127,8 +138,8 @@ export default defineComponent({
     const handleRemove = (row: any) => {
       conten.emit('handleRemove', row)
     }
+    // 监听头部新建
     const handleRegester = () => {
-      console.log(1)
       conten.emit('handleRegester')
     }
     const handleRefresh = () => {
@@ -180,6 +191,11 @@ export default defineComponent({
       margin-left: 2px;
       margin-right: 2px;
     }
+  }
+}
+.right {
+  .el-icon {
+    padding-right: 5px;
   }
 }
 
