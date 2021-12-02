@@ -6,7 +6,8 @@ import { IrootState } from '../type'
 import {
   resGetUserData,
   resSearchUserData,
-  resPatchUserData
+  resPatchUserData,
+  resRegesterUser
 } from '@/request/user/user'
 const userModule: Module<IuserState, IrootState> = {
   namespaced: true,
@@ -28,10 +29,10 @@ const userModule: Module<IuserState, IrootState> = {
     //pay ==> {url:/usrs/list}
     async getUserDataAction({ commit }, pay: any) {
       const resultUserData = await resGetUserData(pay.url)
-
       commit('changeUserList', resultUserData.data.list)
     },
 
+    // 查询用户 ==> 传数据过来
     async resSearchUserDataAction({ commit }, pay: any) {
       const resultUserData = await resSearchUserData({
         url: '/users/list',
@@ -40,9 +41,17 @@ const userModule: Module<IuserState, IrootState> = {
       commit('changeUserList', resultUserData.data.list)
     },
 
+    // 修改用户 ==> 传数据过来
     async resPatchUserDataAction({ dispatch }, data: any) {
       await resPatchUserData({ url: `/users/${data.id}`, data: { ...data } })
-      // dispatch('resSearchUserDataAction', { url: '/users/list', data: {} })
+      dispatch('getUserDataAction', { url: '/users/list', data: {} })
+    },
+
+    // 注册 用户 ==>只需要传入数据过来
+    async resRegesterUserAction({ dispatch }, pay: any) {
+      console.log(pay)
+      await resRegesterUser({ url: '/users', data: pay })
+      dispatch('getUserDataAction', { url: '/users/list' })
     }
   }
 }

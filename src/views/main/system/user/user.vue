@@ -17,6 +17,8 @@
     ></user-dialog>
   </div>
   <hr />
+  <page-dialog ref="pageDialogRef"></page-dialog>
+  <hr />
   <div>
     <jxls-table
       :tableConfig="tableConfig"
@@ -54,12 +56,13 @@ import { tableConfig } from './config/tableConfig'
 import { dialogConfig } from './config/dialogConfig'
 import { mapMenu, mapName } from '@/utils'
 import { day } from '@/utils'
+import pageDialog from '@/components/page-dialog'
 export default defineComponent({
-  components: { jxlsForm, jxlsTable, userDialog },
+  components: { jxlsForm, jxlsTable, userDialog, pageDialog },
   setup() {
     const formData = ref({})
     const store = useStore()
-
+    const pageDialogRef = ref<InstanceType<typeof pageDialog>>()
     const dialogData: any = ref({})
     // const dialogConfig = ref({})
     const userdialogRef = ref<InstanceType<typeof userDialog>>()
@@ -79,7 +82,9 @@ export default defineComponent({
     }
 
     const handleRegester = () => {
-      console.log(1)
+      if (pageDialogRef.value) {
+        pageDialogRef.value.isShowDialog = true
+      }
     }
     const isRight = mapMenu.verificationJurisdiction('system:users:create')
     // console.log('====================')
@@ -100,6 +105,7 @@ export default defineComponent({
       dialogConfig,
       tableConfig,
       userdialogRef,
+      pageDialogRef,
       formData,
       listData,
       handleRegester,

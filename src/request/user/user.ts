@@ -22,9 +22,6 @@ const resSearchUserData = (pay: any) => {
 
 // 需要有{url:'/users/id,data:data}
 const resPatchUserData = (pay: any) => {
-  console.log('==============')
-  console.log(pay)
-  console.log('==============')
   return jxlsaxios
     .patch<any>({
       url: pay.url,
@@ -36,4 +33,11 @@ const resPatchUserData = (pay: any) => {
     })
 }
 
-export { resGetUserData, resSearchUserData, resPatchUserData }
+const resRegesterUser = (pay: any) => {
+  return jxlsaxios.post<any>({
+    url: pay.url,
+    data: pay.data
+  })
+}
+
+export { resGetUserData, resSearchUserData, resPatchUserData, resRegesterUser }

@@ -66,13 +66,13 @@
                     :placeholder="item.placeholder"
                     v-bind="item.options ?? {}"
                     @change="handleChange"
-                    @visible-change="handleVisibleChange"
+                    @visible-change="handleVisibleChange(item)"
                   >
                     <el-option
                       v-for="op of item.selectOptions"
                       :key="op.value"
                       :value="op.value"
-                      :label="op.lable"
+                      :label="op.label"
                     ></el-option>
                   </el-select>
                 </template>
@@ -206,8 +206,8 @@ export default defineComponent({
       }
       content.emit('handleReSearch', formData.value)
     }
-    const handleVisibleChange = () => {
-      content.emit('handleVisibleChange')
+    const handleVisibleChange = (item: any) => {
+      content.emit('handleVisibleChange', item)
     }
     const isRequired = ref(false)
     return {

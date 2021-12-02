@@ -35,6 +35,7 @@ interface IFormStyle {
   labelWidth?: string
   formAttr?: any
   footer?: Ifooter
+  justify?: string
 }
 
 interface Ifooter {

@@ -83,9 +83,9 @@ export default defineComponent({
       const departmentItem = prop.config.formItems.find((item: any) => {
         return item.field === 'departmentId'
       })
-
+      departmentItem.selectOptions = []
       departmentList.value.forEach((item: any) => {
-        departmentItem.selectOptions.push({ value: item.id, lable: item.name })
+        departmentItem.selectOptions.push({ value: item.id, label: item.name })
       })
     }
     const handleChange = (pay: any) => {
