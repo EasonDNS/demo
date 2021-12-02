@@ -16,6 +16,28 @@ class MapName {
     })
     return departmentName.name
   }
+
+  footerData(pageName: string) {
+    const store = useStore()
+    let listData = []
+    let total = 0
+    switch (pageName) {
+      case 'role':
+        listData = store.state.roleModule.roleList
+        total = store.state.roleModule.totalCount
+        break
+      case 'user':
+        listData = store.state.userModule.userList
+        total = store.state.userModule.userTotal
+        break
+      default:
+        break
+    }
+    return {
+      listData: listData,
+      total: total
+    }
+  }
 }
 
 export default new MapName()

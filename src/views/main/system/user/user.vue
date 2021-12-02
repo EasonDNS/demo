@@ -26,6 +26,10 @@
       @handleEdit="handleEdit"
       @handleRemove="handleRemove"
       @handleRegester="handleRegester"
+      @handleRefresh="handleRefresh"
+      @handleCurrentChange="handleCurrentChange"
+      @handleSizeChange="handleSizeChange"
+      ref="jxlsTableRef"
     >
       <template #status="scop">
         <template v-if="scop.row.enable === 1">
@@ -77,7 +81,6 @@ export default defineComponent({
       store.dispatch('userModule/getUserDataAction', { url: 'users/list' })
     }
     const handleReSearch = (data: any) => {
-      const a = day.format(data[0])
       store.dispatch('userModule/resSearchUserDataAction', formData.value)
     }
 
@@ -86,10 +89,10 @@ export default defineComponent({
         pageDialogRef.value.isShowDialog = true
       }
     }
+    const handleRefresh = () => {
+      store.dispatch('userModule/getUserDataAction', { url: '/users/list' })
+    }
     const isRight = mapMenu.verificationJurisdiction('system:users:create')
-    // console.log('====================')
-    // console.log(isRight)
-    // console.log('====================')
     const handleEdit = (row: any) => {
       for (const prop in row) {
         dialogData.value[prop] = row[prop]
@@ -99,22 +102,37 @@ export default defineComponent({
     const handleRemove = (scop: any) => {
       console.log(scop)
     }
+    const jxlsTableRef = ref<InstanceType<typeof jxlsTable>>()
 
+    const handleCurrentChange = (page: number) => {
+      console.log('==========================')
+
+      console.log('==========================')
+
+      store.dispatch('userModule/resSearchUserDataAction', {})
+    }
+    const handleSizeChange = (count: number) => {
+      console.log(count)
+    }
     return {
       searchFormConfig,
       dialogConfig,
       tableConfig,
       userdialogRef,
+      jxlsTableRef,
       pageDialogRef,
       formData,
       listData,
       handleRegester,
       dialogData,
       handleReset,
+      handleRefresh,
       handleReSearch,
       handleEdit,
       handleRemove,
-      mapName
+      mapName,
+      handleCurrentChange,
+      handleSizeChange
     }
   }
 })

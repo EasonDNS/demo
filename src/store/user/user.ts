@@ -14,7 +14,8 @@ const userModule: Module<IuserState, IrootState> = {
   state() {
     return {
       userName: '',
-      userList: []
+      userList: [],
+      userTotal: 0
     }
   },
   mutations: {
@@ -23,6 +24,9 @@ const userModule: Module<IuserState, IrootState> = {
     },
     changeUserList(state, list: any[]) {
       state.userList = list
+    },
+    changeUserTotal(state, total: number) {
+      state.userTotal = total
     }
   },
   actions: {
@@ -30,6 +34,7 @@ const userModule: Module<IuserState, IrootState> = {
     async getUserDataAction({ commit }, pay: any) {
       const resultUserData = await resGetUserData(pay.url)
       commit('changeUserList', resultUserData.data.list)
+      commit('changeUserTotal', resultUserData.data.totalCount)
     },
 
     // 查询用户 ==> 传数据过来

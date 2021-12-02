@@ -41,6 +41,7 @@ const loginModule: Module<IloginState, IrootState> = {
   actions: {
     async accountLoignAction({ commit, dispatch }, payload: any) {
       // 1, 登陆 拿 到token
+      debugger
       const resultUserData = await accountLogin(payload.url, payload.data)
       commit('changeName', resultUserData.data.name)
       commit('changeToken', resultUserData.data.token)
@@ -52,12 +53,13 @@ const loginModule: Module<IloginState, IrootState> = {
       // 3, 去拿到departmentInfo
       dispatch('departmentModule/getDepartmentListAction', null, { root: true })
       // 4, 拿 roleinfo
-
       dispatch('roleModule/getRoleListAction', null, { root: true })
+      // 5, 拿 user
       router.push('/main')
     },
 
     setStoreLocalAction({ commit, dispatch }) {
+      // debugger
       const name = localcach.get('name')
       const password = localcach.get('password')
       const token = localcach.get('token')
@@ -70,6 +72,7 @@ const loginModule: Module<IloginState, IrootState> = {
       }
       if (token) {
         commit('changeToken', token)
+        // debugger
         dispatch('roleModule/getRoleListAction', null, { root: true })
         dispatch('departmentModule/getDepartmentListAction', null, {
           root: true

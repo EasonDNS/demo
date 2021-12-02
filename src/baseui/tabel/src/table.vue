@@ -1,5 +1,6 @@
 <template>
   <div class="jxlstable">
+    <!-- 头部 -->
     <div>
       <slot name="tableHeader">
         <div class="table-header">
@@ -24,6 +25,21 @@
             </el-button>
           </div>
         </div>
+      </slot>
+    </div>
+    <div class="footer">
+      <slot name="footer">
+        <el-pagination
+          layout="total, sizes, prev, pager, next, jumper"
+          hide-on-single-page
+          v-model:currentPage="currentPage"
+          v-model:pageSize="pageSize"
+          :page-sizes="[10, 20, 30]"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
       </slot>
     </div>
 
@@ -92,9 +108,6 @@
         </template>
       </el-table>
     </div>
-    <div class="dialog">
-      <!-- <jxls-dialog></jxls-dialog> -->
-    </div>
   </div>
 </template>
 <script lang="ts">
@@ -119,7 +132,9 @@ export default defineComponent({
     'handleRemove',
     'handlerSelect',
     'handleRegester',
-    'handleRefresh'
+    'handleRefresh',
+    'handleSizeChange',
+    'handleCurrentChange'
   ],
   // components: { jxlsDialog },
   setup(prop, conten) {
@@ -145,15 +160,34 @@ export default defineComponent({
     const handleRefresh = () => {
       conten.emit('handleRefresh')
     }
+    const total = ref(100)
+    //每页个数
+    const pageSize = ref(10)
+    const currentPage = ref(1)
+    // size ==> 会传入每页的个数. pagesize
+    const handleSizeChange = (count: number) => {
+      conten.emit('handleSizeChange', count)
+    }
+    // 当前在哪一页 == currentPage
+    const handleCurrentChange = (page: number) => {
+      conten.emit('handleCurrentChange', page)
+    }
     return {
-      select,
       isShowSerial,
       isShowSecelection,
       day,
+
+      total,
+      pageSize,
+      currentPage,
+
+      select,
       handleEdit,
       handleRemove,
       handleRegester,
-      handleRefresh
+      handleRefresh,
+      handleSizeChange,
+      handleCurrentChange
     }
   }
 })
