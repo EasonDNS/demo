@@ -1,14 +1,11 @@
 import { IloginState } from './login/type'
-
+import { IGoodsState } from '@/store/goods/type'
 import { IRolestate } from './role/type'
 import { IDepartmentState } from './department/type'
 import { IuserState } from './user/type'
 interface IrootState {
   name: string
   password: string
-  departmentInfo: any[]
-  roleInfo: any[]
-  jurisdiction: any[]
 }
 
 interface Imodule {
@@ -16,6 +13,7 @@ interface Imodule {
   userModule: IuserState
   departmentModule: IDepartmentState
   roleModule: IRolestate
+  goodsModule: IGoodsState
 }
 
 type Istate = IrootState & Imodule
