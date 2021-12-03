@@ -44,7 +44,13 @@
     </div>
 
     <div class="content">
-      <el-table class="table" :data="listData" :border="true" @select="select">
+      <el-table
+        class="table"
+        :data="listData"
+        :border="true"
+        @select="select"
+        :row-style="rowStyle"
+      >
         <template v-if="isShowSecelection">
           <el-table-column type="selection" align="center"></el-table-column>
         </template>
@@ -172,6 +178,23 @@ export default defineComponent({
     const handleCurrentChange = (page: number) => {
       conten.emit('handleCurrentChange', page)
     }
+
+    // 设置表格的样式 直接绑定 到每一行... 不用那个啥class
+    const rowStyle = (pay: any) => {
+      // 奇数行的样式
+      const even = {
+        // background: '#e6a23c'
+        background: '#909399'
+      }
+      // 偶数行的样式
+      const odd = {
+        background: '#e6a23c'
+      }
+      // 最后返回 作用样式
+      const effect = pay.rowIndex % 2 === 0 ? even : odd
+
+      return effect
+    }
     return {
       isShowSerial,
       isShowSecelection,
@@ -180,7 +203,7 @@ export default defineComponent({
       total,
       pageSize,
       currentPage,
-
+      rowStyle,
       select,
       handleEdit,
       handleRemove,
