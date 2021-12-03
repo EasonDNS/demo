@@ -31,10 +31,11 @@
               "
               :required="item.isRequired ?? false"
             >
-              <!-- 设置插槽 并把 field 字段传出 -->
+              <!-- 设置插槽 并把 field 字段的值传出 和 item 一起打包出去 -->
               <slot
                 :name="item.slotName ?? item.field"
                 :row="modelValue[`${item.field}`]"
+                :item="item"
               >
                 <!-- input password -->
                 <template

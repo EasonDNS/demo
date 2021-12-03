@@ -9,11 +9,16 @@
           </div>
         </template>
         <div class="login">
-          <jxls-form
+          <page-form :pageFormConfig="loginConfig">
+            <template #footer>
+              <el-button>sssssss</el-button>
+            </template>
+          </page-form>
+          <!-- <jxls-form
             ref="jxlsFormRef"
             :searchFormConfig="loginConfig"
             v-model="userLogin"
-          ></jxls-form>
+          ></jxls-form> -->
         </div>
         <div class="loginBtn">
           <el-switch
@@ -36,13 +41,14 @@
 import { defineComponent, ref } from 'vue'
 import { useStore } from '@/store'
 
+import pageForm from '@/components/page-form'
 import { loginConfig } from '../config/login-config'
-import { jxlsForm } from '@/baseui/form'
+// import { jxlsForm } from '@/baseui/form'
 import { localcach } from '@/utils'
 
 export default defineComponent({
   components: {
-    jxlsForm
+    pageForm
   },
   setup() {
     const store = useStore()
@@ -56,34 +62,39 @@ export default defineComponent({
       isRemember.value = newvalue
     }
     // 拿到form 表单 可以从里面去取到 form 再去拿到form的一个方法 validate 校验 表单是否全部通过 验证
-    const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
+    // const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
+    // const handleLogin = () => {
+    //   jxlsFormRef.value?.formRef?.validate((valid) => {
+    //     if (valid) {
+    //       // 1, 判定是不是要记住密码
+    //       if (isRemember.value) {
+    //         localcach.set('name', userLogin.value.name)
+    //         localcach.set('password', userLogin.value.password)
+    //         // 2, 拿到user data 分发一个action
+    //         store.dispatch('loginModule/accountLoignAction', {
+    //           url: '/login',
+    //           data: userLogin.value
+    //         })
+    //       } else {
+    //         localcach.delete('name')
+    //         localcach.delete('password')
+    //       }
+    //     }
+    //   })
+    // }
     const handleLogin = () => {
-      jxlsFormRef.value?.formRef?.validate((valid) => {
-        if (valid) {
-          // 1, 判定是不是要记住密码
-          if (isRemember.value) {
-            localcach.set('name', userLogin.value.name)
-            localcach.set('password', userLogin.value.password)
-            // 2, 拿到user data 分发一个action
-            store.dispatch('loginModule/accountLoignAction', {
-              url: '/login',
-              data: userLogin.value
-            })
-          } else {
-            localcach.delete('name')
-            localcach.delete('password')
-          }
-        }
+      console.log(1)
+      store.dispatch('loginModule/accountLoignAction', {
+        url: '/login',
+        data: { name: 'coderwhy', password: '123456' }
       })
     }
-
     return {
       loginConfig,
       userLogin,
       isRemember,
       rememberPassword,
-      handleLogin,
-      jxlsFormRef
+      handleLogin
     }
   }
 })

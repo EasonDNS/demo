@@ -1,7 +1,7 @@
 import { IForm } from '@/baseui/form/src/type'
 import { rules } from './login-roules'
 const loginConfig: IForm = {
-  isShowHeader: false,
+  isShowHeader: true,
   formItems: [
     {
       field: 'name',
@@ -9,18 +9,6 @@ const loginConfig: IForm = {
       type: 'input',
       label: '用户名:',
       placeholder: '请输入用户名:'
-      // rules: [
-      //   {
-      //     required: true,
-      //     message: '用户名是必传内容~',
-      //     trigger: 'blur'
-      //   },
-      //   {
-      //     pattern: /^[a-z0-9]{5,10}$/,
-      //     message: '用户名必须是5~10个字母或者数字~',
-      //     trigger: 'blur'
-      //   }
-      // ]
     },
     {
       field: 'password',
@@ -28,19 +16,6 @@ const loginConfig: IForm = {
       prop: 'password',
       label: '密码:',
       placeholder: '请输入密码:'
-
-      //     rules: [
-      //       {
-      //         required: true,
-      //         message: '密码是必传内容~',
-      //         trigger: 'blur'
-      //       },
-      //       {
-      //         pattern: /^[a-z0-9]{3,}$/,
-      //         message: '用户名必须是3位以上的字母或者数字~',
-      //         trigger: 'blur'
-      //       }
-      //     ]
     }
   ],
   pageName: 'login',
@@ -48,6 +23,10 @@ const loginConfig: IForm = {
     labelWidth: '80px',
     layout: {
       span: 24
+    },
+    footer: {
+      researchName: '注册',
+      resetName: '登陆'
     }
   },
   rules

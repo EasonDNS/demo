@@ -4,11 +4,9 @@
       <div class="image" ref="imgRef">
         <el-image :src="require('/src/assets/girl.jpg')" fit="contain" />
       </div>
-      <transition name="el-zoom-in-center">
-        <template v-if="!isCollapse">
-          <strong>吉祥超市</strong>
-        </template>
-      </transition>
+      <template v-if="!isCollapse">
+        <strong class="title">吉祥超市</strong>
+      </template>
     </div>
     <el-menu
       v-bind="defaultUserMenuStyle"
@@ -69,7 +67,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-// import { gsap } from 'gsap'
+import { gsap } from 'gsap'
 import { useStore } from '@/store'
 import { mapMenu } from '@/utils'
 import { mitt } from '@/services'
@@ -91,9 +89,10 @@ export default defineComponent({
     mitt.on('isFold', (pay) => {
       isCollapse.value = pay
       if (isCollapse.value) {
-        imgRef.value.style.width = '30px'
+        gsap.to('.image', { duration: 0.5, width: 30 })
+        gsap.to('.title', { duration: 0.5, opacity: 0 })
       } else {
-        imgRef.value.style.width = '60px'
+        gsap.to('.image', { duration: 0.5, width: 60 })
       }
     })
     // 默认需要打开的第一个子菜单

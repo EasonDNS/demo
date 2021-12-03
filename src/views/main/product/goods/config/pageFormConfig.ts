@@ -7,7 +7,8 @@ export const pageFormConfig: IForm = {
       prop: 'id',
       type: 'input',
       label: 'id',
-      placeholder: '请输入需要查询的id~'
+      placeholder: '请输入需要查询的id~',
+      slotName: 'id'
       // rules: [
       //   {
       //     required: true,
@@ -27,7 +28,8 @@ export const pageFormConfig: IForm = {
       prop: 'name',
       type: 'input',
       label: '商品名称',
-      placeholder: '请输入需要查询的商品名称~'
+      placeholder: '请输入需要查询的商品名称~',
+      slotName: 'name'
     },
     {
       field: 'address',

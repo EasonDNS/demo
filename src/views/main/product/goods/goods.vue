@@ -1,10 +1,10 @@
 <template>
   <div class="">
-    <page-form :pageFormConfig="pageFormConfig"></page-form>
-    <page-content
-      :pageContentConfig="tableConfig"
-      :listData="listData"
-    ></page-content>
+    <page-form :pageFormConfig="pageFormConfig">
+      <!-- <template #id> ooooooooooooo </template> -->
+    </page-form>
+    <page-content :pageContentConfig="tableConfig" :listData="listData">
+    </page-content>
   </div>
 </template>
 <script lang="ts">

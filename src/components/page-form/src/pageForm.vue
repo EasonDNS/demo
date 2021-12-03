@@ -8,7 +8,13 @@
       @handleChange="handleChange"
       @handleReset="handleReset"
     >
+      <template v-for="item of slotNames" :key="item.field" #[item.slotName]>
+        <template v-if="item.slotName">
+          <slot :name="item.slotName"></slot>
+        </template>
+      </template>
     </jxls-form>
+    <hr />
   </div>
 </template>
 <script lang="ts">
@@ -54,6 +60,12 @@ export default defineComponent({
         }
       })
     }
+    const slotNames = ref<any[]>([])
+    props.pageFormConfig.formItems.forEach((item: any) => {
+      if (item.slotName) {
+        slotNames.value.push(item)
+      }
+    })
 
     const handleChange = (data: any) => {
       console.log(data)
@@ -62,6 +74,7 @@ export default defineComponent({
 
     return {
       jxlsFormRef,
+      slotNames,
       pageData,
       handleReset,
       handleReSearch,
