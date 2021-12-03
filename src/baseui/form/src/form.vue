@@ -1,13 +1,17 @@
+<!-- -------------------------插槽---------------------------- -->
+<!-- -------------------------
+  1,header ==> 定义头部显示
+  2,formConfig.formStyle.justify ==> 定义对齐方式
+---------------------------- -->
+
 <template>
   <div class="form">
-    <div v-if="formConfig.isShow ?? false">
+    <div v-if="formConfig.isShowHeader ?? false">
       <slot name="header">
-        <h2>
-          {{ formConfig.pageName }}
-        </h2>
+        <strong> {{ formConfig.pageName }}</strong>
       </slot>
     </div>
-    <el-form :rules="formConfig.rules" ref="formRef">
+    <el-form :rules="formConfig.rules" ref="formRef" :model="modelValue">
       <el-row
         :justify="formConfig.formStyle?.justify ?? defaultFormStyle.justify"
       >
@@ -16,14 +20,18 @@
             v-bind="formConfig?.formStyle?.layout ?? defaultFormStyle.layout"
           >
             <el-form-item
-              :prop="item.prop ?? item.field"
+              :prop="item.field ?? item.prop"
               :label="item.label"
               :rules="item.rules"
               :label-width="
-                formConfig?.formStyle?.labelWidth ?? defaultFormStyle.labelWidth
+                item?.itemStyle?.labelWidth ?? defaultFormStyle.labelWidth
               "
-              :required="item.isRequired ?? isRequired"
+              :size="
+                formConfig?.formItems?.itemStyle?.size ?? defaultFormStyle.size
+              "
+              :required="item.isRequired ?? false"
             >
+              <!-- 设置插槽 并把 field 字段传出 -->
               <slot
                 :name="item.slotName ?? item.field"
                 :row="modelValue[`${item.field}`]"
@@ -33,7 +41,7 @@
                   v-if="item.type === 'input' || item.type === 'password'"
                 >
                   <el-input
-                    :placeholder="item.placeholder"
+                    :placeholder="item.placeholder ?? 'EasonDNS  yyds~~~'"
                     :show-password="item.type === 'password'"
                     v-bind="item.options ?? {}"
                     :model-value="modelValue[`${item.field}`]"
@@ -46,8 +54,7 @@
                 <template v-else-if="item.type === 'inputnumber'">
                   <el-input-number
                     v-bind="item.options ?? {}"
-                    :type="item.options.type ?? 'date'"
-                    :placeholder="item.placeholder"
+                    :placeholder="item.placeholder ?? 'EasonDNS  yyds~~~'"
                     :model-value="modelValue[`${item.field}`]"
                     @update:modelValue="
                       handleModelValueChange($event, item.field)
@@ -61,6 +68,7 @@
                     format="YYYY-MM-DD HH:mm:ss"
                     style="width: 100%"
                     v-bind="item.options ?? {}"
+                    :placeholder="item.placeholder ?? 'EasonDNS  yyds~~~'"
                     :model-value="modelValue[`${item.field}`]"
                     @update:modelValue="
                       handleModelValueChange($event, item.field)
@@ -70,8 +78,8 @@
                 <!-- select -->
                 <template v-else-if="item.type === 'select'">
                   <el-select
-                    :placeholder="item.placeholder"
                     v-bind="item.options ?? {}"
+                    :placeholder="item.placeholder ?? 'EasonDNS  yyds~~~'"
                     @change="handleSelectChange(item)"
                     @visible-change="handleVisibleChange(item)"
                     :model-value="modelValue[`${item.field}`]"
@@ -80,10 +88,10 @@
                     "
                   >
                     <el-option
-                      v-for="op of item.selectOptions"
-                      :key="op.value"
-                      :value="op.value"
-                      :label="op.label"
+                      v-for="itemOption of item.selectOptions"
+                      :key="itemOption.value"
+                      :value="itemOption.value"
+                      :label="itemOption.label"
                     ></el-option>
                   </el-select>
                 </template>
@@ -115,11 +123,7 @@
         </template>
       </el-row>
     </el-form>
-    <div
-      class="footer"
-      v-if="formConfig.isShow ?? false"
-      style="text-algin: center"
-    >
+    <div class="footer" v-if="formConfig?.isShowFooter ?? true">
       <slot name="footer">
         <el-button type="primary" size="mini" @click="handleReset"
           >{{ formConfig.formStyle?.footer?.resetName ?? '重置' }}
@@ -132,11 +136,12 @@
   </div>
 </template>
 <script lang="ts">
-// <!-- -------------------------导入---------------------------- -->
+// <!-- -------------------------导入开始---------------------------- -->
 
 import { defineComponent, PropType, ref } from 'vue'
 import { ElForm } from 'element-plus'
 import { IForm } from './type'
+//<!-- -------------------------导入完成---------------------------- -->
 
 export default defineComponent({
   // 1, 接受的参数
@@ -160,29 +165,33 @@ export default defineComponent({
   ],
   setup(prop, content) {
     const formRef = ref<InstanceType<typeof ElForm>>()
-
+    // 监听 自定义 v-modle 事件
     const handleModelValueChange = (value: any, field: string) => {
       content.emit('update:modelValue', {
         ...prop.modelValue,
         [field]: value
       })
     }
-    const handleSelectChange = (pay: any) => {
-      content.emit('handleSelectChange', pay)
-    }
+    // 重置
     const handleReset = () => {
       content.emit('handleReset')
     }
+    // 搜索
     const handleReSearch = () => {
       content.emit('handleReSearch')
     }
+    // 关于 select 的选择的时候触发 并把选择的值 传出
+    const handleSelectChange = (item: any) => {
+      content.emit('handleSelectChange', item)
+    }
+    // 关于 select 下拉事件
     const handleVisibleChange = (item: any) => {
       content.emit('handleVisibleChange', item)
     }
-    const isRequired = ref(false)
     // 默认样式
     const defaultFormStyle = {
       justify: 'center',
+      size: 'small',
       labelWidth: '80px',
       layout: {
         span: 12,
@@ -197,7 +206,6 @@ export default defineComponent({
     return {
       defaultFormStyle,
       formRef,
-      isRequired,
       // 监听 重置按钮 点击事件
       handleReset,
       // 监听 搜索按钮 点击事件
@@ -215,16 +223,11 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .el-row {
-  padding-bottom: 10px;
-}
-.el-col {
-  padding-top: 10px;
+  padding-bottom: 5px;
 }
 .footer {
-  // box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   text-align: right;
   padding-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 </style>

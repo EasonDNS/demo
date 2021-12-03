@@ -49,6 +49,6 @@ export const searchFormConfig: IForm = {
       label: '创建时间'
     }
   ],
-  isShow: true,
+  isShowHeader: true,
   pageName: 'user'
 }

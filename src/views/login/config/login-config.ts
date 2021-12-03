@@ -1,7 +1,7 @@
 import { IForm } from '@/baseui/form/src/type'
 import { rules } from './login-roules'
 const loginConfig: IForm = {
-  isShow: false,
+  isShowHeader: false,
   formItems: [
     {
       field: 'name',

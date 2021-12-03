@@ -1,9 +1,6 @@
 <template>
   <div class="">
-    <page-form
-      :pageData="pageData"
-      :pageFormConfig="pageFormConfig"
-    ></page-form>
+    <page-form :pageFormConfig="pageFormConfig"></page-form>
     <page-content
       :pageContentConfig="tableConfig"
       :listData="listData"
@@ -14,12 +11,11 @@
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useStore } from '@/store'
 
-// import moduleName from '@/baseui/fo';
 import { pageFormConfig } from './config/pageFormConfig'
 import pageForm from '@/components/page-form'
 import { tableConfig } from './config/tableConfig'
 import pageContent from '@/components/page-content'
-// import { mapName } from '@/utils'
+
 export default defineComponent({
   components: {
     pageContent,

@@ -52,7 +52,12 @@ body {
   align-items: center;
   .nav {
     height: 100%;
-    height: 100%;
+    .n-config-provider {
+      height: 100%;
+      .main {
+        height: 100%;
+      }
+    }
   }
 }
 </style>

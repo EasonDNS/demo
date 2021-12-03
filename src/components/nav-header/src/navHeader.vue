@@ -9,7 +9,6 @@
           <el-icon><fold /></el-icon>
         </template>
       </i>
-
       <jxls-breadcrumb></jxls-breadcrumb>
     </div>
     <div class="right">
@@ -40,13 +39,10 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .nav-header {
-  // margin-top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgba(107, 16, 107, 0.829);
-  // border-radius: 10px;
-
   .left {
     display: flex;
     justify-content: center;
@@ -54,7 +50,7 @@ export default defineComponent({
     .el-icon {
       font-size: 40px;
       padding-right: 20px;
-      padding-top: 5px;
+      // padding-top: 5px;
       cursor: pointer;
     }
   }

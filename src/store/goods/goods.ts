@@ -40,7 +40,7 @@ export const goodsModule: Module<IGoodsState, IrootState> = {
     async queryGoodsAction({ commit }, pay: any) {
       const resultGoodsData = await queryGoods({
         url: '/goods/list',
-        data: pay
+        data: pay ?? {}
       })
       commit('changeList', resultGoodsData.data.list)
       commit('changeTotalCount', resultGoodsData.data.totalCount)

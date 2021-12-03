@@ -1,18 +1,21 @@
 <template>
   <div class="page-form">
-    <el-button @click="btn" type="success">测试</el-button>
     <jxls-form
+      ref="jxlsFormRef"
       :formConfig="pageFormConfig"
       v-model="pageData"
       @handleReSearch="handleReSearch"
       @handleChange="handleChange"
       @handleReset="handleReset"
-    ></jxls-form>
+    >
+    </jxls-form>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
+import { mapName } from '@/utils'
+import { useStore } from '@/store'
 import jxlsForm from '@/baseui/form/src/form.vue'
 export default defineComponent({
   name: 'page-form',
@@ -24,6 +27,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const store = useStore()
     const pageData = ref<any>({})
     // 重置基础数据
     const resetData = () => {
@@ -32,15 +36,23 @@ export default defineComponent({
       }
     }
     resetData()
-
     const handleReset = () => {
       resetData()
+      store.dispatch(
+        mapName.page(props.pageFormConfig.pageName).queryAction!,
+        pageData.value
+      )
     }
-
+    const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
     const handleReSearch = () => {
-      console.log('-------------------------------')
-
-      console.log('-------------------------------')
+      jxlsFormRef.value?.formRef?.validate((vali) => {
+        if (vali) {
+          store.dispatch(
+            mapName.page(props.pageFormConfig.pageName).queryAction!,
+            pageData.value
+          )
+        }
+      })
     }
 
     const handleChange = (data: any) => {
@@ -48,12 +60,8 @@ export default defineComponent({
       console.log('+++++++++++++++')
     }
 
-    const btn = () => {
-      pageData.value = { id: '888' }
-      console.log(pageData.value)
-    }
     return {
-      btn,
+      jxlsFormRef,
       pageData,
       handleReset,
       handleReSearch,

@@ -3,13 +3,15 @@ export interface IForm {
   pageName: string
   rules?: any
   formStyle?: IFormStyle
-  isShow?: boolean
+  isShowHeader?: boolean
+  isShowFooter?: boolean
 }
 
 export interface IFormItem {
   field: string
   type: IFormItemType
   label: string
+  itemStyle?: itemStyle
   rules?: any
   options?: any
   placeholder?: string
@@ -30,6 +32,11 @@ type IFormItemType =
   | 'radio'
   | 'tree'
 
+type itemsize = 'medium' | 'small' | 'mini'
+interface itemStyle {
+  labelWidth?: string
+  size?: itemsize
+}
 interface IFormStyle {
   layout?: any
   labelWidth?: string
@@ -39,6 +46,7 @@ interface IFormStyle {
 }
 
 interface Ifooter {
+  // 两个按钮名字的传入
   resetName?: string
   researchName?: string
   style?: {

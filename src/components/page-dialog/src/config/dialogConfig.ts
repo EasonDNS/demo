@@ -60,7 +60,7 @@ export const dialogConfig: IForm = {
       selectOptions: []
     }
   ],
-  isShow: true,
+  isShowHeader: true,
   formStyle: {
     labelWidth: '100px',
     justify: 'start',

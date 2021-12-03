@@ -79,7 +79,7 @@ export const dialogConfig: IForm = {
       }
     }
   ],
-  isShow: true,
+  isShowHeader: true,
   formStyle: {
     labelWidth: '100px',
     layout: {

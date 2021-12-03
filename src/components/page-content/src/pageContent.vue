@@ -50,7 +50,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    const name = ref(mapName.footerData(props.pageContentConfig.pageName))
+    const name = ref(mapName.page(props.pageContentConfig.pageName))
     // 这是在哪一页
     const page = ref(1)
     // 单页显示 的个数

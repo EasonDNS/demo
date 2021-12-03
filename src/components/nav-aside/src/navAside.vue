@@ -69,6 +69,7 @@
 import { defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+// import { gsap } from 'gsap'
 import { useStore } from '@/store'
 import { mapMenu } from '@/utils'
 import { mitt } from '@/services'
@@ -89,8 +90,11 @@ export default defineComponent({
     const isCollapse: any = ref(false)
     mitt.on('isFold', (pay) => {
       isCollapse.value = pay
-
-      imgRef.value.style.width = '30px'
+      if (isCollapse.value) {
+        imgRef.value.style.width = '30px'
+      } else {
+        imgRef.value.style.width = '60px'
+      }
     })
     // 默认需要打开的第一个子菜单
 

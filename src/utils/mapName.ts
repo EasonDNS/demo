@@ -1,13 +1,5 @@
 class MapName {
-  id(menus: any[], id: number) {
-    menus.forEach((item) => {
-      if (item.id === id) {
-        return item
-      }
-    })
-  }
-
-  footerData(pageName: string) {
+  page(pageName: string) {
     let queryAction
     switch (pageName) {
       case 'role':
@@ -23,7 +15,7 @@ class MapName {
         break
     }
     return {
-      queryAction: queryAction
+      queryAction
     }
   }
 }

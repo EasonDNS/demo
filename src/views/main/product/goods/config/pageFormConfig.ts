@@ -8,6 +8,19 @@ export const pageFormConfig: IForm = {
       type: 'input',
       label: 'id',
       placeholder: '请输入需要查询的id~'
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: '请输入正确的id~',
+      //     trigger: 'blur'
+      //   },
+      //   {
+      //     min: 3,
+      //     max: 5,
+      //     message: '长度必须为 be 3 to 5',
+      //     trigger: 'blur'
+      //   }
+      // ]
     },
     {
       field: 'name',
@@ -28,7 +41,10 @@ export const pageFormConfig: IForm = {
       field: 'categoryId',
       type: 'input',
       label: '商品类别码: ',
-      placeholder: '请输入需要查询的商品类别码~'
+      placeholder: '请输入需要查询的商品类别码~',
+      itemStyle: {
+        labelWidth: '120px'
+      }
     },
 
     {
@@ -36,11 +52,6 @@ export const pageFormConfig: IForm = {
       field: 'createAt',
       type: 'datepicker',
       label: '创建时间'
-      // options: {
-      //   startPlaceholder: '开始时间',
-      //   endPlaceholder: '结束时间',
-      //   type: 'daterange'
-      // }
     },
     {
       prop: 'updateAt',
@@ -49,6 +60,6 @@ export const pageFormConfig: IForm = {
       label: '创建时间'
     }
   ],
-  isShow: true,
+  isShowHeader: true,
   pageName: 'goods'
 }

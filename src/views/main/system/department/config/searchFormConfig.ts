@@ -41,6 +41,6 @@ export const searchFormConfig: IForm = {
       }
     }
   ],
-  isShow: true,
+  isShowHeader: true,
   pageName: 'department'
 }
