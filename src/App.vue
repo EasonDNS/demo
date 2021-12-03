@@ -1,23 +1,31 @@
 <template>
   <div class="nav">
     <el-config-provider :locale="zhCn">
-      <router-view />
+      <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+        <router-view />
+      </n-config-provider>
     </el-config-provider>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+//elementPlus国际化
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+//Naive 国际化
+import { NConfigProvider } from 'naive-ui'
+import { zhCN, dateZhCN } from 'naive-ui'
 export default defineComponent({
   components: {
-    ElConfigProvider
+    ElConfigProvider,
+    NConfigProvider
   },
   setup() {
     return {
-      zhCn
+      zhCn,
+      zhCN,
+      dateZhCN
     }
   }
 })

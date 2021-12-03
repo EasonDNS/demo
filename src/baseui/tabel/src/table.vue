@@ -27,21 +27,6 @@
         </div>
       </slot>
     </div>
-    <div class="footer">
-      <slot name="footer">
-        <el-pagination
-          layout="total, sizes, prev, pager, next, jumper"
-          hide-on-single-page
-          v-model:currentPage="currentPage"
-          v-model:pageSize="pageSize"
-          :page-sizes="[10, 20, 30]"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </slot>
-    </div>
 
     <div class="content">
       <el-table
@@ -66,7 +51,7 @@
         </template>
         <!-- 这里tabelconfig 必须 要有 proplist  -->
         <template v-for="item of tableConfig.propList" :key="item.prop">
-          <el-table-column v-bind="item">
+          <el-table-column v-bind="item" :show-overflow-tooltip="true">
             <template #default="scop">
               <!-- 设置插槽 为item 的 prop 数据字段  再把 row 数据传递出去   -->
               <template
@@ -113,6 +98,22 @@
           </el-table-column>
         </template>
       </el-table>
+
+      <div class="footer">
+        <slot name="footer">
+          <el-pagination
+            layout="total, sizes, prev, pager, next, jumper"
+            hide-on-single-page
+            v-model:currentPage="currentPage"
+            v-model:pageSize="pageSize"
+            :page-sizes="[10, 20, 30]"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </slot>
+      </div>
     </div>
   </div>
 </template>
@@ -258,5 +259,8 @@ export default defineComponent({
 
 .el-button--danger {
   margin-left: 0;
+}
+.footer {
+  margin-top: 10px;
 }
 </style>

@@ -4,24 +4,31 @@
 -->
 <template>
   <div class="page-content">
-    <jxlstable :tableConfig="pageContentConfig" :listData="listData">
+    <jxlstable :tableConfig="pageContentConfig" :listData="listData.list">
       <template #footer>
-        <n-button> {{ itemCount }} </n-button>
-        <n-pagination
-          show-size-picker
-          v-model:page="page"
-          v-model:page-size="pageSize"
-          :item-count="itemCount"
-          :page-sizes="[10, 20, 30]"
-          :on-update:page-size="handlePageSize"
-          :on-update:page="handlePage"
-        />
+        <div class="footer">
+          <n-pagination
+            show-size-picker
+            v-model:page="page"
+            v-model:page-size="pageSize"
+            :item-count="itemCount"
+            :page-sizes="[10, 20, 30]"
+            :on-update:page-size="handlePageSize"
+            :on-update:page="handlePage"
+          />
+          <n-gradient-text type="info" size="16px">
+            <strong>总共有</strong>
+            {{ itemCount }}<strong> 条数据</strong>
+          </n-gradient-text>
+        </div>
       </template>
     </jxlstable>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
+// 定义 listData的 类型 => {list:any[],count:number}
+import { IListData } from './type'
 
 import { useStore } from '@/store'
 import { mapName } from '@/utils'
@@ -34,8 +41,10 @@ export default defineComponent({
       type: Object,
       required: true
     },
+
+    // {list: [],totalCount:number}
     listData: {
-      type: Array,
+      type: Object as PropType<IListData>,
       required: true
     }
   },
@@ -43,29 +52,41 @@ export default defineComponent({
     const store = useStore()
     const name = ref(mapName.footerData(props.pageContentConfig.pageName))
     // 这是在哪一页
-    console.log(name.value)
     const page = ref(1)
     // 单页显示 的个数
-    const pageSize = ref(20)
+    const pageSize = ref(10)
     // 总个数
 
-    const itemCount = ref(
-      mapName.footerData(props?.pageContentConfig?.pageName).total
-    )
+    const itemCount = computed(() => props.listData.count)
     const handlePageSize = (pagesize: number) => {
-      console.log(pagesize)
-      const b = mapName.footerData(props.pageContentConfig.pageName).total
-      console.log(b)
-      const a = name.value.queryAction
-      if (a) {
-        store.dispatch(a, { size: 2 })
-      }
+      pageSize.value = pagesize
+      store.dispatch(name.value.queryAction!, {
+        // 如果是第一页偏移应该是 0
+        offset: (page.value - 1) * pageSize.value,
+        size: pageSize.value
+      })
     }
-    const handlePage = (page: number) => {
-      console.log(page)
+    const handlePage = (pay: number) => {
+      page.value = pay
+      store.dispatch(name.value.queryAction!, {
+        // 如果是第一页偏移应该是 0
+        offset: (page.value - 1) * pageSize.value,
+        size: pageSize.value
+      })
     }
     return { mapName, page, pageSize, itemCount, handlePageSize, handlePage }
   }
 })
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.page-content {
+  .footer {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    .n-gradient-text {
+      padding: 0 10px 0 10px;
+    }
+  }
+}
+</style>

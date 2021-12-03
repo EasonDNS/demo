@@ -1,35 +1,45 @@
 <template>
   <div class="">
-    <page-content :pageContentConfig="tableConfig"></page-content>
+    <page-form
+      :pageData="pageData"
+      :pageFormConfig="pageFormConfig"
+    ></page-form>
+    <page-content
+      :pageContentConfig="tableConfig"
+      :listData="listData"
+    ></page-content>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, onUpdated, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useStore } from '@/store'
 
+// import moduleName from '@/baseui/fo';
+import { pageFormConfig } from './config/pageFormConfig'
+import pageForm from '@/components/page-form'
 import { tableConfig } from './config/tableConfig'
 import pageContent from '@/components/page-content'
-import { mapName } from '@/utils'
+// import { mapName } from '@/utils'
 export default defineComponent({
   components: {
-    pageContent
+    pageContent,
+    pageForm
   },
   setup() {
     const store = useStore()
     onMounted(() => {
       store.dispatch('goodsModule/getGoodsAction', {})
     })
-    // console.log('==========aaaa============')
-    // const a = mapName.footerData('goods').listData
-    // console.log(a)
-    // console.log('======================')
-
-    // const b = store.state.goodsModule.list
-    // console.log('==========bbbbbb============')
-    // console.log(b)
-    // console.log('======================')
+    const list = computed(() => store.state.goodsModule.list)
+    const count = computed(() => store.state.goodsModule.totalCount)
+    const listData = ref({
+      list,
+      count
+    })
     return {
-      tableConfig
+      pageFormConfig,
+      tableConfig,
+      listData
     }
   }
 })

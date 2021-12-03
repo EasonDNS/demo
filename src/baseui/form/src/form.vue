@@ -1,33 +1,32 @@
 <template>
   <div class="form">
-    <div v-if="searchFormConfig.isShow ?? false">
+    <div v-if="formConfig.isShow ?? false">
       <slot name="header">
         <h2>
-          {{ searchFormConfig.pageName }}
+          {{ formConfig.pageName }}
         </h2>
       </slot>
     </div>
-    <el-form :model="formData" :rules="searchFormConfig.rules" ref="formRef">
-      <el-row justify="center">
-        <template v-for="item of searchFormConfig.formItems" :key="item.field">
+    <el-form :rules="formConfig.rules" ref="formRef">
+      <el-row
+        :justify="formConfig.formStyle?.justify ?? defaultFormStyle.justify"
+      >
+        <template v-for="item of formConfig.formItems" :key="item.field">
           <el-col
-            v-bind="
-              searchFormConfig?.formStyle?.layout ?? defaultFormStyle.layout
-            "
+            v-bind="formConfig?.formStyle?.layout ?? defaultFormStyle.layout"
           >
             <el-form-item
               :prop="item.prop ?? item.field"
               :label="item.label"
               :rules="item.rules"
               :label-width="
-                searchFormConfig?.formStyle?.labelWidth ??
-                defaultFormStyle.labelWidth
+                formConfig?.formStyle?.labelWidth ?? defaultFormStyle.labelWidth
               "
               :required="item.isRequired ?? isRequired"
             >
               <slot
                 :name="item.slotName ?? item.field"
-                :row="formData[`${item.field}`]"
+                :row="modelValue[`${item.field}`]"
               >
                 <!-- input password -->
                 <template
@@ -37,7 +36,10 @@
                     :placeholder="item.placeholder"
                     :show-password="item.type === 'password'"
                     v-bind="item.options ?? {}"
-                    v-model="formData[`${item.field}`]"
+                    :model-value="modelValue[`${item.field}`]"
+                    @update:modelValue="
+                      handleModelValueChange($event, item.field)
+                    "
                   />
                 </template>
                 <!-- inputnumber -->
@@ -46,7 +48,10 @@
                     v-bind="item.options ?? {}"
                     :type="item.options.type ?? 'date'"
                     :placeholder="item.placeholder"
-                    v-model="formData[`${item.field}`]"
+                    :model-value="modelValue[`${item.field}`]"
+                    @update:modelValue="
+                      handleModelValueChange($event, item.field)
+                    "
                   />
                 </template>
 
@@ -56,17 +61,23 @@
                     format="YYYY-MM-DD HH:mm:ss"
                     style="width: 100%"
                     v-bind="item.options ?? {}"
-                    v-model="formData[`${item.field}`]"
+                    :model-value="modelValue[`${item.field}`]"
+                    @update:modelValue="
+                      handleModelValueChange($event, item.field)
+                    "
                   ></el-date-picker>
                 </template>
                 <!-- select -->
                 <template v-else-if="item.type === 'select'">
                   <el-select
-                    v-model="formData[`${item.field}`]"
                     :placeholder="item.placeholder"
                     v-bind="item.options ?? {}"
-                    @change="handleChange"
+                    @change="handleSelectChange(item)"
                     @visible-change="handleVisibleChange(item)"
+                    :model-value="modelValue[`${item.field}`]"
+                    @update:modelValue="
+                      handleModelValueChange($event, item.field)
+                    "
                   >
                     <el-option
                       v-for="op of item.selectOptions"
@@ -84,9 +95,12 @@
                     :key="subitem.label"
                   >
                     <el-radio
-                      v-model="formData[`${item.field}`]"
                       :label="subitem.label"
                       v-bind="item.options ?? {}"
+                      :model-value="modelValue[`${item.field}`]"
+                      @update:modelValue="
+                        handleModelValueChange($event, item.field)
+                      "
                       >{{ subitem.placeholder }}
                     </el-radio>
                   </template>
@@ -103,25 +117,25 @@
     </el-form>
     <div
       class="footer"
-      v-if="searchFormConfig.isShow ?? false"
+      v-if="formConfig.isShow ?? false"
       style="text-algin: center"
     >
       <slot name="footer">
         <el-button type="primary" size="mini" @click="handleReset"
-          >{{ searchFormConfig.formStyle?.footer?.resetName ?? '重置' }}
+          >{{ formConfig.formStyle?.footer?.resetName ?? '重置' }}
         </el-button>
         <el-button type="primary" size="mini" @click="handleReSearch">
-          {{ searchFormConfig.formStyle?.footer?.researchName ?? '搜索' }}
+          {{ formConfig.formStyle?.footer?.researchName ?? '搜索' }}
         </el-button>
       </slot>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
-import { day } from '@/utils'
-import { ElForm } from 'element-plus'
+// <!-- -------------------------导入---------------------------- -->
 
+import { defineComponent, PropType, ref } from 'vue'
+import { ElForm } from 'element-plus'
 import { IForm } from './type'
 
 export default defineComponent({
@@ -131,23 +145,44 @@ export default defineComponent({
       type: Object,
       required: true
     },
-    searchFormConfig: {
+    formConfig: {
       type: Object as PropType<IForm>,
       required: true
     }
   },
-  // 2,发 出的 事件
+  // 2,发出的事件
   emits: [
     'handleReset',
     'handleReSearch',
-    'handleChange',
+    'handleSelectChange',
     'handleVisibleChange',
     'update:modelValue'
   ],
   setup(prop, content) {
     const formRef = ref<InstanceType<typeof ElForm>>()
+
+    const handleModelValueChange = (value: any, field: string) => {
+      content.emit('update:modelValue', {
+        ...prop.modelValue,
+        [field]: value
+      })
+    }
+    const handleSelectChange = (pay: any) => {
+      content.emit('handleSelectChange', pay)
+    }
+    const handleReset = () => {
+      content.emit('handleReset')
+    }
+    const handleReSearch = () => {
+      content.emit('handleReSearch')
+    }
+    const handleVisibleChange = (item: any) => {
+      content.emit('handleVisibleChange', item)
+    }
+    const isRequired = ref(false)
     // 默认样式
     const defaultFormStyle = {
+      justify: 'center',
       labelWidth: '80px',
       layout: {
         span: 12,
@@ -157,68 +192,22 @@ export default defineComponent({
         lg: 6,
         xl: 4
       }
-      // formAttr: {
-      //   // size: 'medium'
-      // }
     }
 
-    let formData = ref<any>({
-      ...prop.modelValue
-    })
-    watch(
-      formData,
-      (newValue) => {
-        content.emit('update:modelValue', newValue)
-      },
-      { deep: true }
-    )
-    const resetData = () => {
-      for (const item of prop.searchFormConfig.formItems) {
-        formData.value[item.field] = ''
-      }
-    }
-    const handleChange = (pay: any) => {
-      content.emit('handleChange', pay)
-    }
-    const handleReset = () => {
-      resetData()
-      content.emit('handleReset')
-    }
-    const handleReSearch = () => {
-      // console.log(formData.value)
-      // 对时间 格式的处理....
-      for (const item in formData.value) {
-        // console.log('================')
-        if (item === 'upateAt') {
-          formData.value[item] = day.format(formData.value[item])
-        }
-        if (item === 'createAt') {
-          formData.value[item] = day.format(formData.value[item])
-        }
-        // if (item === 'createAt' && item.length > 1) {
-        //   // formData[item][0] = day.format(formData[item][0])
-
-        //   formData.value['createAt'] = day.format(formData.value[item][0])
-        //   formData.value['updateAt'] = day.format(formData.value[item][1])
-        // }
-
-        // 对时间 格式 的处理
-      }
-      content.emit('handleReSearch', formData.value)
-    }
-    const handleVisibleChange = (item: any) => {
-      content.emit('handleVisibleChange', item)
-    }
-    const isRequired = ref(false)
     return {
       defaultFormStyle,
-      formData,
       formRef,
       isRequired,
-      handleChange,
+      // 监听 重置按钮 点击事件
       handleReset,
+      // 监听 搜索按钮 点击事件
       handleReSearch,
-      handleVisibleChange
+      // 监听 select change 事件
+      handleSelectChange,
+      // 监听 select 的下拉事件
+      handleVisibleChange,
+      // 监听 modelvalue 值改变而触发的事件
+      handleModelValueChange
     }
   }
 })

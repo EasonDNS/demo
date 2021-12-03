@@ -16,9 +16,9 @@ export default defineComponent({
   components: { pageContent },
   setup() {
     const store = useStore()
-    const listData = computed(() => store.state.roleModule.roleList)
+    const list = computed(() => store.state.roleModule.roleList)
     const count = computed(() => store.state.roleModule.totalCount)
-    const msg = ref('msg in app')
+    const listData = ref({ list: list, count: count })
     return {
       tableConfig,
       listData,
