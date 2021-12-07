@@ -1,4 +1,4 @@
 export interface IDepartmentState {
-  departmentList: any
+  list: any
   totalCount: number
 }

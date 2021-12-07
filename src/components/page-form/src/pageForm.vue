@@ -1,3 +1,15 @@
+<!-- -------------------------pageform-
+
+
+pageform : 接受一个 data  来初始化 pagedata 的值, 但以后不会再去改变父组件的值 ,只是做一个初始化
+
+要拿最新的值需要 ref 拿到 pageform 这个子组件.. 再去拿 pagedata
+
+
+
+
+--------------------------- -->
+
 <template>
   <div class="page-form">
     <jxls-form
@@ -7,6 +19,7 @@
       @handleReSearch="handleReSearch"
       @handleChange="handleChange"
       @handleReset="handleReset"
+      @handleVisibleChange="handleVisibleChange"
     >
       <template v-for="item of slotNames" :key="item.field" #[item.slotName]>
         <template v-if="item.slotName">
@@ -30,15 +43,23 @@ export default defineComponent({
     pageFormConfig: {
       type: Object,
       required: true
+    },
+    data: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
-  setup(props) {
+  emits: ['handleResearch', 'handleVisibleChange'],
+  setup(props, content) {
     const store = useStore()
     const pageData = ref<any>({})
+
     // 重置基础数据
     const resetData = () => {
       for (const item of props.pageFormConfig.formItems) {
-        pageData.value[item.field] = ''
+        pageData.value[item.field] = props.data[item.field]
       }
     }
     resetData()
@@ -49,14 +70,12 @@ export default defineComponent({
         pageData.value
       )
     }
+
     const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
     const handleReSearch = () => {
       jxlsFormRef.value?.formRef?.validate((vali) => {
         if (vali) {
-          store.dispatch(
-            mapName.page(props.pageFormConfig.pageName).queryAction!,
-            pageData.value
-          )
+          content.emit('handleResearch', pageData.value)
         }
       })
     }
@@ -71,14 +90,17 @@ export default defineComponent({
       console.log(data)
       console.log('+++++++++++++++')
     }
-
+    const handleVisibleChange = (item: any) => {
+      content.emit('handleVisibleChange', item)
+    }
     return {
       jxlsFormRef,
       slotNames,
       pageData,
       handleReset,
       handleReSearch,
-      handleChange
+      handleChange,
+      handleVisibleChange
     }
   }
 })

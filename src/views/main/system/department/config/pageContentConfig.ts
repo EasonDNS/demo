@@ -1,31 +1,38 @@
-// import { IPageContentConfigType } from '@/components/pageContent/type'
-import { IterTableConfig } from '@/baseui/tabel/src/type'
-const tableConfig: IterTableConfig = {
+import { ITableConfig } from '@/baseui/tabel/src/type'
+const pageContentConfig: ITableConfig = {
   propList: [
     {
-      label: '上司',
-      prop: 'leader',
+      label: 'id',
+      prop: 'id',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'leader'
+      soltName: 'id'
       // resizable: true
     },
     {
-      label: '部门名',
+      label: 'name',
       prop: 'name',
       align: 'center',
       minWidth: '50px',
       sortable: true,
       soltName: 'name'
     },
+    {
+      label: '上司id',
+      prop: 'parentId',
+      align: 'center',
+      minWidth: '50px',
+      sortable: true,
+      soltName: 'parentId'
+    },
 
     {
-      label: '部门ID',
-      prop: 'id',
+      label: 'leader',
+      prop: 'leader',
       align: 'center',
       width: '80',
-      soltName: 'departmentId'
+      soltName: 'leader'
     },
     {
       label: '创建时间',
@@ -56,4 +63,4 @@ const tableConfig: IterTableConfig = {
   isShowSecelection: true
 }
 
-export { tableConfig }
+export { pageContentConfig }

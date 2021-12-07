@@ -3,41 +3,61 @@ import { IrootState } from '../type'
 import { IDepartmentState } from './type'
 
 import {
-  getDepartmentList,
-  getDepartmentListAndQuery
+  queryDepartment,
+  regesterDepartment,
+  patchDepartment,
+  deleteDepartment
 } from '@/request/department/department'
 export const departmentModule: Module<IDepartmentState, IrootState> = {
   namespaced: true,
   state() {
     return {
-      departmentList: [],
+      list: [],
       totalCount: 0
     }
   },
   mutations: {
     changeDepartmentList(state, pay: any) {
-      state.departmentList = pay
+      state.list = pay
     },
     changeTotalCount(state, pay: number) {
       state.totalCount = pay
     }
   },
   actions: {
-    async getDepartmentListAction({ commit }) {
-      const reslultDepartmentList = await getDepartmentList({
-        url: '/department/list'
-      })
-      commit('changeDepartmentList', reslultDepartmentList.data.list)
-      commit('changeTotalCount', reslultDepartmentList.data.totalCount)
-    },
-    async getDepartmentListAndQueryAction({ commit }, pay: any) {
-      const resultDepartmentList = await getDepartmentListAndQuery({
+    // 查询部门列表
+    async queryDepartmentAction({ commit }, payload: any) {
+      const resultDepartmentData = await queryDepartment({
         url: '/department/list',
-        data: pay
+        data: payload ?? {}
       })
-      console.log(resultDepartmentList.data)
-      commit('changeDepartmentList', resultDepartmentList.data.list)
-      commit('changeTotalCount', resultDepartmentList.data.totalCount)
+      commit('changeDepartmentList', resultDepartmentData.data.list)
+      commit('changeTotalCount', resultDepartmentData.data.totalCount)
+    },
+    // 创建部门
+    async regesterDepartmentAction({ dispatch }, payload: any) {
+      console.log(payload)
+      await regesterDepartment({
+        url: '/department',
+        data: payload
+      })
+      dispatch('queryDepartmentAction')
+    },
+    async patchDepartmentAction({ commit, dispatch }, payload: any) {
+      console.log(payload)
+      await patchDepartment({
+        url: `/department/${payload.id}`,
+        data: payload
+      })
+
+      dispatch('queryDepartmentAction')
+    },
+    async deleteDepartmentAction({ dispatch }, payload: any) {
+      await deleteDepartment({
+        url: `/department/${payload.id}`,
+        data: {}
+      })
+      dispatch('queryDepartmentAction')
     }
   }
 }

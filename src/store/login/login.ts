@@ -41,13 +41,18 @@ const loginModule: Module<IloginState, IrootState> = {
   actions: {
     async accountLoignAction({ commit, dispatch }, payload: any) {
       // 1, 登陆 拿 到token
-      debugger
-      const resultUserData = await accountLogin(payload.url, payload.data)
+      const resultUserData = await accountLogin({
+        url: '/login',
+        data: payload
+      })
       commit('changeName', resultUserData.data.name)
       commit('changeToken', resultUserData.data.token)
       localcach.set('token', resultUserData.data.token)
       // 2,去拿到菜单
-      const resultUserMenu = await getUserMenu({ url: '/menu/list' })
+      const resultUserMenu = await getUserMenu({
+        url: '/menu/list',
+        data: payload
+      })
       commit('changeUserMenuList', resultUserMenu.data.list)
       localcach.set('userMenuList', resultUserMenu.data.list)
       // 3, 去拿到departmentInfo
@@ -74,9 +79,9 @@ const loginModule: Module<IloginState, IrootState> = {
         commit('changeToken', token)
         // debugger
         dispatch('roleModule/getRoleListAction', null, { root: true })
-        dispatch('departmentModule/getDepartmentListAction', null, {
-          root: true
-        })
+        // dispatch('departmentModule/getDepartmentListAction', null, {
+        //   root: true
+        // })
       }
       if (userMenuList) {
         commit('changeUserMenuList', userMenuList)

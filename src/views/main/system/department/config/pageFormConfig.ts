@@ -1,16 +1,15 @@
 import { IForm } from '@/baseui/form/src/type'
-
-export const searchFormConfig: IForm = {
+export const pageFormConfig: IForm = {
   formItems: [
     {
       field: 'id',
-      // prop: 'id',
+      prop: 'id',
       type: 'input',
       label: 'id',
       placeholder: '请输入id'
     },
     {
-      // prop: 'name',
+      prop: 'name',
       field: 'name',
       type: 'input',
       label: '用户名',
@@ -42,5 +41,6 @@ export const searchFormConfig: IForm = {
     }
   ],
   isShowHeader: true,
+  isShowFooter: true,
   pageName: 'department'
 }

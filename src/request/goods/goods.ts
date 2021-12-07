@@ -1,7 +1,7 @@
 import { jxlsaxios } from '@/services'
 import { IRequest } from '@/request/type'
 // 初始数据
-export const getGoods = (pay: IRequest) => {
+const getGoods = (pay: IRequest) => {
   return jxlsaxios
     .post<any>({
       url: pay.url,
@@ -11,8 +11,8 @@ export const getGoods = (pay: IRequest) => {
       return res.data
     })
 }
-// 查询数据
-export const queryGoods = (pay: IRequest) => {
+// 查询数据 ++
+const queryGoods = (pay: IRequest) => {
   return jxlsaxios
     .post<any>({
       url: pay.url,
@@ -22,3 +22,16 @@ export const queryGoods = (pay: IRequest) => {
       return res.data
     })
 }
+
+//
+const regesterGoods = (pay: IRequest) => {
+  return jxlsaxios
+    .post<any>({
+      url: pay.url,
+      data: pay.data
+    })
+    .then((res) => {
+      return res.data
+    })
+}
+export { getGoods, queryGoods, regesterGoods }

@@ -9,16 +9,12 @@
           </div>
         </template>
         <div class="login">
-          <page-form :pageFormConfig="loginConfig">
-            <template #footer>
-              <el-button>sssssss</el-button>
-            </template>
+          <page-form
+            :pageFormConfig="loginConfig"
+            :data="loginData"
+            ref="pageFormRef"
+          >
           </page-form>
-          <!-- <jxls-form
-            ref="jxlsFormRef"
-            :searchFormConfig="loginConfig"
-            v-model="userLogin"
-          ></jxls-form> -->
         </div>
         <div class="loginBtn">
           <el-switch
@@ -43,7 +39,6 @@ import { useStore } from '@/store'
 
 import pageForm from '@/components/page-form'
 import { loginConfig } from '../config/login-config'
-// import { jxlsForm } from '@/baseui/form'
 import { localcach } from '@/utils'
 
 export default defineComponent({
@@ -52,8 +47,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
-
-    const userLogin = ref({
+    const loginData = ref({
       name: localcach.get('name') ?? '',
       password: localcach.get('password') ?? ''
     })
@@ -61,38 +55,23 @@ export default defineComponent({
     const rememberPassword = (newvalue: boolean) => {
       isRemember.value = newvalue
     }
-    // 拿到form 表单 可以从里面去取到 form 再去拿到form的一个方法 validate 校验 表单是否全部通过 验证
-    // const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
-    // const handleLogin = () => {
-    //   jxlsFormRef.value?.formRef?.validate((valid) => {
-    //     if (valid) {
-    //       // 1, 判定是不是要记住密码
-    //       if (isRemember.value) {
-    //         localcach.set('name', userLogin.value.name)
-    //         localcach.set('password', userLogin.value.password)
-    //         // 2, 拿到user data 分发一个action
-    //         store.dispatch('loginModule/accountLoignAction', {
-    //           url: '/login',
-    //           data: userLogin.value
-    //         })
-    //       } else {
-    //         localcach.delete('name')
-    //         localcach.delete('password')
-    //       }
-    //     }
-    //   })
-    // }
+
+    const pageFormRef = ref<InstanceType<typeof pageForm>>()
     const handleLogin = () => {
-      console.log(1)
-      store.dispatch('loginModule/accountLoignAction', {
-        url: '/login',
-        data: { name: 'coderwhy', password: '123456' }
+      pageFormRef.value?.jxlsFormRef?.formRef?.validate((vali) => {
+        if (vali) {
+          store.dispatch(
+            'loginModule/accountLoignAction',
+            pageFormRef.value?.pageData
+          )
+        }
       })
     }
     return {
       loginConfig,
-      userLogin,
+      loginData,
       isRemember,
+      pageFormRef,
       rememberPassword,
       handleLogin
     }

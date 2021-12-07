@@ -1,4 +1,5 @@
 import { jxlsaxios } from '@/services'
+import { IRequest } from '../type'
 
 const resGetUserData = (url: string) => {
   return jxlsaxios
@@ -40,4 +41,22 @@ const resRegesterUser = (pay: any) => {
   })
 }
 
-export { resGetUserData, resSearchUserData, resPatchUserData, resRegesterUser }
+// 注册 用户
+const regesterUser = (pay: IRequest) => {
+  return jxlsaxios
+    .post<any>({
+      url: pay.url,
+      data: pay.data
+    })
+    .then((res) => {
+      return res.data
+    })
+}
+
+export {
+  resGetUserData,
+  resSearchUserData,
+  resPatchUserData,
+  resRegesterUser,
+  regesterUser
+}

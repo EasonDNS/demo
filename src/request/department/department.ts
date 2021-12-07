@@ -1,23 +1,45 @@
 import { jxlsaxios } from '@/services'
-
-const getDepartmentList = (pay: any) => {
+import { IRequest } from '@/request/type'
+const queryDepartment = (payload: IRequest) => {
   return jxlsaxios
     .post<any>({
-      url: pay.url
+      url: payload.url,
+      data: payload.data
     })
     .then((res) => {
       return res.data
     })
 }
-const getDepartmentListAndQuery = (pay: any) => {
+const regesterDepartment = (payload: IRequest) => {
   return jxlsaxios
     .post<any>({
-      url: pay.url,
-      data: pay.data
+      url: payload.url,
+      data: payload.data
     })
     .then((res) => {
       return res.data
     })
 }
+const patchDepartment = (payload: IRequest) => {
+  return jxlsaxios
+    .patch<any>({
+      url: payload.url,
+      data: payload.data
+    })
+    .then((res) => {
+      return res.data
+    })
+}
+const deleteDepartment = (payload: IRequest) => {
+  return jxlsaxios.delete<any>({
+    url: payload.url,
+    data: payload.data
+  })
+}
 
-export { getDepartmentList, getDepartmentListAndQuery }
+export {
+  queryDepartment,
+  regesterDepartment,
+  patchDepartment,
+  deleteDepartment
+}

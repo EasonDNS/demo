@@ -120,13 +120,13 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 
-import { IterTableConfig } from './type'
+import { ITableConfig } from './type'
 
 import { day } from '@/utils'
 export default defineComponent({
   props: {
     tableConfig: {
-      type: Object as PropType<IterTableConfig>,
+      type: Object as PropType<ITableConfig>,
       required: true
     },
     listData: {

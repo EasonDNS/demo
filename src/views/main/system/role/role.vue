@@ -17,12 +17,12 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const list = computed(() => store.state.roleModule.roleList)
-    const count = computed(() => store.state.roleModule.totalCount)
-    const listData = ref({ list: list, count: count })
+    const totalCount = computed(() => store.state.roleModule.totalCount)
+    const listData = ref({ list, totalCount })
     return {
       tableConfig,
       listData,
-      count
+      totalCount
     }
   }
 })

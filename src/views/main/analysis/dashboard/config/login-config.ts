@@ -1,9 +1,7 @@
 import { IForm } from '@/baseui/form/src/type'
 import { rules } from './login-roules'
 const loginConfig: IForm = {
-  rules,
-  isShowHeader: false,
-  isShowFooter: false,
+  isShowHeader: true,
   formItems: [
     {
       field: 'name',
@@ -30,7 +28,8 @@ const loginConfig: IForm = {
       researchName: '注册',
       resetName: '登陆'
     }
-  }
+  },
+  rules
 }
 
 export { loginConfig }

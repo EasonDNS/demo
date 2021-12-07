@@ -1,16 +1,27 @@
 <template>
   <div class="department">
-    <h2>department</h2>
+    <hr />
+    <page-form
+      ref="pageFormRef"
+      :data="pageData"
+      :pageFormConfig="pageFormConfig"
+      @handleResearch="handleReSearch"
+    ></page-form>
+    <hr />
+    <page-content
+      ref="pageContentRef"
+      :listData="listData"
+      :pageContentConfig="pageContentConfig"
+      :otherFormConfig="pageDialogConfig"
+      @handleVisibleChange="handleVisibleChange"
+    ></page-content>
 
-    <hr />
-    <jxls-form
-      :searchFormConfig="searchFormConfig"
-      v-model="formData"
-      @handleReSearch="handleReSearch"
-      @handleReset="handleReset"
-    ></jxls-form>
-    <hr />
-    <jxls-table :tableConfig="tableConfig" :listData="listData"></jxls-table>
+    <!-- <hr />
+    <page-dialog
+      :pageDialogConfig="pageDialogConfig"
+      ref="pageDialogRef"
+      @dialogresearch="handleResearchm"
+    ></page-dialog>-->
   </div>
 </template>
 
@@ -18,40 +29,72 @@
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useStore } from '@/store'
 
-import { searchFormConfig } from './config/searchFormConfig'
-import jxlsForm from '@/baseui/form/src/form.vue'
-import { tableConfig } from './config/tableConfig'
-import jxlsTable from '@/baseui/tabel/src/table.vue'
+import { pageDialogConfig } from './config/pageDialogConfig'
+import pageDialog from '@/components/page-dialog'
+
+import { pageFormConfig } from './config/pageFormConfig'
+import pageForm from '@/components/page-form'
+
+import { pageContentConfig } from './config/pageContentConfig'
+import pageContent from '@/components/page-content'
+
+import { mapName } from '@/utils'
+
 export default defineComponent({
   name: 'department',
   components: {
-    jxlsForm,
-    jxlsTable
+    pageForm,
+    pageContent
   },
   setup() {
     const store = useStore()
-    const formData: any = ref({})
+    const pageData: any = ref({})
     onMounted(() => {
-      store.dispatch('departmentModule/getDepartmentListAction')
+      store.dispatch('departmentModule/queryDepartmentAction')
     })
     const handleReset = () => {
-      store.dispatch('departmentModule/getDepartmentListAction')
+      store.dispatch('departmentModule/queryDepartmentAction')
     }
     const handleReSearch = () => {
-      console.log(formData.value)
       store.dispatch(
-        'departmentModule/getDepartmentListAndQueryAction',
-        formData.value
+        mapName.page(pageFormConfig.pageName).queryAction!,
+        pageFormRef.value?.pageData
       )
     }
-    const listData = computed(() => store.state.departmentModule.departmentList)
+    const pageFormRef = ref<InstanceType<typeof pageForm>>()
+    const list = computed(() => store.state.departmentModule.list)
+    const totalCount = computed(() => store.state.departmentModule.totalCount)
+    const listData = ref({
+      list,
+      totalCount
+    })
+
+    const pageDialogRef = ref<InstanceType<typeof pageDialog>>()
+    const pageContentRef = ref<InstanceType<typeof pageContent>>()
+    // 监听到下拉 动态获取 数据
+    const handleVisibleChange = (item: any) => {
+      item.selectOptions = []
+      list.value.forEach((depart: any) => {
+        item.selectOptions.push({
+          value: depart.name,
+          label: depart[item.field]
+        })
+      })
+    }
     return {
-      searchFormConfig,
-      tableConfig,
+      pageFormConfig,
+      pageContentConfig,
+      pageDialogConfig,
+      pageFormRef,
+      pageContentRef,
+      pageDialogRef,
       listData,
-      formData,
+      pageData,
       handleReSearch,
-      handleReset
+      handleReset,
+      handleVisibleChange
+      // handleRegester,
+      // handleResearchm
     }
   }
 })

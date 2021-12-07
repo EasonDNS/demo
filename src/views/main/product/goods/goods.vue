@@ -1,8 +1,6 @@
 <template>
   <div class="">
-    <page-form :pageFormConfig="pageFormConfig">
-      <!-- <template #id> ooooooooooooo </template> -->
-    </page-form>
+    <page-form :pageFormConfig="pageFormConfig"> </page-form>
     <page-content :pageContentConfig="tableConfig" :listData="listData">
     </page-content>
   </div>
@@ -27,10 +25,10 @@ export default defineComponent({
       store.dispatch('goodsModule/getGoodsAction', {})
     })
     const list = computed(() => store.state.goodsModule.list)
-    const count = computed(() => store.state.goodsModule.totalCount)
+    const totalCount = computed(() => store.state.goodsModule.totalCount)
     const listData = ref({
       list,
-      count
+      totalCount
     })
     return {
       pageFormConfig,

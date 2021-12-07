@@ -49,11 +49,14 @@ export default defineComponent({
   height: 100%;
   // background-color: #bfa;
   display: block;
-
-  .el-aside {
-    background-color: #545c64;
-    .el-menu {
-      border-right: none;
+  .el-container {
+    height: 100%;
+    .el-aside {
+      height: 100%;
+      background-color: #545c64;
+      .el-menu {
+        border-right: none;
+      }
     }
   }
 
@@ -63,12 +66,12 @@ export default defineComponent({
     padding-left: 0;
     padding-right: 0;
   }
-  .el-container {
-    .el-main {
-      margin-top: 0;
-      padding-top: 0;
-      // background-color: red;
-    }
-  }
+  // .el-container {
+  //   .el-main {
+  //     margin-top: 0;
+  //     padding-top: 0;
+  //     // background-color: red;
+  //   }
+  // }
 }
 </style>

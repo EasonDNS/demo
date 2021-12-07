@@ -1,6 +1,6 @@
 // import { IPageContentConfigType } from '@/components/pageContent/type'
-import { IterTableConfig } from '@/baseui/tabel/src/type'
-const tableConfig: IterTableConfig = {
+import { ITableConfig } from '@/baseui/tabel/src/type'
+const tableConfig: ITableConfig = {
   propList: [
     {
       label: '角色id',

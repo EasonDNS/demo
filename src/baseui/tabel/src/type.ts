@@ -1,9 +1,9 @@
-export interface IterTableConfig {
+export interface ITableConfig {
+  pageName: string
   propList: any[]
   isShowSerial?: boolean
   isShowButton?: boolean
   isShowSecelection?: boolean
-  pageName?: string
   footer?: footer
 }
 
