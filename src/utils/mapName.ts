@@ -50,6 +50,16 @@ class MapName {
       deleteAction
     }
   }
+  select(list: any[], field: string): any[] {
+    const selectnames: any[] = []
+    list.forEach((item) => {
+      selectnames.push({
+        value: item.id,
+        label: item.name
+      })
+    })
+    return selectnames
+  }
 }
 
 export default new MapName()

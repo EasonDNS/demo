@@ -11,7 +11,14 @@
         <strong> {{ formConfig.pageName }}</strong>
       </slot>
     </div>
-    <el-form :rules="formConfig.rules" ref="formRef" :model="modelValue">
+    <el-form
+      :rules="formConfig.rules"
+      ref="formRef"
+      :model="modelValue"
+      :label-width="
+        formConfig?.formStyle?.labelWidth ?? defaultFormStyle.labelWidth
+      "
+    >
       <el-row
         :justify="formConfig.formStyle?.justify ?? defaultFormStyle.justify"
       >
@@ -23,9 +30,7 @@
               :prop="item.field ?? item.prop"
               :label="item.label"
               :rules="item.rules"
-              :label-width="
-                item?.itemStyle?.labelWidth ?? defaultFormStyle.labelWidth
-              "
+              :label-width="item?.itemStyle?.labelWidth"
               :size="
                 formConfig?.formItems?.itemStyle?.size ?? defaultFormStyle.size
               "

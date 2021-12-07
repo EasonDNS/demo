@@ -10,6 +10,7 @@
         :formConfig="pageDialogConfig"
         v-model="dialogData"
         @handleReSearch="dialogResearch"
+        @handleVisibleChange="handleVisibleChange"
       ></jxls-form>
     </el-dialog>
   </div>
@@ -21,7 +22,7 @@ import jxlsForm from '@/baseui/form/src/form.vue'
 import { IPageDialogConfig } from './type'
 export default defineComponent({
   name: 'page-dialog',
-  emits: ['dialogResearch'],
+  emits: ['dialogResearch', 'handleVisibleChange'],
   props: {
     pageDialogConfig: {
       type: Object as PropType<IPageDialogConfig>,
@@ -44,7 +45,10 @@ export default defineComponent({
     const dialogResearch = () => {
       content.emit('dialogResearch', dialogData.value)
     }
-    return { isShowDialog, dialogData, dialogResearch }
+    const handleVisibleChange = (item: any) => {
+      content.emit('handleVisibleChange', item)
+    }
+    return { isShowDialog, dialogData, dialogResearch, handleVisibleChange }
   }
 })
 </script>

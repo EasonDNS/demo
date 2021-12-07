@@ -4,9 +4,8 @@ import { IPageDialogConfig } from '@/components/page-dialog/src/type'
 export const pageDialogConfig: IPageDialogConfig = {
   pageName: 'user',
   isShowHeader: true,
-  dialogType: '',
   formStyle: {
-    labelWidth: '100px',
+    labelWidth: '120px',
     layout: {
       span: 24
     },
@@ -34,6 +33,12 @@ export const pageDialogConfig: IPageDialogConfig = {
       slotName: 'name'
     },
     {
+      field: 'realname',
+      type: 'input',
+      label: 'realname: ',
+      placeholder: '请输入真名~'
+    },
+    {
       field: 'cellphone',
       type: 'input',
       label: 'cellphone: ',
@@ -55,18 +60,14 @@ export const pageDialogConfig: IPageDialogConfig = {
         }
       ]
     },
-    {
-      field: 'realname',
-      type: 'input',
-      label: 'realname: ',
-      placeholder: '请输入真名~'
-    },
+
     {
       field: 'roleId',
-      type: 'input',
+      type: 'select',
       label: 'roleId: ',
       placeholder: '请选择角色~',
-      slotName: 'role'
+      slotName: 'role',
+      selectOptions: []
     },
     {
       field: 'departmentId',
@@ -74,26 +75,9 @@ export const pageDialogConfig: IPageDialogConfig = {
       label: 'departmentId: ',
       placeholder: '请选择部门 id ~',
       slotName: 'dapartmentId',
-      selectOptions: []
-    },
-    {
-      field: 'createAt',
-      type: 'datepicker',
-      label: '创建时间',
-      placeholder: '请选择创建时间~',
-      slotName: 'createAt',
+      selectOptions: [],
       options: {
-        // readonly: true
-      }
-    },
-    {
-      field: 'updateAt',
-      type: 'datepicker',
-      label: '更新时间',
-      placeholder: '请选择更新时间~',
-      slotName: 'updateAt',
-      options: {
-        // readonly: true
+        labelWidth: '120px'
       }
     }
   ]

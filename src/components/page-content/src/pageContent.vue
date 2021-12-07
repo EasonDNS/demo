@@ -45,6 +45,7 @@
       :pageDialogConfig="pageDialogConfig"
       :data="pageData"
       @dialogResearch="dialogResearch"
+      @handleVisibleChange="handleVisibleChange"
     ></page-dialog>
   </div>
 </template>
@@ -128,8 +129,9 @@ export default defineComponent({
       }
       dialogtype.value = 'new'
     }
-
+    // 下拉 监听到  pagedialog里 的下拉事件并传出
     const handleVisibleChange = (item: any) => {
+      console.log(item)
       content.emit('handleVisibleChange', item)
     }
     // 刷新~
