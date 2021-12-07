@@ -1,62 +1,62 @@
 import { Module } from 'vuex'
-
 import { IuserState } from './type'
 import { IrootState } from '../type'
 
 import {
-  resGetUserData,
-  resSearchUserData,
-  resPatchUserData,
-  resRegesterUser
+  regesterUser,
+  deleteUser,
+  patchUser,
+  queryUser
 } from '@/request/user/user'
 const userModule: Module<IuserState, IrootState> = {
   namespaced: true,
   state() {
     return {
-      userName: '',
-      userList: [],
-      userTotal: 0
+      list: [],
+      totalCount: 0
     }
   },
   mutations: {
-    changeUserName(state, pay: string) {
-      state.userName = pay
+    changeList(state, pay: any[]) {
+      state.list = pay
     },
-    changeUserList(state, list: any[]) {
-      state.userList = list
-    },
-    changeUserTotal(state, total: number) {
-      state.userTotal = total
+    changeTotalCount(state, pay: number) {
+      state.totalCount = pay
     }
   },
   actions: {
-    //pay ==> {url:/usrs/list}
-    async getUserDataAction({ commit }, pay: any) {
-      const resultUserData = await resGetUserData(pay.url)
-      commit('changeUserList', resultUserData.data.list)
-      commit('changeUserTotal', resultUserData.data.totalCount)
-    },
-
-    // 查询用户 ==> 传数据过来
-    async resSearchUserDataAction({ commit }, pay: any) {
-      const resultUserData = await resSearchUserData({
-        url: '/users/list',
+    // 增加用户 增
+    async regesterUserAction({ dispatch }, pay: any) {
+      await regesterUser({
+        url: '/users',
         data: pay
       })
-      commit('changeUserList', resultUserData.data.list)
+      dispatch('queryUserAction')
     },
-
-    // 修改用户 ==> 传数据过来
-    async resPatchUserDataAction({ dispatch }, data: any) {
-      await resPatchUserData({ url: `/users/${data.id}`, data: { ...data } })
-      dispatch('getUserDataAction', { url: '/users/list', data: {} })
+    // 删除用户 删  pay:{id}
+    async deleteUserAction({ dispatch }, pay: any) {
+      await deleteUser({
+        url: `/users/${pay.id}`,
+        data: {}
+      })
+      dispatch('queryUserAction')
     },
-
-    // 注册 用户 ==>只需要传入数据过来
-    async resRegesterUserAction({ dispatch }, pay: any) {
-      console.log(pay)
-      await resRegesterUser({ url: '/users', data: pay })
-      dispatch('getUserDataAction', { url: '/users/list' })
+    // 更新用户 改 pay:{id}
+    async patchUserAction({ dispatch }, pay: any) {
+      await patchUser({
+        url: `/users/${pay.id}`,
+        data: pay
+      })
+      dispatch('queryUserAction')
+    },
+    //查询用户 查
+    async queryUserAction({ commit }, pay: any) {
+      const resultUser = await queryUser({
+        url: '/users/list',
+        data: pay ?? {}
+      })
+      commit('changeList', resultUser.data.list)
+      commit('changeTotalCount', resultUser.data.totalCount)
     }
   }
 }

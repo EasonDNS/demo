@@ -12,15 +12,11 @@
               size="medium"
               @click="handleRegester"
             >
-              <el-icon>
-                <edit />
-              </el-icon>
+              <el-icon> <edit /> </el-icon>
               <strong>新建</strong>
             </el-button>
             <el-button type="info" plain size="medium" @click="handleRefresh">
-              <el-icon>
-                <refresh />
-              </el-icon>
+              <el-icon> <refresh /> </el-icon>
               <strong>刷新</strong>
             </el-button>
           </div>
@@ -71,18 +67,14 @@
                       type="info"
                       @click="handleEdit(scop.row)"
                     >
-                      <el-icon>
-                        <Edit />
-                      </el-icon>
-                      编辑
+                      <el-icon> <Edit /> </el-icon> 编辑
                     </el-button>
                     <el-button
                       type="danger"
                       size="mini"
                       @click="handleRemove(scop.row)"
                     >
-                      <el-icon> <DeleteFilled /></el-icon>
-                      删除
+                      <el-icon> <DeleteFilled /></el-icon> 删除
                     </el-button>
                   </template>
                 </slot>
@@ -93,7 +85,6 @@
                 </slot>
               </template>
             </template>
-
             <template #empty> _null_ </template>
           </el-table-column>
         </template>
@@ -135,37 +126,37 @@ export default defineComponent({
     }
   },
   emits: [
+    'handlerSelect',
     'handleEdit',
     'handleRemove',
-    'handlerSelect',
     'handleRegester',
     'handleRefresh',
     'handleSizeChange',
     'handleCurrentChange'
   ],
   // components: { jxlsDialog },
-  setup(prop, conten) {
+  setup(props, content) {
     const select = (pay: any) => {
       // console.log(pay)
       // 监听 到选择的哪些行数据 把其发射出去  "handlerSelect" pay
-      conten.emit('handlerSelect', pay)
+      content.emit('handlerSelect', pay)
     }
     // serial 序号
-    const isShowSerial = ref(prop.tableConfig.isShowSerial ?? false)
-    const isShowSecelection = ref(prop.tableConfig.isShowSecelection ?? false)
+    const isShowSerial = ref(props.tableConfig.isShowSerial ?? false)
+    const isShowSecelection = ref(props.tableConfig.isShowSecelection ?? false)
 
     const handleEdit = (row: any) => {
-      conten.emit('handleEdit', row)
+      content.emit('handleEdit', row)
     }
     const handleRemove = (row: any) => {
-      conten.emit('handleRemove', row)
+      content.emit('handleRemove', row)
     }
     // 监听头部新建
     const handleRegester = () => {
-      conten.emit('handleRegester')
+      content.emit('handleRegester')
     }
     const handleRefresh = () => {
-      conten.emit('handleRefresh')
+      content.emit('handleRefresh')
     }
     const total = ref(100)
     //每页个数
@@ -173,11 +164,11 @@ export default defineComponent({
     const currentPage = ref(1)
     // size ==> 会传入每页的个数. pagesize
     const handleSizeChange = (count: number) => {
-      conten.emit('handleSizeChange', count)
+      content.emit('handleSizeChange', count)
     }
     // 当前在哪一页 == currentPage
     const handleCurrentChange = (page: number) => {
-      conten.emit('handleCurrentChange', page)
+      content.emit('handleCurrentChange', page)
     }
 
     // 设置表格的样式 直接绑定 到每一行... 不用那个啥class

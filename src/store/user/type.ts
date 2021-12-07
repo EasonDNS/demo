@@ -1,7 +1,6 @@
 interface IuserState {
-  userList: useritem[]
-  userName?: string
-  userTotal: number
+  list: any[]
+  totalCount: number
 }
 
 interface useritem {

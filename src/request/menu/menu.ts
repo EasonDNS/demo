@@ -1,7 +1,7 @@
 import { jxlsaxios } from '@/services'
-import { IRequest } from '@/request/type'
-// 创建部门  增
-const regesterDepartment = (payload: IRequest) => {
+import { IRequest } from '../type'
+// 创建菜单 增
+const regesterMenu = (payload: IRequest) => {
   return jxlsaxios
     .post<any>({
       url: payload.url,
@@ -11,15 +11,16 @@ const regesterDepartment = (payload: IRequest) => {
       return res.data
     })
 }
-// 删除部门 删
-const deleteDepartment = (payload: IRequest) => {
+// 删除菜单 删
+const deleteMenu = (payload: IRequest) => {
   return jxlsaxios.delete<any>({
     url: payload.url,
     data: payload.data
   })
 }
-// 更新部门 改
-const patchDepartment = (payload: IRequest) => {
+
+// 更新菜单 改
+const patchMenu = (payload: IRequest) => {
   return jxlsaxios
     .patch<any>({
       url: payload.url,
@@ -29,8 +30,8 @@ const patchDepartment = (payload: IRequest) => {
       return res.data
     })
 }
-// 查询部门 查
-const queryDepartment = (payload: IRequest) => {
+// 查询菜单 查
+const queryMenu = (payload: IRequest) => {
   return jxlsaxios
     .post<any>({
       url: payload.url,
@@ -41,9 +42,4 @@ const queryDepartment = (payload: IRequest) => {
     })
 }
 
-export {
-  regesterDepartment,
-  deleteDepartment,
-  patchDepartment,
-  queryDepartment
-}
+export { regesterMenu, deleteMenu, patchMenu, queryMenu }

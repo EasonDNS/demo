@@ -2,36 +2,61 @@ import { Module } from 'vuex'
 import { IRolestate } from './type'
 import { IrootState } from '../type'
 
-import { getRoleList, queryRole } from '@/request/role/role'
+import {
+  regesterRole,
+  deleteRole,
+  patchRole,
+  queryRole
+} from '@/request/role/role'
 export const roleModule: Module<IRolestate, IrootState> = {
   namespaced: true,
   state() {
     return {
-      roleList: [],
+      list: [],
       totalCount: 0
     }
   },
   mutations: {
-    changeRoleList(state, pay: any) {
-      state.roleList = pay
+    changeList(state, pay: any[]) {
+      state.list = pay
     },
-    changeRoleTotalCount(state, pay: number) {
+    changeTotalCount(state, pay: number) {
       state.totalCount = pay
     }
   },
   actions: {
-    // 分发的时候给pay 一个url 淘汰
-    // 淘汰
-    async getRoleListAction({ commit }) {
-      const resultRoleData = await getRoleList({ url: '/role/list', data: {} })
-      commit('changeRoleList', resultRoleData.data.list)
-      commit('changeRoleTotalCount', resultRoleData.data.totalCount)
+    // 创建角色  增
+    async regesterRoleAction({ dispatch }, pay: any) {
+      await regesterRole({
+        url: '/role',
+        data: pay ?? {}
+      })
+      dispatch('queryRoleAction')
     },
+    // 删除角色  删  pay:{id}
+    async deleteRoleAction({ dispatch }, pay: any) {
+      await deleteRole({
+        url: `/role/${pay.id}`,
+        data: {}
+      })
+      dispatch('queryRoleAction')
+    },
+    // 更新角色 改 pay:{id}
+    async patchRoleAction({ dispatch }, pay: any) {
+      await patchRole({
+        url: `/role/${pay.id}`,
+        data: pay
+      })
+      dispatch('queryRoleAction')
+    },
+    // 查询角色 查
     async queryRoleAction({ commit }, pay: any) {
-      const resultRoleData = await queryRole({ url: '/role/list', data: pay })
-      // console.log(resultRoleData.data)
-      commit('changeRoleList', resultRoleData.data.list)
-      commit('changeRoleTotalCount', resultRoleData.data.totalCount)
+      const resultRole = await queryRole({
+        url: '/role/list',
+        data: pay ?? {}
+      })
+      commit('changeList', resultRole.data.list)
+      commit('changeTotalCount', resultRole.data.totalCount)
     }
   }
 }

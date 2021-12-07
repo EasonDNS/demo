@@ -1,14 +1,34 @@
 <template>
-  <div class=""></div>
+  <div class="">
+    <page-content
+      :pageContentConfig="pageContentConfig"
+      :listData="listdata"
+    ></page-content>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue'
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue'
+import { useStore } from '@/store'
 
+import { pageContentConfig } from './config/pageContentConfig'
+import pageContent from '@/components/page-content'
 export default defineComponent({
-  components: {},
+  components: { pageContent },
   setup() {
     const msg = ref('msg in app')
-    return {}
+
+    const store = useStore()
+    const list = computed(() => store.state.loginModule.userMenuList)
+    const totalCount = ref(0)
+    console.log(list.value)
+    const listData = ref({
+      list: list.value,
+      totalCount: totalCount.value
+    })
+    return {
+      pageContentConfig,
+      listData
+    }
   }
 })
 </script>

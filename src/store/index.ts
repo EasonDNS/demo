@@ -1,11 +1,11 @@
 import { createStore, Store, useStore as usevuexStore } from 'vuex'
 import { loginModule } from './login/login'
 import { Istate } from './type'
-
-import { goodsModule } from '@/store/goods/goods'
-import { roleModule } from './role/role'
 import { departmentModule } from './department/department'
+import { menuModule } from './menu/menu'
+import { roleModule } from './role/role'
 import { userModule } from './user/user'
+import { goodsModule } from '@/store/goods/goods'
 export const store = createStore({
   state() {
     return {
@@ -17,9 +17,10 @@ export const store = createStore({
   actions: {},
   modules: {
     loginModule,
-    userModule,
     departmentModule,
+    menuModule,
     roleModule,
+    userModule,
     goodsModule
   }
 })

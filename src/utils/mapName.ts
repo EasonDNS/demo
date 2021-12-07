@@ -1,35 +1,45 @@
 class MapName {
   page(pageName: string) {
-    let queryAction
+    // 注册 增
     let regesterAction
-    let patchAction
+    // 删除 删
     let deleteAction
+    //更新 改
+    let patchAction
+    // 查询 查
+    let queryAction
     switch (pageName) {
+      case 'department':
+        regesterAction = 'departmentModule/regesterDepartmentAction'
+        deleteAction = 'departmentModule/deleteDepartmentAction'
+        patchAction = 'departmentModule/patchDepartmentAction'
+        queryAction = 'departmentModule/queryDepartmentAction'
+        break
+      case 'menu':
+        regesterAction = 'menuModule/regesterMenuAction'
+        deleteAction = 'menuModule/deleteMenuAction'
+        patchAction = 'menuModule/patchMenuAction'
+        queryAction = 'menuModule/queryMenuAction'
+        break
       case 'role':
-        queryAction = 'roleModule/queryRoleAction'
         regesterAction = 'roleModule/regesterRoleAction'
-        patchAction = 'roleModule/patchRoleAction'
         deleteAction = 'releModule/deleteRoleAction'
+        patchAction = 'roleModule/patchRoleAction'
+        queryAction = 'roleModule/queryRoleAction'
         break
       case 'user':
-        queryAction = 'userModule/queryUserAction'
         regesterAction = 'userModule/regesterUserAction'
-        patchAction = 'userModule/patchUserAction'
         deleteAction = 'userModule/deleteUserAction'
+        patchAction = 'userModule/patchUserAction'
+        queryAction = 'userModule/queryUserAction'
         break
       case 'goods':
-        queryAction = 'goodsModule/queryGoodsAction'
         regesterAction = 'goodsModule/regesterGoodsAction'
-        patchAction = 'goodsModule/patchGoodsAction'
         deleteAction = 'goodsModule/deleteGoodsAction'
+        patchAction = 'goodsModule/patchGoodsAction'
+        queryAction = 'goodsModule/queryGoodsAction'
         break
 
-      case 'department':
-        queryAction = 'departmentModule/queryDepartmentAction'
-        regesterAction = 'departmentModule/regesterDepartmentAction'
-        patchAction = 'departmentModule/patchDepartmentAction'
-        deleteAction = 'departmentModule/deleteDepartmentAction'
-        break
       default:
         break
     }
