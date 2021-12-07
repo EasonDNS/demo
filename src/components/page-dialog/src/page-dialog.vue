@@ -6,24 +6,25 @@
       center
       :destroy-on-close="true"
     >
-      <page-form
-        :pageFormConfig="pageDialogConfig"
-        @handleResearch="handleReSearch"
-      ></page-form>
+      <jxls-form
+        :formConfig="pageDialogConfig"
+        v-model="dialogData"
+        @handleReSearch="dialogResearch"
+      ></jxls-form>
     </el-dialog>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 
-import { IForm } from '@/baseui/form/src/type'
-import pageForm from '@/components/page-form'
+import jxlsForm from '@/baseui/form/src/form.vue'
+import { IPageDialogConfig } from './type'
 export default defineComponent({
   name: 'page-dialog',
-  emits: ['dialogresearch'],
+  emits: ['dialogResearch'],
   props: {
     pageDialogConfig: {
-      type: Object,
+      type: Object as PropType<IPageDialogConfig>,
       required: true
     },
     data: {
@@ -31,24 +32,19 @@ export default defineComponent({
       default: () => {
         return {}
       }
-    },
-    btn: {
-      type: Object,
-      default: () => {
-        return {}
-      }
     }
   },
   components: {
-    pageForm
+    jxlsForm
   },
   setup(props, content) {
-    const handleReSearch = (pageformData: any) => {
-      content.emit('dialogresearch', pageformData)
+    const isShowDialog = ref(false)
+    const dialogData = ref<any>({ ...props.data })
+    // 监听到form中的hadleResearch 并把pagedata发出
+    const dialogResearch = () => {
+      content.emit('dialogResearch', dialogData.value)
     }
-    const isShowDialog = ref(true)
-    const dialogData = ref({ ...props.data })
-    return { dialogData, isShowDialog, handleReSearch }
+    return { isShowDialog, dialogData, dialogResearch }
   }
 })
 </script>

@@ -1,40 +1,14 @@
 <template>
-  <div class="">
-    <page-form :pageFormConfig="pageFormConfig"> </page-form>
-    <page-content :pageContentConfig="tableConfig" :listData="listData">
-    </page-content>
-  </div>
+  <div class="goods">goods</div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
-import { useStore } from '@/store'
-
-import { pageFormConfig } from './config/pageFormConfig'
-import pageForm from '@/components/page-form'
-import { tableConfig } from './config/tableConfig'
-import pageContent from '@/components/page-content'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  components: {
-    pageContent,
-    pageForm
-  },
+  name: 'goods',
   setup() {
-    const store = useStore()
-    onMounted(() => {
-      store.dispatch('goodsModule/getGoodsAction', {})
-    })
-    const list = computed(() => store.state.goodsModule.list)
-    const totalCount = computed(() => store.state.goodsModule.totalCount)
-    const listData = ref({
-      list,
-      totalCount
-    })
-    return {
-      pageFormConfig,
-      tableConfig,
-      listData
-    }
+    const msg = ref('msg in app')
+    return { msg }
   }
 })
 </script>

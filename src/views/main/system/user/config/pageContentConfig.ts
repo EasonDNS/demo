@@ -1,6 +1,5 @@
 // import { IPageContentConfigType } from '@/components/pageContent/type'
-import { IterTableConfig } from '@/baseui/tabel/src/type'
-const tableConfig: IterTableConfig = {
+const pageContentConfig = {
   propList: [
     {
       label: '用户id',
@@ -69,4 +68,4 @@ const tableConfig: IterTableConfig = {
   isShowSecelection: true
 }
 
-export { tableConfig }
+export { pageContentConfig }

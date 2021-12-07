@@ -9,6 +9,7 @@ import {
   queryMenu
 } from '@/request/menu/menu'
 export const menuModule: Module<IMenuState, IrootState> = {
+  namespaced: true,
   state() {
     return {
       list: [],

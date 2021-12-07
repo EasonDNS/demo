@@ -8,7 +8,6 @@ import router from '@/router'
 import { localcach, mapMenu } from '@/utils'
 const loginModule: Module<IloginState, IrootState> = {
   namespaced: true,
-
   state() {
     return {
       name: '',
@@ -56,9 +55,9 @@ const loginModule: Module<IloginState, IrootState> = {
       commit('changeUserMenuList', resultUserMenu.data.list)
       localcach.set('userMenuList', resultUserMenu.data.list)
       // 3, 去拿到departmentInfo
-      dispatch('departmentModule/getDepartmentListAction', null, { root: true })
+      // dispatch('departmentModule/getDepartmentListAction', null, { root: true })
       // 4, 拿 roleinfo
-      dispatch('roleModule/getRoleListAction', null, { root: true })
+      // dispatch('roleModule/getRoleListAction', null, { root: true })
       // 5, 拿 user
       router.push('/main')
     },
@@ -78,7 +77,7 @@ const loginModule: Module<IloginState, IrootState> = {
       if (token) {
         commit('changeToken', token)
         // debugger
-        dispatch('roleModule/getRoleListAction', null, { root: true })
+        // dispatch('roleModule/getRoleListAction', null, { root: true })
         // dispatch('departmentModule/getDepartmentListAction', null, {
         //   root: true
         // })

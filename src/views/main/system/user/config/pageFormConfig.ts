@@ -1,16 +1,19 @@
 import { IForm } from '@/baseui/form/src/type'
 
-export const searchFormConfig: IForm = {
+export const pageFormConfig: IForm = {
+  isShowHeader: true,
+  isShowFooter: true,
+  pageName: 'user',
   formItems: [
     {
       field: 'id',
-      // prop: 'id',
+      prop: 'id',
       type: 'input',
       label: 'id',
       placeholder: '请输入id'
     },
     {
-      // prop: 'name',
+      prop: 'name',
       field: 'name',
       type: 'input',
       label: '用户名',
@@ -36,11 +39,6 @@ export const searchFormConfig: IForm = {
       field: 'createAt',
       type: 'datepicker',
       label: '创建时间'
-      // options: {
-      //   startPlaceholder: '开始时间',
-      //   endPlaceholder: '结束时间',
-      //   type: 'daterange'
-      // }
     },
     {
       prop: 'updateAt',
@@ -48,7 +46,5 @@ export const searchFormConfig: IForm = {
       type: 'datepicker',
       label: '创建时间'
     }
-  ],
-  isShowHeader: true,
-  pageName: 'user'
+  ]
 }

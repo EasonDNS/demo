@@ -1,6 +1,24 @@
-import { IForm } from '@/baseui/form/src/type'
+// import { IForm } from '@/baseui/form/src/type'
+import { IPageDialogConfig } from '@/components/page-dialog/src/type'
 
-export const dialogConfig: IForm = {
+export const pageDialogConfig: IPageDialogConfig = {
+  pageName: 'user',
+  isShowHeader: true,
+  dialogType: '',
+  formStyle: {
+    labelWidth: '100px',
+    layout: {
+      span: 24
+    },
+
+    footer: {
+      resetName: '重置',
+      researchName: '提交',
+      style: {
+        textAlign: 'center'
+      }
+    }
+  },
   formItems: [
     {
       field: 'id',
@@ -78,22 +96,5 @@ export const dialogConfig: IForm = {
         // readonly: true
       }
     }
-  ],
-  isShowHeader: true,
-  formStyle: {
-    labelWidth: '100px',
-    layout: {
-      span: 24
-    },
-
-    footer: {
-      resetName: '重置',
-      researchName: '提交',
-      style: {
-        textAlign: 'center'
-      }
-    }
-  },
-
-  pageName: 'user'
+  ]
 }

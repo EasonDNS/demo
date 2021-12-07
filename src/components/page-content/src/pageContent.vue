@@ -40,33 +40,12 @@
       </template>
     </jxlstable>
 
-    <el-dialog
-      v-model="isShowDialog"
-      :title="otherFormConfig.pageName"
-      center
-      :destroy-on-close="true"
-      ref="dialogRef"
-    >
-      <page-form
-        :pageFormConfig="otherFormConfig"
-        :data="defaultData"
-        @handleResearch="handleReSearch"
-        @handleVisibleChange="handleVisibleChange"
-      ></page-form>
-    </el-dialog>
-
-    <el-dialog
-      v-model="isRegesterShowDialog"
-      :title="otherFormConfig.pageName"
-      center
-      :destroy-on-close="true"
-    >
-      <page-form
-        :pageFormConfig="otherFormConfig"
-        @handleResearch="jxlsRegester"
-        @handleVisibleChange="handleVisibleChange"
-      ></page-form>
-    </el-dialog>
+    <page-dialog
+      ref="pageDialogRef"
+      :pageDialogConfig="pageDialogConfig"
+      :data="pageData"
+      @dialogResearch="dialogResearch"
+    ></page-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -82,10 +61,13 @@ import { mapName } from '@/utils'
 import jxlstable from '@/baseui/tabel/src/table.vue'
 import { ElDialog } from 'element-plus'
 
+import pageDialog from '@/components/page-dialog'
+import pageDialogVue from '@/components/page-dialog/src/page-dialog.vue'
+
 export default defineComponent({
   name: 'page-content',
   emits: ['handleRegester', 'handleVisibleChange'],
-  components: { jxlstable },
+  components: { jxlstable, pageDialog },
   props: {
     pageContentConfig: {
       type: Object as PropType<ITableConfig>,
@@ -95,8 +77,8 @@ export default defineComponent({
       type: Object as PropType<IListData>,
       required: true
     },
-    otherFormConfig: {
-      type: Object as PropType<IForm>,
+    pageDialogConfig: {
+      type: Object,
       default: () => {
         return {}
       }
@@ -104,14 +86,19 @@ export default defineComponent({
   },
   setup(props, content) {
     const store = useStore()
+    const pageData = ref<any>({})
+    const pageDialogRef = ref<InstanceType<typeof pageDialog>>()
     const name = ref(mapName.page(props.pageContentConfig.pageName))
     // 这是在哪一页
     const page = ref(1)
     // 单页显示 的个数
     const pageSize = ref(10)
-    // 总个数
-    const isShowDialog = ref(false)
+    // 总个数 是从 listdata中去取的
     const itemCount = computed(() => props.listData.totalCount)
+    // 是否显示dialog
+    const isShowDialog = ref(false)
+    //<!-- -------------------------常量---------------------------- -->
+
     const handlePageSize = (pagesize: number) => {
       pageSize.value = pagesize
       store.dispatch(name.value.queryAction!, {
@@ -128,47 +115,20 @@ export default defineComponent({
         size: pageSize.value
       })
     }
-    const dialogRef = ref<InstanceType<typeof ElDialog>>()
+    //<!-- -------------------------分页器的函数---------------------------- -->
+
     // 新建
     const handleRegester = () => {
-      isRegesterShowDialog.value = true
-    }
-    // 监听 到 dialog 里的form的注册
-    // 这里有些逻辑没有写清楚
-    const jxlsRegester = (pay: any) => {
-      console.log('-------------------------------')
-      console.log(pay)
-
-      console.log('-------------------------------')
-
-      store.dispatch(
-        mapName.page(props.otherFormConfig.pageName).regesterAction!,
-        pay
-      )
-      isRegesterShowDialog.value = false
+      const regesterAction = mapName.page(
+        props.pageContentConfig.pageName
+      ).regesterAction
+      if (pageDialogRef.value) {
+        pageDialogRef.value.dialogData = {}
+        pageDialogRef.value.isShowDialog = true
+      }
+      dialogtype.value = 'new'
     }
 
-    function handleReSearch(pay: any) {
-      store.dispatch(
-        mapName.page(props.otherFormConfig.pageName).patchAction!,
-        pay
-      )
-      isShowDialog.value = false
-      // if (!pay.id) {
-      //   console.log('来到这里了 ')
-      //   store.dispatch(
-      //     mapName.page(props.otherFormConfig.pageName).regesterAction!,
-      //     pay
-      //   )
-      //   isShowDialog.value = false
-      // } else {
-      //   store.dispatch(
-      //     mapName.page(props.otherFormConfig.pageName).patchAction!,
-      //     pay
-      //   )
-      //   isShowDialog.value = false
-      // }
-    }
     const handleVisibleChange = (item: any) => {
       content.emit('handleVisibleChange', item)
     }
@@ -176,41 +136,49 @@ export default defineComponent({
     const handleRefresh = () => {
       store.dispatch(name.value.queryAction!)
     }
-    const defaultData = ref<any>({})
+
     // 监听 编辑
     const handleEdit = (item: any) => {
-      defaultData.value = item
-      isShowDialog.value = true
+      if (pageDialogRef.value) {
+        pageDialogRef.value.dialogData = item
+        pageDialogRef.value.isShowDialog = true
+      }
+      dialogtype.value = 'edit'
+      // console.log('-------------------------------')
+      // console.log(pageData.value)
+      // console.log('-------------------------------')
     }
     // 监听 删除
     const handleRemove = (pay: any) => {
-      console.log(pay)
       store.dispatch(
-        mapName.page(props.otherFormConfig.pageName).deleteAction!,
+        mapName.page(props.pageDialogConfig.pageName).deleteAction!,
         pay
       )
     }
-    // 重新监听 新建
-    const isRegesterShowDialog = ref(false)
+    const dialogtype = ref('')
+    const dialogResearch = (pay: any) => {
+      console.log('-------------------------------')
+      console.log(pay)
+      console.log(dialogtype.value)
+      console.log('-------------------------------')
+    }
 
     return {
       mapName,
       page,
       pageSize,
       itemCount,
-      defaultData,
       isShowDialog,
-      dialogRef,
+      pageData,
+      dialogResearch,
+      pageDialogRef,
       handlePageSize,
       handlePage,
       handleRegester,
-      handleReSearch,
       handleVisibleChange,
       handleRefresh,
       handleEdit,
-      handleRemove,
-      isRegesterShowDialog,
-      jxlsRegester
+      handleRemove
     }
   }
 })
