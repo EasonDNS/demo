@@ -27,6 +27,7 @@
             v-bind="formConfig?.formStyle?.layout ?? defaultFormStyle.layout"
           >
             <el-form-item
+              v-if="item.isShow ?? true"
               :prop="item.field ?? item.prop"
               :label="item.label"
               :rules="item.rules"
@@ -131,10 +132,12 @@
     </el-form>
     <div class="footer" v-if="formConfig?.isShowFooter ?? true">
       <slot name="footer">
-        <el-button type="primary" size="mini" @click="handleReset"
-          >{{ formConfig.formStyle?.footer?.resetName ?? '重置' }}
+        <el-button type="info" size="mini" plain @click="handleReset">
+          <el-icon><refresh /></el-icon>
+          {{ formConfig.formStyle?.footer?.resetName ?? '重置' }}
         </el-button>
-        <el-button type="primary" size="mini" @click="handleReSearch">
+        <el-button type="primary" size="mini" plain @click="handleReSearch">
+          <el-icon><search /></el-icon>
           {{ formConfig.formStyle?.footer?.researchName ?? '搜索' }}
         </el-button>
       </slot>

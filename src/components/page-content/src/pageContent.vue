@@ -52,18 +52,16 @@
 <script lang="ts">
 // import
 import { computed, defineComponent, PropType, ref } from 'vue'
+import { useStore } from '@/store'
 // 定义 listData的 类型 => {list:any[],count:number}
 import { IListData } from './type'
-import { IForm } from '@/baseui/form/src/type'
 
 import { ITableConfig } from '@/baseui/tabel/src/type'
-import { useStore } from '@/store'
-import { mapName } from '@/utils'
+import { pageDialogConfig } from '@/views/main/system/user/config/pageDialogConfig'
 import jxlstable from '@/baseui/tabel/src/table.vue'
-import { ElDialog } from 'element-plus'
-
 import pageDialog from '@/components/page-dialog'
-import pageDialogVue from '@/components/page-dialog/src/page-dialog.vue'
+
+import { mapName, day } from '@/utils'
 
 export default defineComponent({
   name: 'page-content',
@@ -120,18 +118,20 @@ export default defineComponent({
 
     // 新建
     const handleRegester = () => {
-      const regesterAction = mapName.page(
-        props.pageContentConfig.pageName
-      ).regesterAction
       if (pageDialogRef.value) {
         pageDialogRef.value.dialogData = {}
         pageDialogRef.value.isShowDialog = true
       }
-      dialogtype.value = 'new'
+      dialogtype.value = 'regester'
+      // store.dispatch(regesterAction,pageDialogRef.value?.dialogData)
+      const passworditem = pageDialogConfig.formItems.find((pay) => {
+        return pay.field === 'password'
+      })
+      passworditem!.isShow = true
     }
     // 下拉 监听到  pagedialog里 的下拉事件并传出
     const handleVisibleChange = (item: any) => {
-      console.log(item)
+      // console.log(item)
       content.emit('handleVisibleChange', item)
     }
     // 刷新~
@@ -145,10 +145,12 @@ export default defineComponent({
         pageDialogRef.value.dialogData = item
         pageDialogRef.value.isShowDialog = true
       }
-      dialogtype.value = 'edit'
-      // console.log('-------------------------------')
-      // console.log(pageData.value)
-      // console.log('-------------------------------')
+      dialogtype.value = 'patch'
+
+      const passworditem = pageDialogConfig.formItems.find((pay) => {
+        return pay.field === 'password'
+      })
+      passworditem!.isShow = false
     }
     // 监听 删除
     const handleRemove = (pay: any) => {
@@ -159,10 +161,21 @@ export default defineComponent({
     }
     const dialogtype = ref('')
     const dialogResearch = (pay: any) => {
-      console.log('-------------------------------')
-      console.log(pay)
-      console.log(dialogtype.value)
-      console.log('-------------------------------')
+      const action = mapName.page(props.pageContentConfig.pageName)
+      const dialogData = ref<any>({})
+      props.pageDialogConfig.formItems.forEach((item: any) => {
+        if (item.field === 'createAt' || item.field === 'updateAt') {
+          dialogData.value[item.field] = day.format(pay[item.field])
+        }
+        dialogData.value[item.field] = pay[item.field]
+      })
+      if (dialogtype.value === 'regester') {
+        store.dispatch(action.regesterAction!, dialogData.value)
+        pageDialogRef.value!.isShowDialog = false
+      } else if (dialogtype.value === 'patch') {
+        store.dispatch(action.patchAction!, dialogData.value)
+        pageDialogRef.value!.isShowDialog = false
+      }
     }
 
     return {

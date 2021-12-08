@@ -14,6 +14,7 @@ import {
   Goods,
   Monitor,
   Refresh,
+  Search,
   Setting,
   Share,
   Smoking,
@@ -41,7 +42,8 @@ const iconNames = [
   CaretLeft,
   CaretRight,
   DeleteFilled,
-  Refresh
+  Refresh,
+  Search
 ]
 
 const comicon = (app: App): void => {

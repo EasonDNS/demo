@@ -50,7 +50,7 @@ class MapName {
       deleteAction
     }
   }
-  select(list: any[], field: string): any[] {
+  select(list: any[]): any[] {
     const selectnames: any[] = []
     list.forEach((item) => {
       selectnames.push({

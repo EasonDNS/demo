@@ -4,7 +4,7 @@
       v-model="isShowDialog"
       :title="pageDialogConfig.pageName"
       center
-      :destroy-on-close="true"
+      destroy-on-close
     >
       <jxls-form
         :formConfig="pageDialogConfig"

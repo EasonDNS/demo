@@ -40,15 +40,11 @@ export default defineComponent({
         return item.field === pay.field
       })
       if (selectitem?.field === 'roleId') {
-        selectitem.selectOptions = mapName.select(
-          store.state.roleModule.list,
-          'roleId'
-        )
+        selectitem.selectOptions = mapName.select(store.state.roleModule.list)
       }
       if (selectitem?.field === 'departmentId') {
         selectitem.selectOptions = mapName.select(
-          store.state.departmentModule.list,
-          'departmentId'
+          store.state.departmentModule.list
         )
       }
     }

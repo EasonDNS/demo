@@ -45,6 +45,12 @@ export const pageDialogConfig: IPageDialogConfig = {
       placeholder: '请输入手机号~'
     },
     {
+      field: 'password',
+      type: 'input',
+      label: 'password : ',
+      placeholder: '请输入密码~'
+    },
+    {
       field: 'enable',
       type: 'radio',
       label: 'enable: ',
