@@ -23,7 +23,7 @@ class MapName {
         break
       case 'role':
         regesterAction = 'roleModule/regesterRoleAction'
-        deleteAction = 'releModule/deleteRoleAction'
+        deleteAction = 'roleModule/deleteRoleAction'
         patchAction = 'roleModule/patchRoleAction'
         queryAction = 'roleModule/queryRoleAction'
         break
@@ -50,15 +50,20 @@ class MapName {
       deleteAction
     }
   }
-  select(list: any[]): any[] {
-    const selectnames: any[] = []
-    list.forEach((item) => {
-      selectnames.push({
-        value: item.id,
-        label: item.name
-      })
+  //list 数据,config:配置文件 ,field 处理字段,value:选项值字段   pay:下拉事件触发传过来的值
+  visible(list: any[], config: any, field: string, value: string, pay: any) {
+    const ctrlItem = config.formItems.find((item: any) => {
+      return item.field === pay.field
     })
-    return selectnames
+    if (ctrlItem?.field === field) {
+      ctrlItem.selectOptions = []
+      list.forEach((item) => {
+        ctrlItem.selectOptions.push({
+          value: item[value],
+          label: item[field]
+        })
+      })
+    }
   }
 }
 

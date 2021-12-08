@@ -42,7 +42,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(107, 16, 107, 0.829);
+  background-color: rgba(255, 255, 255, 0.555);
   .left {
     display: flex;
     justify-content: center;

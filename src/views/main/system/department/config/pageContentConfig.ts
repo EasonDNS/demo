@@ -1,59 +1,57 @@
-import { ITableConfig } from '@/baseui/tabel/src/type'
-const pageContentConfig: ITableConfig = {
+// import { IPageContentConfigType } from '@/components/pageContent/type'
+const pageContentConfig = {
   propList: [
     {
-      label: 'id',
+      label: '部门id',
       prop: 'id',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'id'
+      slotName: 'id'
       // resizable: true
     },
     {
-      label: 'name',
+      label: '部门名称',
       prop: 'name',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'name'
+      slotName: 'name'
     },
     {
-      label: '上司id',
+      label: '上级部门ID',
       prop: 'parentId',
       align: 'center',
       minWidth: '50px',
-      sortable: true,
-      soltName: 'parentId'
+      slotName: 'parentId'
     },
-
     {
-      label: 'leader',
+      label: '上级领导',
       prop: 'leader',
       align: 'center',
-      width: '80',
-      soltName: 'leader'
+      minWidth: '50px',
+      slotName: 'leader'
     },
     {
       label: '创建时间',
       prop: 'createAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'createAt'
+      slotName: 'createAt'
     },
     {
       label: '更新时间',
       prop: 'updateAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'updateAt'
+      slotName: 'updateAt'
     },
     {
       label: '操作',
       prop: 'handleBtn',
       align: 'center',
       minWidth: '100px',
-      soltName: 'handlerBtn'
+      slotName: 'handlerBtn'
     }
   ],
 

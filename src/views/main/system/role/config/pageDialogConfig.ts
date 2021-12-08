@@ -2,7 +2,7 @@
 import { IPageDialogConfig } from '@/components/page-dialog/src/type'
 
 export const pageDialogConfig: IPageDialogConfig = {
-  pageName: 'department',
+  pageName: 'role',
   isShowHeader: true,
   formStyle: {
     labelWidth: '120px',
@@ -33,11 +33,18 @@ export const pageDialogConfig: IPageDialogConfig = {
       slotName: 'name'
     },
     {
-      field: 'leader',
+      field: 'intro',
+      type: 'input',
+      label: '角色介绍 : ',
+      placeholder: '请输入角色介绍~',
+      slotName: 'intro'
+    },
+    {
+      field: 'menuList',
       type: 'select',
-      label: 'leader: ',
-      placeholder: '请选择角色~',
-      slotName: 'leader',
+      label: '角色菜单',
+      placeholder: '请选择角色菜单',
+      slotName: 'menuList',
       selectOptions: []
     }
   ]

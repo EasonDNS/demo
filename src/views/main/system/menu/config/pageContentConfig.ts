@@ -1,66 +1,59 @@
-import { ITableConfig } from '@/baseui/tabel/src/type'
-const pageContentConfig: ITableConfig = {
+// import { IPageContentConfigType } from '@/components/pageContent/type'
+const pageContentConfig = {
+  pageName: 'menu',
+  isShowButton: false,
+  isShowSerial: false,
+  isShowHeader: false,
+  isShowFooter: false,
+  isShowSecelection: false,
+  tree: {
+    rowKey: 'id'
+  },
   propList: [
     {
-      label: 'id',
+      label: '菜单id',
       prop: 'id',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'id'
+      slotName: 'id'
       // resizable: true
     },
     {
-      label: 'name',
+      label: '菜单名称',
       prop: 'name',
       align: 'center',
       minWidth: '50px',
       sortable: true,
-      soltName: 'name'
+      slotName: 'name'
     },
     {
-      label: '上司id',
-      prop: 'parentId',
+      label: 'url',
+      prop: 'url',
       align: 'center',
       minWidth: '50px',
-      sortable: true,
-      soltName: 'parentId'
+      slotName: 'url'
     },
-
     {
-      label: 'leader',
-      prop: 'leader',
-      align: 'center',
-      width: '80',
-      soltName: 'leader'
+      label: 'children',
+      prop: 'children',
+      align: 'center'
     },
     {
       label: '创建时间',
       prop: 'createAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'createAt'
+      slotName: 'createAt'
     },
     {
       label: '更新时间',
       prop: 'updateAt',
       align: 'center',
       minWidth: '50px',
-      soltName: 'updateAt'
-    },
-    {
-      label: '操作',
-      prop: 'handleBtn',
-      align: 'center',
-      minWidth: '100px',
-      soltName: 'handlerBtn'
+      slotName: 'updateAt'
     }
-  ],
-
-  pageName: 'department',
-  isShowButton: true,
-  isShowSerial: true,
-  isShowSecelection: true
+  ]
 }
 
 export { pageContentConfig }

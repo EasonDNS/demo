@@ -47,31 +47,22 @@ export default defineComponent({
 .main {
   width: 100%;
   height: 100%;
-  // background-color: #bfa;
   display: block;
   .el-container {
     height: 100%;
     .el-aside {
       height: 100%;
-      background-color: #545c64;
       .el-menu {
         border-right: none;
+        background-color: #545c64;
+        height: 100%;
       }
     }
   }
-
   .el-header {
-    // background-color: olivedrab;
     height: 40px;
     padding-left: 0;
     padding-right: 0;
   }
-  // .el-container {
-  //   .el-main {
-  //     margin-top: 0;
-  //     padding-top: 0;
-  //     // background-color: red;
-  //   }
-  // }
 }
 </style>

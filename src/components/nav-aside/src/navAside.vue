@@ -135,7 +135,10 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .nav-asdie {
-  background-color: #545c64;
+  // background-color: #545c64;
+  .el-menu {
+    // background-color: #fff;
+  }
 }
 .el-menu {
   border-right: none;
@@ -145,7 +148,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #545c64;
+  // background-color: #545c64;
   .image {
     width: 60px;
     padding-right: 5px;

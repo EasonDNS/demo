@@ -1,6 +1,9 @@
 // import { IPageContentConfigType } from '@/components/pageContent/type'
-import { ITableConfig } from '@/baseui/tabel/src/type'
-const tableConfig: ITableConfig = {
+const pageContentConfig = {
+  pageName: 'role',
+  isShowButton: true,
+  isShowSerial: true,
+  isShowSecelection: true,
   propList: [
     {
       label: '角色id',
@@ -12,21 +15,21 @@ const tableConfig: ITableConfig = {
       // resizable: true
     },
     {
-      label: '角色名',
+      label: '角色名称',
       prop: 'name',
       align: 'center',
       minWidth: '50px',
       sortable: true,
       slotName: 'name'
     },
-
     {
-      label: 'intro',
+      label: '介绍介绍',
       prop: 'intro',
       align: 'center',
-      width: '120',
+      minWidth: '50px',
       slotName: 'intro'
     },
+
     {
       label: '创建时间',
       prop: 'createAt',
@@ -48,12 +51,7 @@ const tableConfig: ITableConfig = {
       minWidth: '100px',
       slotName: 'handlerBtn'
     }
-  ],
-
-  pageName: 'role',
-  isShowButton: true,
-  isShowSerial: true,
-  isShowSecelection: true
+  ]
 }
 
-export { tableConfig }
+export { pageContentConfig }

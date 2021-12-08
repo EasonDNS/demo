@@ -4,7 +4,10 @@ export interface ITableConfig {
   isShowSerial?: boolean
   isShowButton?: boolean
   isShowSecelection?: boolean
+  isShowHeader?: boolean
+  isShowFooter?: boolean
   footer?: footer
+  tree?: any
 }
 
 interface footer {

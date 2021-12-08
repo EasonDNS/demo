@@ -1,31 +1,35 @@
 import { IForm } from '@/baseui/form/src/type'
 
 export const pageFormConfig: IForm = {
+  pageName: 'role',
   isShowHeader: true,
   isShowFooter: true,
-  pageName: 'department',
+  formStyle: {
+    justify: 'start'
+  },
   formItems: [
     {
       field: 'id',
       prop: 'id',
       type: 'input',
       label: 'id:',
-      placeholder: '请输入部门id~'
+      placeholder: '请输入角色id~'
     },
     {
       prop: 'name',
       field: 'name',
       type: 'input',
-      label: '部门名:',
-      placeholder: '请输入部门名~'
+      label: '角色名:',
+      placeholder: '请输入角色名~'
     },
     {
-      prop: 'leader',
-      field: 'leader',
-      type: 'select',
-      label: '请选择部门领导~',
-      selectOptions: []
+      prop: 'intro',
+      field: 'intro',
+      type: 'input',
+      label: '角色介绍:',
+      placeholder: '请输入角色介绍~'
     },
+
     {
       prop: 'createAt',
       field: 'createAt',

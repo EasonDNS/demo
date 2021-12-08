@@ -199,7 +199,7 @@ export default defineComponent({
     }
     // 默认样式
     const defaultFormStyle = {
-      justify: 'center',
+      justify: 'start',
       size: 'small',
       labelWidth: '80px',
       layout: {

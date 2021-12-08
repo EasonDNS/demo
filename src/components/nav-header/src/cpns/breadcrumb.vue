@@ -1,14 +1,15 @@
 <template>
   <div class="breadcrumb">
     <el-breadcrumb>
-      <el-breadcrumb-item>
-        <el-alert
+      <el-breadcrumb-item v-if="openFatherItem">
+        <!-- <el-alert
           :title="openFatherItem"
           type="success"
           :center="true"
           effect="dark"
           :closable="false"
-        ></el-alert>
+        ></el-alert> -->
+        <strong> {{ openFatherItem }}</strong>
       </el-breadcrumb-item>
 
       <el-breadcrumb-item
@@ -92,5 +93,10 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+.el-breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

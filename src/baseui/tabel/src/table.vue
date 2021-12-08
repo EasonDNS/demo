@@ -1,27 +1,29 @@
 <template>
   <div class="jxlstable">
     <!-- 头部 -->
-    <div>
-      <slot name="tableHeader">
-        <div class="table-header">
-          <strong> {{ tableConfig.pageName }}</strong>
-          <div class="right">
-            <el-button
-              type="danger"
-              plain
-              size="medium"
-              @click="handleRegester"
-            >
-              <el-icon> <edit /> </el-icon>
-              <strong>新建</strong>
-            </el-button>
-            <el-button type="info" plain size="medium" @click="handleRefresh">
-              <el-icon> <refresh /> </el-icon>
-              <strong>刷新</strong>
-            </el-button>
+    <div class="header">
+      <template v-if="tableConfig.isShowHeader ?? true">
+        <slot name="tableHeader">
+          <div class="table-header">
+            <strong> {{ tableConfig.pageName }}</strong>
+            <div class="right">
+              <el-button
+                type="danger"
+                plain
+                size="medium"
+                @click="handleRegester"
+              >
+                <el-icon> <edit /> </el-icon>
+                <strong>新建</strong>
+              </el-button>
+              <el-button type="info" plain size="medium" @click="handleRefresh">
+                <el-icon> <refresh /> </el-icon>
+                <strong>刷新</strong>
+              </el-button>
+            </div>
           </div>
-        </div>
-      </slot>
+        </slot>
+      </template>
     </div>
 
     <div class="content">
@@ -29,8 +31,9 @@
         class="table"
         :data="listData"
         :border="true"
-        @select="select"
         :row-style="rowStyle"
+        v-bind="tableConfig.tree ?? {}"
+        @select="select"
       >
         <template v-if="isShowSecelection">
           <el-table-column type="selection" align="center"></el-table-column>
@@ -60,13 +63,9 @@
               </template>
               <!-- // 操作的插槽 -->
               <template v-else-if="item.prop === 'handleBtn'">
-                <slot :name="item.slotName" :row="scop.row" label>
-                  <template v-if="tableConfig.isShowButton">
-                    <el-button
-                      size="mini"
-                      type="info"
-                      @click="handleEdit(scop.row)"
-                    >
+                <template v-if="tableConfig.isShowButton">
+                  <slot :name="item.slotName" :row="scop.row" label>
+                    <el-button size="mini" plain @click="handleEdit(scop.row)">
                       <el-icon> <Edit /> </el-icon> 编辑
                     </el-button>
                     <el-button
@@ -76,8 +75,8 @@
                     >
                       <el-icon> <DeleteFilled /></el-icon> 删除
                     </el-button>
-                  </template>
-                </slot>
+                  </slot>
+                </template>
               </template>
               <template v-else>
                 <slot :name="item.slotName ?? item.prop" :row="scop.row">
@@ -91,19 +90,9 @@
       </el-table>
 
       <div class="footer">
-        <slot name="footer">
-          <el-pagination
-            layout="total, sizes, prev, pager, next, jumper"
-            hide-on-single-page
-            v-model:currentPage="currentPage"
-            v-model:pageSize="pageSize"
-            :page-sizes="[10, 20, 30]"
-            :total="total"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          >
-          </el-pagination>
-        </slot>
+        <template v-if="tableConfig.isShowFooter ?? true">
+          <slot name="footer"> </slot>
+        </template>
       </div>
     </div>
   </div>
@@ -175,12 +164,13 @@ export default defineComponent({
     const rowStyle = (pay: any) => {
       // 奇数行的样式
       const even = {
-        // background: '#e6a23c'
-        background: '#909399'
+        background: '#e6a23c59'
+        // background: '#909399'
+        // background:
       }
       // 偶数行的样式
       const odd = {
-        background: '#e6a23c'
+        // background: '#e6a23c'
       }
       // 最后返回 作用样式
       const effect = pay.rowIndex % 2 === 0 ? even : odd
@@ -210,7 +200,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .jxlstable {
   padding-top: 20px;
-  background-color: orange;
+  background-color: rgba(255, 166, 0, 0.11);
   border-radius: 10px;
 
   .table-header {
