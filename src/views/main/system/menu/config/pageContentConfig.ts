@@ -14,7 +14,7 @@ const pageContentConfig = {
       label: '菜单id',
       prop: 'id',
       align: 'center',
-      minWidth: '50px',
+      width: '80px',
       sortable: true,
       slotName: 'id'
       // resizable: true
@@ -35,8 +35,14 @@ const pageContentConfig = {
       slotName: 'url'
     },
     {
-      label: 'children',
-      prop: 'children',
+      label: 'sort',
+      prop: 'sort',
+      align: 'center',
+      width: '50px'
+    },
+    {
+      label: 'permission',
+      prop: 'permission',
       align: 'center'
     },
     {

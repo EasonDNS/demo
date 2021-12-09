@@ -20,12 +20,6 @@ export const pageDialogConfig: IPageDialogConfig = {
   },
   formItems: [
     {
-      field: 'id',
-      type: 'input',
-      label: 'id: ',
-      placeholder: '请输入id~'
-    },
-    {
       field: 'name',
       type: 'input',
       label: 'name: ',

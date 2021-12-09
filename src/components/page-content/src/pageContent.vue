@@ -21,6 +21,10 @@
       @handleEdit="handleEdit"
       @handleRemove="handleRemove"
     >
+      <!-- 遍历所有插槽传递给上一层 -->
+      <template v-for="item of pageContentSlots" :key="item" #[item]="scop">
+        <slot :name="item" :row="scop"></slot>
+      </template>
       <template #footer>
         <div class="footer">
           <n-pagination
@@ -46,7 +50,12 @@
       :data="pageData"
       @dialogResearch="dialogResearch"
       @handleVisibleChange="handleVisibleChange"
-    ></page-dialog>
+    >
+      <!-- 遍历所有插槽传递给上一层 -->
+      <template v-for="item of pageDialogSlots" :key="item" #[item]="scop">
+        <slot :name="item" :row="scop"></slot>
+      </template>
+    </page-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -65,7 +74,7 @@ import { mapName, day } from '@/utils'
 
 export default defineComponent({
   name: 'page-content',
-  emits: ['handleRegester', 'handleVisibleChange'],
+  emits: ['handleRegester', 'handleVisibleChange', 'handleEdit'],
   components: { jxlstable, pageDialog },
   props: {
     pageContentConfig: {
@@ -84,7 +93,9 @@ export default defineComponent({
     }
   },
   setup(props, content) {
+    //<!-- -------------------------常量---------------------------- -->
     const store = useStore()
+    const dialogtype = ref('')
     const pageData = ref<any>({})
     const pageDialogRef = ref<InstanceType<typeof pageDialog>>()
     const name = ref(mapName.page(props.pageContentConfig.pageName))
@@ -97,7 +108,7 @@ export default defineComponent({
     // 是否显示dialog
     const isShowDialog = ref(false)
     //<!-- -------------------------常量---------------------------- -->
-
+    // 分页器
     const handlePageSize = (pagesize: number) => {
       pageSize.value = pagesize
       store.dispatch(name.value.queryAction!, {
@@ -115,7 +126,6 @@ export default defineComponent({
       })
     }
     //<!-- -------------------------分页器的函数---------------------------- -->
-
     // 新建
     const handleRegester = () => {
       if (pageDialogRef.value) {
@@ -123,7 +133,6 @@ export default defineComponent({
         pageDialogRef.value.isShowDialog = true
       }
       dialogtype.value = 'regester'
-      // store.dispatch(regesterAction,pageDialogRef.value?.dialogData)
       const passworditem = pageDialogConfig.formItems.find((pay) => {
         return pay.field === 'password'
       })
@@ -138,9 +147,9 @@ export default defineComponent({
     const handleRefresh = () => {
       store.dispatch(name.value.queryAction!)
     }
-
     // 监听 编辑
     const handleEdit = (item: any) => {
+      content.emit('handleEdit', item)
       if (pageDialogRef.value) {
         pageDialogRef.value.dialogData = item
         pageDialogRef.value.isShowDialog = true
@@ -159,24 +168,34 @@ export default defineComponent({
         pay
       )
     }
-    const dialogtype = ref('')
+    // 监听 dialog form 传递过来的搜索按钮点击 ~
     const dialogResearch = (pay: any) => {
-      const action = mapName.page(props.pageContentConfig.pageName)
       const dialogData = ref<any>({})
+      const action = mapName.page(props.pageContentConfig.pageName)
+      //处理时间字段
       props.pageDialogConfig.formItems.forEach((item: any) => {
         if (item.field === 'createAt' || item.field === 'updateAt') {
           dialogData.value[item.field] = day.format(pay[item.field])
         }
         dialogData.value[item.field] = pay[item.field]
       })
+      //判定 新建 弹出 dialog
       if (dialogtype.value === 'regester') {
         store.dispatch(action.regesterAction!, dialogData.value)
         pageDialogRef.value!.isShowDialog = false
+        // 判定 编辑 弹出 dialog
       } else if (dialogtype.value === 'patch') {
+        // 这里需要给 dialogdata 加入id 是因为在角色更新时 action  要求参数里需要有id 绑定给url上
+        dialogData.value.id = pay.id
         store.dispatch(action.patchAction!, dialogData.value)
         pageDialogRef.value!.isShowDialog = false
       }
     }
+
+    // 处理所有传递过来的插槽
+    // 1, 拿 配置文件里有设置的插槽..
+    const pageContentSlots = mapName.slots(props.pageContentConfig.propList)
+    const pageDialogSlots = mapName.slots(props.pageDialogConfig.formItems)
 
     return {
       mapName,
@@ -187,6 +206,10 @@ export default defineComponent({
       pageData,
       dialogResearch,
       pageDialogRef,
+
+      pageContentSlots,
+      pageDialogSlots,
+
       handlePageSize,
       handlePage,
       handleRegester,

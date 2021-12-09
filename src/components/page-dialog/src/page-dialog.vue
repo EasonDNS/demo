@@ -11,17 +11,24 @@
         v-model="dialogData"
         @handleReSearch="dialogResearch"
         @handleVisibleChange="handleVisibleChange"
-      ></jxls-form>
+      >
+        //把所有的插槽再次提交出去...
+        <template v-for="item of formSlots" :key="item" #[item]="scop">
+          <slot :name="item" :row="scop"></slot>
+        </template>
+      </jxls-form>
     </el-dialog>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 
+import { mapName } from '@/utils'
 import jxlsForm from '@/baseui/form/src/form.vue'
 import { IPageDialogConfig } from './type'
 export default defineComponent({
   name: 'page-dialog',
+  // 发出的事件
   emits: ['dialogResearch', 'handleVisibleChange'],
   props: {
     pageDialogConfig: {
@@ -48,7 +55,15 @@ export default defineComponent({
     const handleVisibleChange = (item: any) => {
       content.emit('handleVisibleChange', item)
     }
-    return { isShowDialog, dialogData, dialogResearch, handleVisibleChange }
+    //拿配置文件里所有的插槽
+    const formSlots = mapName.slots(props.pageDialogConfig.formItems)
+    return {
+      isShowDialog,
+      dialogData,
+      dialogResearch,
+      formSlots,
+      handleVisibleChange
+    }
   }
 })
 </script>

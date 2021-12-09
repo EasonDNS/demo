@@ -1,3 +1,5 @@
+import menuMask from 'naive-ui/lib/_internal/menu-mask'
+
 class MapName {
   page(pageName: string) {
     // 注册 增
@@ -64,6 +66,37 @@ class MapName {
         })
       })
     }
+  }
+  // 查询 配置文件里的所有插槽
+  slots(config: any[]): string[] {
+    const slotNames: string[] = []
+    config.forEach((item) => {
+      if (item.slotName) {
+        slotNames.push(item.slotName)
+      }
+    })
+    return slotNames
+  }
+
+  // 查询menulist 里的所有菜单
+  getid(list: any[], id: number): number[] {
+    // 找到这个item ==>menuList
+    const item = list.find((item) => item.id === id)
+    //定义 接收数组
+    const arrs: number[] = []
+    // 定义递归函数
+    const _recurse = (menus: any[]) => {
+      menus.forEach((item) => {
+        arrs.push(item.id)
+        if (item.type != 3) {
+          _recurse(item.children ?? [])
+        }
+      })
+    }
+
+    arrs.push(item.id)
+    _recurse(item.menuList)
+    return arrs
   }
 }
 
