@@ -70,7 +70,7 @@ class MapName {
   // 查询 配置文件里的所有插槽
   slots(config: any[]): string[] {
     const slotNames: string[] = []
-    config.forEach((item) => {
+    config?.forEach((item) => {
       if (item.slotName) {
         slotNames.push(item.slotName)
       }
