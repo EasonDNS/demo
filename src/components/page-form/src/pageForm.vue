@@ -32,18 +32,21 @@ pageform : 接受一个 data  来初始化 pagedata 的值, 但以后不会再�
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
+import { useStore } from '@/store'
 
 import { mapName } from '@/utils'
-import { useStore } from '@/store'
+
+import { IPageFormConfig } from './type'
 import jxlsForm from '@/baseui/form/src/form.vue'
+
 export default defineComponent({
   name: 'page-form',
   emits: ['handleResearch', 'handleVisibleChange'],
   components: { jxlsForm },
   props: {
     pageFormConfig: {
-      type: Object,
+      type: Object as PropType<IPageFormConfig>,
       required: true
     },
     data: {

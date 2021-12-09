@@ -45,10 +45,24 @@ export default defineComponent({
       list,
       totalCount
     }
-    // list 数据,config:配置文件 ,field:查询的字段 ,value:selectOption Value值.pay:下拉触发传过来的 值
+    // list 数据,config:配置文件 ,field:查询的字段 ,value:selectOption Value值. label: 显示的值  pay:下拉触发传过来的 值
     const handleVisibleChange = (pay: any) => {
-      mapName.visible(list.value, pageFormConfig, 'leader', 'leader', pay)
-      mapName.visible(list.value, pageDialogConfig, 'leader', 'leader', pay)
+      mapName.visible(
+        list.value,
+        pageFormConfig,
+        'leader',
+        'leader',
+        'leader',
+        pay
+      )
+      mapName.visible(
+        list.value,
+        pageDialogConfig,
+        'leader',
+        'leader',
+        'leader',
+        pay
+      )
     }
 
     return {

@@ -41,6 +41,12 @@ class MapName {
         patchAction = 'goodsModule/patchGoodsAction'
         queryAction = 'goodsModule/queryGoodsAction'
         break
+      case 'category':
+        regesterAction = 'categoryModule/regesterCategoryAction'
+        deleteAction = 'categoryModule/deleteCategoryAction'
+        patchAction = 'categoryModule/patchCategoryAction'
+        queryAction = 'categoryModule/queryCategoryAction'
+        break
 
       default:
         break
@@ -52,8 +58,15 @@ class MapName {
       deleteAction
     }
   }
-  //list 数据,config:配置文件 ,field 处理字段,value:选项值字段   pay:下拉事件触发传过来的值
-  visible(list: any[], config: any, field: string, value: string, pay: any) {
+  //list 数据,config:配置文件 ,field 处理字段,value:选项值字段 label:显示字段  pay:下拉事件触发传过来的值
+  visible(
+    list: any[],
+    config: any,
+    field: string,
+    value: string,
+    label: string,
+    pay: any
+  ) {
     const ctrlItem = config.formItems.find((item: any) => {
       return item.field === pay.field
     })
@@ -62,7 +75,7 @@ class MapName {
       list.forEach((item) => {
         ctrlItem.selectOptions.push({
           value: item[value],
-          label: item[field]
+          label: item[label]
         })
       })
     }

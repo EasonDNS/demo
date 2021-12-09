@@ -36,13 +36,13 @@ export default defineComponent({
     const totalCount = computed(() => store.state.userModule.totalCount)
 
     const handleVisibleChange = (pay: any) => {
-      console.log(pay)
       // list 数据,config:配置文件 ,field:查询的字段 ,value:selectOption Value值.pay:下拉触发传过来的 值
       mapName.visible(
         store.state.roleModule.list,
         pageDialogConfig,
         'roleId',
         'id',
+        'name',
         pay
       )
       mapName.visible(
@@ -50,6 +50,7 @@ export default defineComponent({
         pageDialogConfig,
         'departmentId',
         'id',
+        'name',
         pay
       )
     }

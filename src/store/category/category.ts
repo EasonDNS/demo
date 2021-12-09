@@ -10,6 +10,7 @@ import {
 } from '@/request/category/category'
 
 const categoryModule: Module<ICategoryState, IrootState> = {
+  namespaced: true,
   state() {
     return {
       list: [],
@@ -40,6 +41,7 @@ const categoryModule: Module<ICategoryState, IrootState> = {
         url: `/category/${pay.id}`,
         data: {}
       })
+      dispatch('queryCategoryAction')
     },
 
     // 改 pay:{id}
@@ -49,6 +51,17 @@ const categoryModule: Module<ICategoryState, IrootState> = {
         data: pay
       })
       dispatch('queryCategoryAction')
+    },
+    // 查
+    async queryCategoryAction({ commit }, pay: any) {
+      const resultData = await queryCategory({
+        url: '/category/list',
+        data: pay ?? { offset: 0, size: 100 }
+      })
+      commit('changeList', resultData.data.list)
+      commit('changeTotalCount', resultData.data.totalCount)
     }
   }
 }
+
+export { categoryModule }

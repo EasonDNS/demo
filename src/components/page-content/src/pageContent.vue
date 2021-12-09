@@ -63,9 +63,8 @@
 import { computed, defineComponent, PropType, ref } from 'vue'
 import { useStore } from '@/store'
 // 定义 listData的 类型 => {list:any[],count:number}
-import { IListData } from './type'
+import { IListData, IPageContentConfig } from './type'
 
-import { ITableConfig } from '@/baseui/tabel/src/type'
 import { pageDialogConfig } from '@/views/main/system/user/config/pageDialogConfig'
 import jxlstable from '@/baseui/tabel/src/table.vue'
 import pageDialog from '@/components/page-dialog'
@@ -78,7 +77,7 @@ export default defineComponent({
   components: { jxlstable, pageDialog },
   props: {
     pageContentConfig: {
-      type: Object as PropType<ITableConfig>,
+      type: Object as PropType<IPageContentConfig>,
       required: true
     },
     listData: {
@@ -126,7 +125,7 @@ export default defineComponent({
       })
     }
     //<!-- -------------------------分页器的函数---------------------------- -->
-    // 新建
+    // 监听 新建
     const handleRegester = () => {
       if (pageDialogRef.value) {
         pageDialogRef.value.dialogData = {}
@@ -137,15 +136,6 @@ export default defineComponent({
         return pay.field === 'password'
       })
       passworditem!.isShow = true
-    }
-    // 下拉 监听到  pagedialog里 的下拉事件并传出
-    const handleVisibleChange = (item: any) => {
-      // console.log(item)
-      content.emit('handleVisibleChange', item)
-    }
-    // 刷新~
-    const handleRefresh = () => {
-      store.dispatch(name.value.queryAction!)
     }
     // 监听 编辑
     const handleEdit = (item: any) => {
@@ -160,6 +150,14 @@ export default defineComponent({
         return pay.field === 'password'
       })
       passworditem!.isShow = false
+    }
+    // 下拉 监听到  pagedialog里 的下拉事件并传出
+    const handleVisibleChange = (item: any) => {
+      content.emit('handleVisibleChange', item)
+    }
+    // 监听 刷新~
+    const handleRefresh = () => {
+      store.dispatch(name.value.queryAction!)
     }
     // 监听 删除
     const handleRemove = (pay: any) => {

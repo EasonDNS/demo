@@ -4,6 +4,7 @@ import { IRolestate } from './role/type'
 import { IDepartmentState } from './department/type'
 import { IuserState } from './user/type'
 import { IMenuState } from '@/store/menu/type'
+import { ICategoryState } from './category/type'
 interface IrootState {
   name: string
   password: string
@@ -14,8 +15,9 @@ interface Imodule {
   userModule: IuserState
   departmentModule: IDepartmentState
   roleModule: IRolestate
-  goodsModule: IGoodsState
   menuModule: IMenuState
+  categoryModule: ICategoryState
+  goodsModule: IGoodsState
 }
 
 type Istate = IrootState & Imodule

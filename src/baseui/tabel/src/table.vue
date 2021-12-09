@@ -7,25 +7,20 @@
           <div class="table-header">
             <strong> {{ tableConfig.pageName }}</strong>
             <div class="right">
-              <el-button
-                type="danger"
-                plain
-                size="medium"
-                @click="handleRegester"
-              >
+              <el-button plain size="mini" @click="handleRegester">
                 <el-icon> <edit /> </el-icon>
                 <strong>新建</strong>
               </el-button>
-              <el-button type="info" plain size="medium" @click="handleRefresh">
+              <el-button type="info" plain size="mini" @click="handleRefresh">
                 <el-icon> <refresh /> </el-icon>
-                <strong>刷新</strong>
+                <!-- <strong>刷新</strong> -->
               </el-button>
             </div>
           </div>
         </slot>
       </template>
     </div>
-
+    <!-- 中间 表格 -->
     <div class="content">
       <el-table
         class="table"
@@ -35,10 +30,11 @@
         v-bind="tableConfig.tree ?? {}"
         @select="select"
       >
+        <!-- 表格第一列选择框  isShowSecelection -->
         <template v-if="isShowSecelection">
           <el-table-column type="selection" align="center"></el-table-column>
         </template>
-
+        <!-- 表格第二列 序号列  isShowSerial -->
         <template v-if="isShowSerial">
           <el-table-column
             type="index"
@@ -48,6 +44,7 @@
             width="50"
           ></el-table-column>
         </template>
+        <!--  遍历开始  -->
         <!-- 这里tabelconfig 必须 要有 proplist  -->
         <template v-for="item of tableConfig.propList" :key="item.prop">
           <el-table-column v-bind="item" :show-overflow-tooltip="true">
@@ -65,15 +62,20 @@
               <template v-else-if="item.prop === 'handleBtn'">
                 <template v-if="tableConfig.isShowButton">
                   <slot :name="item.slotName" :row="scop.row" label>
-                    <el-button size="mini" plain @click="handleEdit(scop.row)">
+                    <el-button
+                      type="text"
+                      size="mini"
+                      plain
+                      @click="handleEdit(scop.row)"
+                    >
                       <el-icon> <Edit /> </el-icon> 编辑
                     </el-button>
                     <el-button
-                      type="danger"
+                      type="text"
                       size="mini"
                       @click="handleRemove(scop.row)"
                     >
-                      <el-icon> <DeleteFilled /></el-icon> 删除
+                      <el-icon color="#CD5C5C"> <DeleteFilled /></el-icon>
                     </el-button>
                   </slot>
                 </template>
@@ -200,7 +202,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .jxlstable {
   padding-top: 20px;
-  background-color: rgba(255, 166, 0, 0.11);
+  background-color: rgba(255, 166, 0, 0);
   border-radius: 10px;
 
   .table-header {

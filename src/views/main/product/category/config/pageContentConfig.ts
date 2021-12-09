@@ -1,39 +1,23 @@
-// import { IPageContentConfigType } from '@/components/pageContent/type'
-import { ITableConfig } from '@/baseui/tabel/src/type'
-const tableConfig: ITableConfig = {
+import { IPageContentConfig } from '@/components/page-content/src/type'
+const pageContentConfig: IPageContentConfig = {
   propList: [
     {
-      label: '商品id',
+      label: 'id',
       prop: 'id',
       align: 'center',
       minWidth: '50px',
       sortable: true,
       slotName: 'id'
-      // resizable: true
     },
     {
-      label: '商品名称',
       prop: 'name',
+      label: '类别名称',
       align: 'center',
       minWidth: '50px',
       sortable: true,
       slotName: 'name'
     },
 
-    {
-      label: '商品图片',
-      prop: 'imgUrl',
-      align: 'center',
-      minWidth: '120',
-      slotName: 'intro'
-    },
-    {
-      label: '商品状态',
-      prop: 'status',
-      align: 'center',
-      minWidth: '20',
-      slotName: 'status'
-    },
     {
       label: '创建时间',
       prop: 'createAt',
@@ -57,10 +41,10 @@ const tableConfig: ITableConfig = {
     }
   ],
 
-  pageName: 'goods',
+  pageName: 'category',
   isShowButton: true,
   isShowSerial: true,
   isShowSecelection: true
 }
 
-export { tableConfig }
+export { pageContentConfig }
