@@ -23,7 +23,10 @@ export const pageFormConfig: IForm = {
       prop: 'leader',
       field: 'leader',
       type: 'select',
-      label: '请选择部门领导~',
+      label: '选择领导',
+      // itemStyle: {
+      //   labelWidth: '80px'
+      // },
       selectOptions: []
     },
     {

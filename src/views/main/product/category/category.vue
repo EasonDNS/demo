@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h2>category</h2>
+    <h2>yyy</h2>
   </div>
 </template>
 
