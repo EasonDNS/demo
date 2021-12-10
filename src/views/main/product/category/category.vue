@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUpdated, ref } from 'vue'
 
 import { pageFormConfig } from './config/pageFormConfig'
 import { pageContentConfig } from './config/pageContentConfig'

@@ -4,9 +4,16 @@ import 'vfonts/FiraCode.css'
 
 import { App } from 'vue'
 
-import { create, NBackTop, NButton, NGradientText, NPagination } from 'naive-ui'
+import {
+  create,
+  NBackTop,
+  NButton,
+  NGradientText,
+  NImage,
+  NPagination
+} from 'naive-ui'
 
-const NaiveComponents = [NButton, NBackTop, NPagination, NGradientText]
+const NaiveComponents = [NButton, NBackTop, NPagination, NGradientText, NImage]
 const getRegesterNaive = create({
   components: NaiveComponents
 })

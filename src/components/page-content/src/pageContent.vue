@@ -227,6 +227,7 @@ export default defineComponent({
     align-items: center;
     .n-gradient-text {
       padding: 0 10px 0 10px;
+      color: rgba(0, 0, 0, 0.5);
     }
   }
 }

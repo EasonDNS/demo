@@ -136,7 +136,13 @@
           <el-icon><refresh /></el-icon>
           {{ formConfig.formStyle?.footer?.resetName ?? '重置' }}
         </el-button>
-        <el-button type="primary" size="mini" plain @click="handleReSearch">
+        <el-button
+          class="search-btn"
+          type="primary"
+          size="mini"
+          plain
+          @click="handleReSearch"
+        >
           <el-icon><search /></el-icon>
           {{ formConfig.formStyle?.footer?.researchName ?? '搜索' }}
         </el-button>
@@ -238,5 +244,11 @@ export default defineComponent({
   text-align: right;
   padding-right: 20px;
   margin-bottom: 10px;
+  .search-btn {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .el-button {
+    // padding-left: 5px;
+  }
 }
 </style>

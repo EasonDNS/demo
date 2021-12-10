@@ -4,18 +4,20 @@
     <div class="header">
       <template v-if="tableConfig.isShowHeader ?? true">
         <slot name="tableHeader">
-          <div class="table-header">
-            <strong> {{ tableConfig.pageName }}</strong>
-            <div class="right">
-              <el-button plain size="mini" @click="handleRegester">
-                <el-icon> <edit /> </el-icon>
-                <strong>新建</strong>
-              </el-button>
-              <el-button type="info" plain size="mini" @click="handleRefresh">
-                <el-icon> <refresh /> </el-icon>
-                <!-- <strong>刷新</strong> -->
-              </el-button>
-            </div>
+          <strong> {{ tableConfig.pageName }}</strong>
+          <div class="right">
+            <el-button
+              class="right-edit-btn"
+              plain
+              type="success"
+              size="mini"
+              @click="handleRegester"
+            >
+              <el-icon> <edit /></el-icon>新建</el-button
+            >
+            <el-button type="info" plain size="mini" @click="handleRefresh">
+              <el-icon><refresh /></el-icon>刷新</el-button
+            >
           </div>
         </slot>
       </template>
@@ -32,7 +34,11 @@
       >
         <!-- 表格第一列选择框  isShowSecelection -->
         <template v-if="isShowSecelection">
-          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column
+            type="selection"
+            align="center"
+            width="40"
+          ></el-table-column>
         </template>
         <!-- 表格第二列 序号列  isShowSerial -->
         <template v-if="isShowSerial">
@@ -40,18 +46,18 @@
             type="index"
             label="序号"
             align="center"
-            min-width="20"
-            width="50"
+            width="35"
           ></el-table-column>
         </template>
         <!--  遍历开始  -->
         <!-- 这里tabelconfig 必须 要有 proplist  -->
         <template v-for="item of tableConfig.propList" :key="item.prop">
-          <el-table-column v-bind="item">
-            <template #default="scop"
-              ><template v-if="tableConfig.isShowButton">
-                <template v-if="item.prop === 'handleBtn'"> </template>
-              </template>
+          <el-table-column
+            v-bind="item"
+            :align="item.align ?? defaultStyle.align"
+            :sortable="item.sortable ?? defaultStyle.sortable"
+          >
+            <template #default="scop">
               <!-- 设置插槽 为item 的 prop 数据字段  再把 row 数据传递出去   -->
               <template
                 v-if="item.prop === 'createAt' || item.prop === 'updateAt'"
@@ -60,10 +66,9 @@
                   {{ day.utc({ time: scop.row[item.prop] }) }}
                 </slot>
               </template>
-
               <!-- // 操作的插槽 -->
               <template v-else>
-                <slot :name="item.slotName ?? item.prop" :row="scop.row">
+                <slot :name="item.slotName" :row="scop.row">
                   {{ scop.row[item.prop] }}
                 </slot>
               </template>
@@ -73,25 +78,32 @@
         </template>
         <!-- 最后一列的操作列 isShowButton -->
         <template v-if="tableConfig.isShowButton ?? true">
-          <el-table-column label="操作" align="center" width="80">
+          <el-table-column
+            label="操作"
+            align="center"
+            width="100"
+            class-name="btns"
+          >
             <template #default="scop">
               <slot name="handleBtn" :row="scop.row">
-                <el-button
-                  type="text"
-                  size="mini"
-                  plain
-                  @click="handleEdit(scop.row)"
-                >
-                  <el-icon> <Edit /> </el-icon> 编辑
-                </el-button>
-                <el-button
-                  type="text"
-                  size="mini"
-                  plain
-                  @click="handleRemove(scop.row)"
-                >
-                  <el-icon type="text"> <DeleteFilled /></el-icon>删除
-                </el-button>
+                <div class="btns">
+                  <el-button
+                    type="primary"
+                    size="mini"
+                    plain
+                    @click="handleEdit(scop.row)"
+                  >
+                    <el-icon> <Edit /> </el-icon>编辑
+                  </el-button>
+                  <el-button
+                    type="danger"
+                    size="mini"
+                    plain
+                    @click="handleRemove(scop.row)"
+                  >
+                    <el-icon> <DeleteFilled /></el-icon>删除
+                  </el-button>
+                </div>
               </slot>
             </template>
           </el-table-column>
@@ -186,10 +198,16 @@ export default defineComponent({
 
       return effect
     }
+    // defaultStyle.align
+    const defaultStyle = ref({
+      align: 'center',
+      sortable: true
+    })
     return {
       isShowSerial,
       isShowSecelection,
       day,
+      defaultStyle,
 
       total,
       pageSize,
@@ -208,37 +226,49 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .jxlstable {
-  padding-top: 20px;
+  // padding-top: 10px;
   background-color: rgba(255, 166, 0, 0);
   border-radius: 10px;
-
-  .table-header {
+  .header {
     padding-left: 20px;
     padding-right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
+
+    .right {
+      .el-icon {
+        padding-right: 3.22px;
+      }
+      .right-edit-btn {
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
   }
   .content {
-    padding: 10px 10px;
-
     .table {
-      border-right: none;
-      border-top: none;
       border-radius: 5px;
-      box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 3px 5px rgba(0, 0, 0, 0.25);
+
+      .btns {
+        display: flex;
+        .el-button {
+          margin: 0;
+          padding: 0;
+          border: none;
+          // color: rgba(0, 0, 0, 0.5);
+          .el-icon {
+            margin-right: 2px;
+            margin-left: 2px;
+            // color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
     }
   }
-  .hander-btns {
-    display: flex;
-    // flex-direction: column;
-    justify-content: space-around;
-    .el-button {
-      padding: 2px;
-
-      margin-left: 2px;
-      margin-right: 2px;
-    }
+  .footer {
+    margin-top: 20px;
   }
 }
 </style>
