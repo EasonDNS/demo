@@ -47,39 +47,21 @@
         <!--  遍历开始  -->
         <!-- 这里tabelconfig 必须 要有 proplist  -->
         <template v-for="item of tableConfig.propList" :key="item.prop">
-          <el-table-column v-bind="item" :show-overflow-tooltip="true">
-            <template #default="scop">
+          <el-table-column v-bind="item">
+            <template #default="scop"
+              ><template v-if="tableConfig.isShowButton">
+                <template v-if="item.prop === 'handleBtn'"> </template>
+              </template>
               <!-- 设置插槽 为item 的 prop 数据字段  再把 row 数据传递出去   -->
               <template
                 v-if="item.prop === 'createAt' || item.prop === 'updateAt'"
               >
                 <slot :name="item.slotName" ?? item.prop :row="scop.row">
-                  <!-- {{ scop.row[item.prop] }} -->
-                  {{ day.format(day.utc({ time: scop.row[item.prop] })) }}
+                  {{ day.utc({ time: scop.row[item.prop] }) }}
                 </slot>
               </template>
+
               <!-- // 操作的插槽 -->
-              <template v-else-if="item.prop === 'handleBtn'">
-                <template v-if="tableConfig.isShowButton">
-                  <slot :name="item.slotName" :row="scop.row" label>
-                    <el-button
-                      type="text"
-                      size="mini"
-                      plain
-                      @click="handleEdit(scop.row)"
-                    >
-                      <el-icon> <Edit /> </el-icon> 编辑
-                    </el-button>
-                    <el-button
-                      type="text"
-                      size="mini"
-                      @click="handleRemove(scop.row)"
-                    >
-                      <el-icon color="#CD5C5C"> <DeleteFilled /></el-icon>
-                    </el-button>
-                  </slot>
-                </template>
-              </template>
               <template v-else>
                 <slot :name="item.slotName ?? item.prop" :row="scop.row">
                   {{ scop.row[item.prop] }}
@@ -87,6 +69,31 @@
               </template>
             </template>
             <template #empty> _null_ </template>
+          </el-table-column>
+        </template>
+        <!-- 最后一列的操作列 isShowButton -->
+        <template v-if="tableConfig.isShowButton ?? true">
+          <el-table-column label="操作" align="center" width="80">
+            <template #default="scop">
+              <slot name="handleBtn" :row="scop.row">
+                <el-button
+                  type="text"
+                  size="mini"
+                  plain
+                  @click="handleEdit(scop.row)"
+                >
+                  <el-icon> <Edit /> </el-icon> 编辑
+                </el-button>
+                <el-button
+                  type="text"
+                  size="mini"
+                  plain
+                  @click="handleRemove(scop.row)"
+                >
+                  <el-icon type="text"> <DeleteFilled /></el-icon>删除
+                </el-button>
+              </slot>
+            </template>
           </el-table-column>
         </template>
       </el-table>
@@ -233,17 +240,5 @@ export default defineComponent({
       margin-right: 2px;
     }
   }
-}
-.right {
-  .el-icon {
-    padding-right: 5px;
-  }
-}
-
-.el-button--danger {
-  margin-left: 0;
-}
-.footer {
-  margin-top: 10px;
 }
 </style>

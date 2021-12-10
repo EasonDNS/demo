@@ -1,5 +1,9 @@
 import { IPageContentConfig } from '@/components/page-content/src/type'
 const pageContentConfig: IPageContentConfig = {
+  pageName: 'category',
+  isShowButton: true,
+  isShowSerial: true,
+  isShowSecelection: true,
   propList: [
     {
       label: 'id',
@@ -23,7 +27,8 @@ const pageContentConfig: IPageContentConfig = {
       prop: 'createAt',
       align: 'center',
       minWidth: '50px',
-      slotName: 'createAt'
+      slotName: 'createAt',
+      showOverflowTooltip: true
     },
     {
       label: '更新时间',
@@ -31,20 +36,8 @@ const pageContentConfig: IPageContentConfig = {
       align: 'center',
       minWidth: '50px',
       slotName: 'updateAt'
-    },
-    {
-      label: '操作',
-      prop: 'handleBtn',
-      align: 'center',
-      minWidth: '100px',
-      slotName: 'handlerBtn'
     }
-  ],
-
-  pageName: 'category',
-  isShowButton: true,
-  isShowSerial: true,
-  isShowSecelection: true
+  ]
 }
 
 export { pageContentConfig }
