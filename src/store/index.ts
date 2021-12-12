@@ -7,6 +7,7 @@ import { roleModule } from './role/role'
 import { userModule } from './user/user'
 import { categoryModule } from './category/category'
 import { goodsModule } from '@/store/goods/goods'
+import { dashboardModule } from './dashboard/dashboard'
 export const store = createStore({
   state() {
     return {
@@ -23,7 +24,8 @@ export const store = createStore({
     roleModule,
     userModule,
     categoryModule,
-    goodsModule
+    goodsModule,
+    dashboardModule
   }
 })
 

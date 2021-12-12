@@ -1,16 +1,34 @@
 <template>
   <div class="overview">
-    <h2>overview</h2>
+    <hr />
+    <el-row :gutter="10">
+      <el-col :span="8">
+        <jxls-card :cardConfig="jxlsCardConfig">
+          <template #body> p jfdslsl </template>
+        </jxls-card>
+      </el-col>
+      <el-col :span="8">
+        <jxls-card :cardConfig="jxlsCardConfig">
+          <template #body> p jfdslsl </template>
+        </jxls-card>
+      </el-col>
+      <el-col :span="8">
+        <jxls-card :cardConfig="jxlsCardConfig">
+          <template #body> p jfdslsl </template>
+        </jxls-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { reactive } from 'vue'
 
-export default defineComponent({
-  name: 'overview',
-  setup() {
-    return {}
+import jxlsCard from '@/baseui/card'
+
+const jxlsCardConfig = reactive({
+  header: {
+    title: 'Echarts-one'
   }
 })
 </script>

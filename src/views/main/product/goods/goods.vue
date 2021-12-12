@@ -15,7 +15,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, watch, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 
 import { useStore } from '@/store'
 
