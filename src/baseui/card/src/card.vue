@@ -1,53 +1,64 @@
 <template>
-  <div class="card">
-    <el-card shadow="always">
-      <template #header>
-        <div class="header">
+  <div class="card" :style="Config.style">
+    <el-card :shadow="Config.shadow" :body-style="Config.elBodyStyle">
+      <template #header v-if="Config.isShowTitle">
+        <div class="header" :style="Config.header">
           <slot name="header">
-            {{ cardConfig.header.title ?? '头部' }}
+            {{ Config.title }}
           </slot>
         </div>
       </template>
 
-      <div class="body">
-        <slot name="body"> body </slot>
+      <div class="body" :style="Config.body">
+        <slot> body </slot>
       </div>
     </el-card>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
+import { ICardConfig } from './type'
 export default defineComponent({
   name: 'card',
   props: {
-    cardConfig: {
-      type: Object,
+    Config: {
+      type: Object as PropType<ICardConfig>,
       default: () => {
-        return {}
+        return {
+          isShowTitle: false,
+          style: {
+            textAlign: 'left'
+          },
+          shadow: 'always',
+          title: '这是标题~',
+          header: {
+            height: '10px'
+          },
+          elBodyStyle: {
+            padding: '15px',
+            height: '360px'
+          },
+          body: {
+            textAlign: 'center'
+          }
+        }
       }
     }
   },
   setup() {
-    const defaultValue = reactive({
-      header: {
-        style: {}
-      }
-    })
+    const cardConfig = {}
 
-    return { defaultValue }
+    return {
+      cardConfig
+    }
   }
 })
 </script>
 <style lang="less" scoped>
 .card {
-  .header {
-    text-align: left;
-    height: 10px;
-  }
-  .body {
-    height: 400px;
-    // background-color: rgba(0, 0, 0, 0.3);
-  }
+  height: '800px';
+  background-color: orange;
+  text-align: left;
 }
 </style>

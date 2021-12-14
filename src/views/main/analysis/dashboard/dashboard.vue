@@ -3,46 +3,32 @@
     <hr />
     <el-row :gutter="10">
       <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
+        <jxls-card>
+          <base-echarts :width="'100%'" :height="'100%'"></base-echarts>
         </jxls-card>
       </el-col>
-      <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
-        </jxls-card>
-      </el-col>
-      <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
-        </jxls-card>
-      </el-col>
+      <el-col :span="8"> </el-col>
+      <el-col :span="8"> </el-col>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
 import { onMounted, reactive, defineComponent } from 'vue'
-import jxlsCard from '@/baseui/card'
 import { useStore } from '@/store'
+
+import jxlsCard from '@/baseui/card'
+import baseEcharts from '@/baseui/echarts'
 export default defineComponent({
-  components: { jxlsCard },
+  components: { jxlsCard, baseEcharts },
   setup() {
     const store = useStore()
     onMounted(() => {
-      console.log('+++++++++++++++++++++')
       store.dispatch('dashboardModule/queryDashboardAction')
     })
-    console.log('=================')
-    const jxlsCardConfig = reactive({
-      header: {
-        title: 'Echarts-one'
-      }
-    })
+
     //发送Action
-    return {
-      jxlsCardConfig
-    }
+    return {}
   }
 })
 </script>

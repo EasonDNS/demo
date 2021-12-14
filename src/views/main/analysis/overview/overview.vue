@@ -3,19 +3,15 @@
     <hr />
     <el-row :gutter="10">
       <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
+        <jxls-card :cardConfig="cardConfig"
+          >ssssskikddddddssssssssssssssssssssssssssssssssssssssddddddddddd
         </jxls-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
-        </jxls-card>
+        <jxls-card :cardConfig="cardConfig"> </jxls-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card :cardConfig="jxlsCardConfig">
-          <template #body> p jfdslsl </template>
-        </jxls-card>
+        <jxls-card :cardConfig="cardConfig"> </jxls-card>
       </el-col>
     </el-row>
   </div>
@@ -26,10 +22,8 @@ import { reactive } from 'vue'
 
 import jxlsCard from '@/baseui/card'
 
-const jxlsCardConfig = reactive({
-  header: {
-    title: 'Echarts-one'
-  }
+const cardConfig = reactive({
+  title: 'overview-test'
 })
 </script>
 
