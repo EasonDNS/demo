@@ -1,54 +1,55 @@
 <template>
   <div
     class="base-echarts"
-    ref="baseEchartsRef"
+    ref="baseDivRef"
     :style="{ width: width, height: height }"
   ></div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue'
 import * as echarts from 'echarts'
 
 export default defineComponent({
   name: 'baseEcharts',
   props: {
-    width: String,
-    height: String
+    width: {
+      type: String,
+      default: '100%'
+    },
+    height: {
+      type: String,
+      default: '100%'
+    },
+    options: {
+      type: Object as PropType<echarts.EChartsOption>
+    }
   },
-  setup() {
-    const baseEchartsRef = ref<HTMLElement>()
-    const width = ref('360px')
-    const height = ref('400px')
-    const options = ref({
-      title: {
-        text: 'ECharts 入门示例'
-      },
-      tooltip: {},
-      legend: {
-        data: ['销量']
-      },
-      xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-      },
-      yAxis: {},
-      series: [
-        {
-          name: '销量',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
-        }
-      ]
-    })
-    const myEchart = ref<any>()
+  setup(props) {
+    const baseDivRef = ref<HTMLElement>()
+    const options = ref<echarts.EChartsOption>({ ...props.options })
+    let myEchart: any = null
 
     onMounted(() => {
-      myEchart.value = echarts.init(baseEchartsRef.value!)
-      myEchart.value.setOption(options.value)
+      myEchart = echarts.init(baseDivRef.value!)
+      myEchart.setOption(options.value)
+    })
+    window.onresize = () => {
+      myEchart.resize()
+    }
+    const set = (options: echarts.EChartsOption) => {
+      myEchart.setOption(options)
+    }
+    const dispose = () => {
+      myEchart.dispose
+    }
+    onUnmounted(() => {
+      myEchart.dispose
     })
     return {
-      width,
-      height,
-      baseEchartsRef
+      baseDivRef,
+      myEchart,
+      set,
+      dispose
     }
   }
 })

@@ -26,7 +26,7 @@ export default defineComponent({
       type: Object as PropType<ICardConfig>,
       default: () => {
         return {
-          isShowTitle: false,
+          isShowTitle: true,
           style: {
             textAlign: 'left'
           },
@@ -40,7 +40,8 @@ export default defineComponent({
             height: '360px'
           },
           body: {
-            textAlign: 'center'
+            textAlign: 'center',
+            height: '100%'
           }
         }
       }
@@ -48,7 +49,6 @@ export default defineComponent({
   },
   setup() {
     const cardConfig = {}
-
     return {
       cardConfig
     }
@@ -56,9 +56,6 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-.card {
-  height: '800px';
-  background-color: orange;
-  text-align: left;
+.el-card__body {
 }
 </style>
