@@ -2,41 +2,59 @@
   <div class="dashbaord">
     <hr />
     <el-row :gutter="10">
-      <el-col :span="12">
-        <jxls-card>
+      <el-col :span="8">
+        <jxls-card title="goodsSale">
+          <pie-echarts :pieConfig="pieConfig" ref="pieRef"></pie-echarts>
+        </jxls-card>
+      </el-col>
+      <el-col :span="8">
+        <jxls-card title="goodsCount">
           <bar-echarts :barConfig="barConfig" ref="barRef"></bar-echarts>
         </jxls-card>
       </el-col>
-      <el-col :span="12">
-        <jxls-card>
-          <bar-echarts :barConfig="pieConfig" ref="pieRef"></bar-echarts>
+      <el-col :span="8">
+        <jxls-card title="goodsFavor">
+          <pie-echarts :pieConfig="roseConfig" ref="roseRef"></pie-echarts>
         </jxls-card>
       </el-col>
-      <el-col :span="8"> </el-col>
     </el-row>
-    <el-button @click="btn">change</el-button>
+    <el-row class="row">
+      <el-col :span="12">
+        <div class="goods-sale-top">
+          <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
+            <funnel-echart
+              :funnelConfig="funnelConfig"
+              ref="funnelRef"
+            ></funnel-echart>
+          </jxls-card>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="goods-sale-top">
+          <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
+            <funnel-echart
+              :funnelConfig="funnelConfig"
+              ref="addressRef"
+            ></funnel-echart>
+          </jxls-card>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  onMounted,
-  ref,
-  defineComponent,
-  computed,
-  reactive,
-  nextTick,
-  watchEffect,
-  watch
-} from 'vue'
+import { onMounted, ref, defineComponent, computed, watch } from 'vue'
 import { useStore } from '@/store'
 
 import jxlsCard from '@/baseui/card'
 import barEcharts from '@/baseui/echarts/src/cpns/barEchart.vue'
-
+import pieEcharts from '@/baseui/echarts/src/cpns/pieEchart.vue'
+import funnelEchart from '@/baseui/echarts/src/cpns/funnelEchart.vue'
 import { EChartsOption } from 'echarts'
+
 export default defineComponent({
-  components: { jxlsCard, barEcharts },
+  components: { jxlsCard, pieEcharts, barEcharts, funnelEchart },
   setup() {
     const store = useStore()
     onMounted(() => {
@@ -62,85 +80,130 @@ export default defineComponent({
     )
     // 绑定容器
     const barRef = ref<InstanceType<typeof barEcharts>>()
-    const pieRef = ref<InstanceType<typeof barEcharts>>()
-    const options: EChartsOption = {
-      title: {
-        text: 'goodsCount'
-      },
-      series: [{ type: 'bar' }],
-      dataset: {
-        dimensions: [{ name: 'name' }, { name: 'goodsCount' }],
-        // dimensions: ['name', 'goodsCount'],
-        source: goodsCount.value
-      }
+    const pieRef = ref<InstanceType<typeof pieEcharts>>()
+    const roseRef = ref<InstanceType<typeof pieEcharts>>()
+    const funnelRef = ref<InstanceType<typeof funnelEchart>>()
+
+    // 柱状图
+    const barOptions: EChartsOption = {
+      dataset: [
+        {
+          dimensions: [{ name: 'name' }, { name: 'goodsCount' }],
+          source: goodsCount.value
+        }
+      ],
+      series: [
+        { type: 'bar', datasetIndex: 0 },
+        { type: 'bar', datasetIndex: 1 }
+      ]
     }
     // pie 饼图
-    const pieOptions = reactive<EChartsOption>({
-      title: { text: 'pie' },
-      series: [{ type: 'pie' }]
-    })
+    const pieOptions: EChartsOption = {
+      dataset: {
+        dimensions: [{ name: 'name' }, { name: 'goodsCount' }],
+        source: goodsSale.value
+      }
+    }
+    // 玫瑰图
+    const roseOptions: EChartsOption = {
+      dataset: {
+        dimensions: [{ name: 'name' }, { name: 'goodsCount' }],
+        source: goodsSale.value
+      },
+      series: [
+        {
+          selectedMode: 'single',
+          type: 'pie',
+          radius: ['10%', '80%'],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 8
+          },
+          label: {
+            show: true,
+            position: 'inside'
+          }
+        }
+      ]
+    }
+    // 漏斗图
+    const funnelOptions: EChartsOption = {
+      dataset: {
+        dimensions: [{ name: 'saleCount' }, { name: 'id' }],
+        source: goodsSaleTop.value
+      }
+    }
+    const barConfig = {
+      width: '100%',
+      height: '100%',
+      options: barOptions
+    }
     const pieConfig = {
       width: '100%',
       height: '100%',
       options: pieOptions
     }
-    const barConfig = {
+    const roseConfig = {
       width: '100%',
       height: '100%',
-      options: options
+      options: roseOptions
     }
-    const btn = () => {
-      const opa = {
-        series: [
-          {
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 100, 10, 20]
-          },
-          {
-            name: 'a',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      }
-      barRef.value?.setOption(opa)
+    const funnelConfig = {
+      width: '100%',
+      height: '100%',
+      options: funnelOptions
     }
-    // watchEffect((newValue: any) => {
 
-    //   console.log('pieOptions.value :>> ', pieOptions.value)
-    //   pieRef.value?.setOption({ ...pieOptions.value })
-    //   console.log('newValue :>> ', newValue.value)
-    // })
-    watch(goodsCount, (newValue) => {
-      console.log('newValue.value :>> ', newValue)
+    watch(goodsSale, (newValue) => {
       pieRef.value?.setOption({
         dataset: {
           dimensions: ['name', 'goodsCount'],
-          source: goodsSale.value
+          source: newValue
         }
       })
     })
-    // nextTick(() => {
-    //   console.log('goodsSale.value :>> ', goodsSale.value)
-    //   pieRef.value?.setOption({
-    //     title: { text: 'pie' },
-    //     series: [{ type: 'pie' }],
-    //     dataset: {
-    //       dimensions: ['name', 'goodsCount'],
-    //       source: goodsSale.value
-    //     }
-    //   })
-    // })
+    watch(goodsSaleTop, (newValue) => {
+      funnelRef.value?.setOption({
+        dataset: {
+          dimensions: [{ name: 'id' }, { name: 'name' }, { name: 'saleCount' }],
+          source: newValue
+        }
+      })
+    })
+    watch(goodsCount, (newValue) => {
+      barRef.value?.setOption({
+        dataset: {
+          dimensions: ['name', 'goodsCount', 'id'],
+          source: newValue
+        }
+      })
+    })
+    watch(goodsFavor, (newValue) => {
+      roseRef.value?.setOption({
+        dataset: {
+          dimensions: ['name', 'goodsFavor'],
+          source: newValue
+        }
+      })
+    })
+
     return {
       barConfig,
       pieConfig,
+      roseConfig,
+      funnelConfig,
+      roseRef,
       barRef,
       pieRef,
-      btn
+      funnelRef
     }
   }
 })
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.row {
+  margin-top: 10px;
+}
+</style>

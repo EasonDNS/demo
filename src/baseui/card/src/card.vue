@@ -1,61 +1,51 @@
 <template>
-  <div class="card" :style="Config.style">
-    <el-card :shadow="Config.shadow" :body-style="Config.elBodyStyle">
-      <template #header v-if="Config.isShowTitle">
-        <div class="header" :style="Config.header">
-          <slot name="header">
-            {{ Config.title }}
-          </slot>
+  <div class="card">
+    <el-card :shadow="shadow ?? 'alway'">
+      <template #header v-if="isShowHeader">
+        <div class="header">
+          <span> {{ title }} </span>
         </div>
       </template>
-
-      <div class="body" :style="Config.body">
-        <slot> body </slot>
+      <div class="item" :style="bodyStyle ?? { height: '360px' }">
+        <slot></slot>
       </div>
     </el-card>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-import { ICardConfig } from './type'
 export default defineComponent({
   name: 'card',
   props: {
-    Config: {
-      type: Object as PropType<ICardConfig>,
-      default: () => {
-        return {
-          isShowTitle: true,
-          style: {
-            textAlign: 'left'
-          },
-          shadow: 'always',
-          title: '这是标题~',
-          header: {
-            height: '10px'
-          },
-          elBodyStyle: {
-            padding: '15px',
-            height: '360px'
-          },
-          body: {
-            textAlign: 'center',
-            height: '100%'
-          }
-        }
-      }
+    title: {
+      type: String,
+      default: '这是标题'
+    },
+    isShowHeader: {
+      type: Boolean,
+      default: true
+    },
+    shadow: String,
+    bodyStyle: {
+      type: Object
     }
   },
   setup() {
-    const cardConfig = {}
-    return {
-      cardConfig
-    }
+    const h = ref('')
+    return { h }
   }
 })
 </script>
 <style lang="less" scoped>
-.el-card__body {
+&:deep(.el-card__header) {
+  padding: 10px 20px !important;
+}
+.header {
+  height: 15px;
+  text-align: left;
+}
+.item {
+  // height: 360px;
 }
 </style>

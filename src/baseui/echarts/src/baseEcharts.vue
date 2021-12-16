@@ -33,9 +33,12 @@ export default defineComponent({
       myEchart = echarts.init(baseDivRef.value!)
       myEchart.setOption(options.value)
     })
-    window.onresize = () => {
-      myEchart.resize()
-    }
+    // window.onresize = () => {
+    //   console.log('----base-------')
+    //   content.emit('resize', myEchart)
+    //   // myEchart.resize()
+    // }
+
     const set = (options: echarts.EChartsOption) => {
       myEchart.setOption(options)
     }
@@ -43,7 +46,10 @@ export default defineComponent({
       myEchart.dispose
     }
     onUnmounted(() => {
-      myEchart.dispose
+      myEchart.dispose()
+    })
+    window.addEventListener('resize', () => {
+      myEchart.resize()
     })
     return {
       baseDivRef,

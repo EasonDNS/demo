@@ -2,16 +2,11 @@
   <div class="overview">
     <hr />
     <el-row :gutter="10">
-      <el-col :span="8">
-        <jxls-card :cardConfig="cardConfig"
-          >ssssskikddddddssssssssssssssssssssssssssssssssssssssddddddddddd
-        </jxls-card>
+      <el-col :span="12">
+        <jxls-card sb="sssssssssssiii"> 000</jxls-card>
       </el-col>
-      <el-col :span="8">
-        <jxls-card :cardConfig="cardConfig"> </jxls-card>
-      </el-col>
-      <el-col :span="8">
-        <jxls-card :cardConfig="cardConfig"> </jxls-card>
+      <el-col :span="12">
+        <jxls-card title="我是头部"> 000</jxls-card>
       </el-col>
     </el-row>
   </div>

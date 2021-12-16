@@ -35,15 +35,30 @@ export default defineComponent({
       xAxis: { type: 'category' },
       yAxis: {},
       legend: {},
+      // 默认触发
       tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'shadow'
         }
       }
+
+      // series: [
+      //   {
+      //     type: 'bar',
+      //     //高亮显示
+      //     emphasis: {
+      //       label: {
+      //         show: true,
+      //         fontSize: '16',
+      //         fontWeight: 'bold'
+      //       }
+      //     }
+      //   }
+      // ]
     }
     const options = { ...baseOptions, ...props.barConfig.options }
-    const setOption = (op: any) => {
+    const setOption = (op: echarts.EChartsOption) => {
       const option = { ...options, ...op }
       baseEchartsRef.value?.set(option)
     }
