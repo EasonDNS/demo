@@ -48,8 +48,8 @@ export default defineComponent({
       series: [
         {
           type: 'funnel',
-          min: 0,
-          max: 100,
+          // min: 0,
+          // max: 10,
           funnelAlign: 'center',
           minSize: '0%',
           maxSize: '100%',

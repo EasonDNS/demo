@@ -41,21 +41,27 @@ export default defineComponent({
         axisPointer: {
           type: 'shadow'
         }
-      }
-
-      // series: [
-      //   {
-      //     type: 'bar',
-      //     //高亮显示
-      //     emphasis: {
-      //       label: {
-      //         show: true,
-      //         fontSize: '16',
-      //         fontWeight: 'bold'
-      //       }
-      //     }
-      //   }
-      // ]
+      },
+      dataZoom: [
+        {
+          type: 'inside',
+          xAxisIndex: [0]
+          // yAxisIndex: [0]
+        }
+      ],
+      series: [
+        {
+          type: 'bar',
+          //高亮显示
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '16',
+              fontWeight: 'bold'
+            }
+          }
+        }
+      ]
     }
     const options = { ...baseOptions, ...props.barConfig.options }
     const setOption = (op: echarts.EChartsOption) => {

@@ -31,6 +31,7 @@
         :row-style="rowStyle"
         v-bind="tableConfig.tree ?? {}"
         @select="select"
+        row-class-name="rowClassName"
       >
         <!-- 表格第一列选择框  isShowSecelection -->
         <template v-if="isShowSecelection">
@@ -203,6 +204,12 @@ export default defineComponent({
       align: 'center',
       sortable: true
     })
+
+    const rowClassName = (row: any, rowIndex: number) => {
+      console.log('row :>> ', row)
+      console.log('rowIndex :>> ', rowIndex)
+    }
+
     return {
       isShowSerial,
       isShowSecelection,
@@ -219,7 +226,9 @@ export default defineComponent({
       handleRegester,
       handleRefresh,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+
+      rowClassName
     }
   }
 })

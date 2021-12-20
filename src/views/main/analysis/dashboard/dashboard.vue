@@ -32,10 +32,7 @@
       <el-col :span="12">
         <div class="goods-sale-top">
           <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
-            <funnel-echart
-              :funnelConfig="funnelConfig"
-              ref="addressRef"
-            ></funnel-echart>
+            <custom-echart :anData="anData"></custom-echart>
           </jxls-card>
         </div>
       </el-col>
@@ -52,6 +49,8 @@ import barEcharts from '@/baseui/echarts/src/cpns/barEchart.vue'
 import pieEcharts from '@/baseui/echarts/src/cpns/pieEchart.vue'
 import funnelEchart from '@/baseui/echarts/src/cpns/funnelEchart.vue'
 import { EChartsOption } from 'echarts'
+
+import customEchart from '@/baseui/echarts/src/cpns/customEchart.vue'
 
 export default defineComponent({
   components: { jxlsCard, pieEcharts, barEcharts, funnelEchart },
@@ -83,6 +82,7 @@ export default defineComponent({
     const pieRef = ref<InstanceType<typeof pieEcharts>>()
     const roseRef = ref<InstanceType<typeof pieEcharts>>()
     const funnelRef = ref<InstanceType<typeof funnelEchart>>()
+    const anData = goodsFavor.value
 
     // 柱状图
     const barOptions: EChartsOption = {
@@ -95,6 +95,13 @@ export default defineComponent({
       series: [
         { type: 'bar', datasetIndex: 0 },
         { type: 'bar', datasetIndex: 1 }
+      ],
+      dataZoom: [
+        {
+          xAxisIndex: [0],
+          type: 'inside'
+          // yAxisIndex: [0]
+        }
       ]
     }
     // pie 饼图
@@ -196,7 +203,8 @@ export default defineComponent({
       roseRef,
       barRef,
       pieRef,
-      funnelRef
+      funnelRef,
+      anData
     }
   }
 })

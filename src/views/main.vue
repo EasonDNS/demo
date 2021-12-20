@@ -8,10 +8,27 @@
       </el-aside>
       <el-container>
         <el-header>
-          <nav-header></nav-header>
+          <transition
+            appear
+            name="header"
+            mode="out-in"
+            enter-active-class="animate__animated animate__backInDown"
+            leave-active-class="animate__animated animate__bounceOutRight"
+          >
+            <nav-header></nav-header>
+          </transition>
         </el-header>
         <el-main>
-          <router-view></router-view>
+          <!-- <router-view></router-view> -->
+          <transition
+            appear
+            name="jxls"
+            mode="out-in"
+            enter-active-class="animate__animated animate__bounceInRight"
+            leave-active-class="animate__animated animate__bounceOutRight"
+          >
+            <router-view></router-view>
+          </transition>
         </el-main>
       </el-container>
     </el-container>
@@ -24,7 +41,6 @@ import NavHeader from '@/components/nav-header'
 import NavAside from '@/components/nav-aside'
 
 import { mitt } from '@/services'
-
 export default defineComponent({
   components: {
     NavAside,

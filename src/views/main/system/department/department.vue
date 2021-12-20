@@ -4,6 +4,7 @@
       :pageFormConfig="pageFormConfig"
       @handleVisibleChange="handleVisibleChange"
     ></page-form>
+
     <page-content
       :pageContentConfig="pageContentConfig"
       :pageDialogConfig="pageDialogConfig"

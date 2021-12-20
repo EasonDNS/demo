@@ -2,22 +2,13 @@
   <div class="breadcrumb">
     <el-breadcrumb>
       <el-breadcrumb-item v-if="openFatherItem">
-        <!-- <el-alert
-          :title="openFatherItem"
-          type="success"
-          :center="true"
-          effect="dark"
-          :closable="false"
-        ></el-alert> -->
         <strong> {{ openFatherItem }}</strong>
       </el-breadcrumb-item>
-
       <el-breadcrumb-item
         v-for="item of breadArrs"
         :key="item.id"
         :to="item.url"
       >
-        <!-- {{ item.name }} -->
         <el-alert
           :title="item.name"
           type="info"
@@ -88,6 +79,11 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
+.el-alert__title {
+  display: inline-block;
+  margin-right: 5px;
+}
+
 .el-breadcrumb__item {
   display: flex;
   justify-content: center;
@@ -98,5 +94,13 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
+  i {
+    padding-left: 5px;
+  }
+}
+.el-alert__content {
+  .el-icon {
+    padding-left: 5px;
+  }
 }
 </style>
