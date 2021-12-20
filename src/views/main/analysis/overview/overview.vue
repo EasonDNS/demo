@@ -1,18 +1,24 @@
 <template>
   <div class="overview">
-    <el-button @click="isShow = !isShow">sss</el-button>
-    <transition-group
-      appear="true"
-      tag="ul"
-      name="jxls"
-      enter-active-class="animate__animated animate__bounceInRight"
-      leave-active-class="animate__animated,animate__bounceOutLeft"
+    <el-button @click="btn">测试</el-button>
+
+    <el-table
+      :data="arr"
+      stripe
+      highlight-current-row
+      border
+      :row-class-name="rowClassName"
+      @cell-mouse-enter="cellMouseEnter"
     >
-      <li v-for="(item, index) of arr" :key="item" :data-index="index">
-        {{ item }}-{{ index }}
+      <el-table-column prop="name"></el-table-column>
+      <el-table-column prop="age"></el-table-column>
+    </el-table>
+    <hr />
+    <ul>
+      <li v-for="item of arr" :key="item">
+        {{ item }}
       </li>
-      <h2 v-if="isShow">{{ item }}00000</h2>
-    </transition-group>
+    </ul>
   </div>
 </template>
 <script lang="ts">
@@ -22,29 +28,45 @@ import gsap from 'gsap'
 export default defineComponent({
   name: 'overview',
   setup() {
-    const arr = ref([1, 2, 4, 5, 6, 7, 9, 87])
-    // const beforeEnter = (el: gsap.TweenTarget) => {
-    //   gsap.from(el, { opacity: 0, scale: 0 })
-    // }
-    // const enter = (el: any, done: any) => {
-    //   gsap.from(el, {
-    //     duration: 2,
-    //     x: 400,
-    //     opacity: 0,
-    //     onComplete: done,
-    //     delay: el.dataset.index * 0.5
-    //   })
-    // }
-    // const afterEnter = (el: gsap.TweenTarget, done: any) => {
-    //   // gsap.to(el, { opacity: 1, onComplete: done })
-    // }
+    const arr = ref([
+      {
+        name: 'jxls',
+        age: 18
+      },
+      {
+        name: 'eason',
+        age: 19
+      },
+      {
+        name: 'xiao',
+        age: 99
+      },
+      {
+        name: 'bai',
+        age: 19
+      }
+    ])
+
     const isShow = ref(true)
+    const rowClassName = (row: any) => {
+      // console.log(row)
+      // console.log(rowIndex)
+    }
+    const num = Math.random() * arr.value.length
+    const btn = () => {
+      // arr.value.pop()
+      arr.value.splice(num, 1)
+    }
+    const cellMouseEnter = (data: any) => {
+      console.log('data.row :>> ', data)
+      // gsap.from(data.cell, { duration: 4, x: 500 })
+    }
     return {
       arr,
-      isShow
-      // beforeEnter,
-      // enter,
-      // afterEnter
+      isShow,
+      rowClassName,
+      btn,
+      cellMouseEnter
     }
   }
 })

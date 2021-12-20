@@ -82,7 +82,8 @@ export default defineComponent({
       backgroundColor: '#545c64',
       textColor: '#fff',
       activeTextColor: '#ffd04b',
-      router: true
+      router: true,
+      collapseTransition: false
     })
     const imgRef = ref()
     const isCollapse: any = ref(false)

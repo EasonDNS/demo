@@ -31,7 +31,6 @@
         :row-style="rowStyle"
         v-bind="tableConfig.tree ?? {}"
         @select="select"
-        row-class-name="rowClassName"
       >
         <!-- 表格第一列选择框  isShowSecelection -->
         <template v-if="isShowSecelection">
@@ -74,6 +73,7 @@
                 </slot>
               </template>
             </template>
+
             <template #empty> _null_ </template>
           </el-table-column>
         </template>
@@ -125,6 +125,7 @@ import { defineComponent, PropType, ref } from 'vue'
 import { ITableConfig } from './type'
 
 import { day } from '@/utils'
+
 export default defineComponent({
   props: {
     tableConfig: {
@@ -205,17 +206,11 @@ export default defineComponent({
       sortable: true
     })
 
-    const rowClassName = (row: any, rowIndex: number) => {
-      console.log('row :>> ', row)
-      console.log('rowIndex :>> ', rowIndex)
-    }
-
     return {
       isShowSerial,
       isShowSecelection,
       day,
       defaultStyle,
-
       total,
       pageSize,
       currentPage,
@@ -226,9 +221,7 @@ export default defineComponent({
       handleRegester,
       handleRefresh,
       handleSizeChange,
-      handleCurrentChange,
-
-      rowClassName
+      handleCurrentChange
     }
   }
 })

@@ -35,7 +35,6 @@ const iconNames = [
   Coffee,
   ChatLineRound,
   Delete,
-  DeleteFilled,
   UserFilled,
   User,
   Smoking,

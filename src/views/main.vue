@@ -20,15 +20,18 @@
         </el-header>
         <el-main>
           <!-- <router-view></router-view> -->
-          <transition
-            appear
-            name="jxls"
-            mode="out-in"
-            enter-active-class="animate__animated animate__bounceInRight"
-            leave-active-class="animate__animated animate__bounceOutRight"
-          >
-            <router-view></router-view>
-          </transition>
+
+          <router-view v-slot="{ Component }">
+            <transition
+              appear
+              @enter="enter"
+              @leave="leave"
+              mode="out-in"
+              :css="false"
+            >
+              <component :is="Component" />
+            </transition>
+          </router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -41,6 +44,7 @@ import NavHeader from '@/components/nav-header'
 import NavAside from '@/components/nav-aside'
 
 import { mitt } from '@/services'
+import gsap from 'gsap/all'
 export default defineComponent({
   components: {
     NavAside,
@@ -52,9 +56,23 @@ export default defineComponent({
     mitt.on('isFold', (pay) => {
       isFold.value = pay
     })
+    const enter = (el: any, done: any) => {
+      gsap.from(el, {
+        duration: 1,
+        y: -600,
+        opacity: 0,
+        ease: 'back.inOut(1.9)',
 
+        onComplete: done
+      })
+    }
+    const leave = (el: any, done: any) => {
+      gsap.to(el, { duration: 1, x: 600, opacity: 0, onComplete: done })
+    }
     return {
-      isFold
+      isFold,
+      enter,
+      leave
     }
   }
 })
@@ -64,6 +82,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   display: block;
+  // position: absolute;
   .el-container {
     height: 100%;
     .el-aside {
