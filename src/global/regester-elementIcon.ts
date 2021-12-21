@@ -18,6 +18,7 @@ import {
   Setting,
   Share,
   Smoking,
+  Unlock,
   User,
   UserFilled
 } from '@element-plus/icons'
@@ -42,7 +43,8 @@ const iconNames = [
   CaretRight,
   DeleteFilled,
   Refresh,
-  Search
+  Search,
+  Unlock
 ]
 
 const comicon = (app: App): void => {

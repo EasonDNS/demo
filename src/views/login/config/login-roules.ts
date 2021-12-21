@@ -1,5 +1,5 @@
 export const rules = {
-  name: [
+  user: [
     {
       required: true,
       message: '用户名是必传内容~',
