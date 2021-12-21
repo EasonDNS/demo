@@ -2,13 +2,18 @@ export interface IForm {
   formItems: IFormItem[]
   pageName: string
   rules?: any
+  labelPosition?: string
   formStyle?: IFormStyle
   isShowHeader?: boolean
   isShowFooter?: boolean
+  footerStyle?: string
+  isHandle?: boolean
 }
 
 export interface IFormItem {
+  // 指定字段
   field: string
+  // 指定用什么表单
   type: IFormItemType
   label: string
   itemStyle?: itemStyle

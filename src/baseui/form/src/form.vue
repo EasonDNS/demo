@@ -18,6 +18,7 @@
       :label-width="
         formConfig?.formStyle?.labelWidth ?? defaultFormStyle.labelWidth
       "
+      :label-position="formConfig.labelPosition ?? 'left'"
     >
       <el-row
         :justify="formConfig.formStyle?.justify ?? defaultFormStyle.justify"
@@ -130,7 +131,11 @@
         </template>
       </el-row>
     </el-form>
-    <div class="footer" v-if="formConfig?.isShowFooter ?? true">
+    <div
+      class="footer"
+      v-if="formConfig?.isShowFooter ?? true"
+      :style="{ textAlign: formConfig.footerStyle ?? 'right' }"
+    >
       <slot name="footer">
         <el-button type="info" size="mini" plain @click="handleReset">
           <el-icon><refresh /></el-icon>
@@ -241,7 +246,7 @@ export default defineComponent({
   padding-bottom: 5px;
 }
 .footer {
-  text-align: right;
+  // text-align: 'center';
   padding-right: 20px;
   margin-bottom: 10px;
   .search-btn {
@@ -249,6 +254,11 @@ export default defineComponent({
   }
   .el-button {
     // padding-left: 5px;
+  }
+}
+.form {
+  .el-select {
+    width: 100%;
   }
 }
 </style>

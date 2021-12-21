@@ -77,10 +77,12 @@ export default defineComponent({
     // 3, 监听到重置会去重新查询数据
     const handleReset = () => {
       resetData()
-      store.dispatch(
-        mapName.page(props.pageFormConfig.pageName).queryAction!,
-        pageData.value
-      )
+      if (!props.pageFormConfig.isHandle) {
+        store.dispatch(
+          mapName.page(props.pageFormConfig.pageName).queryAction!,
+          pageData.value
+        )
+      }
     }
 
     const jxlsFormRef = ref<InstanceType<typeof jxlsForm>>()
@@ -89,11 +91,15 @@ export default defineComponent({
     const handleReSearch = () => {
       jxlsFormRef.value?.formRef?.validate((vali) => {
         if (vali) {
-          store.dispatch(
-            mapName.page(props.pageFormConfig.pageName).queryAction!,
-            pageData.value
-          )
           content.emit('handleResearch', pageData.value)
+          // 在配置文件 里去接收一个值 来决定是否需要在这一层发射 action
+          // 这里主要是后面加的..要改的地方太多了.就取了一个反,在新的里面去改值
+          if (!props.pageFormConfig.isHandle) {
+            store.dispatch(
+              mapName.page(props.pageFormConfig.pageName).queryAction!,
+              pageData.value
+            )
+          }
         }
       })
     }

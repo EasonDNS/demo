@@ -23,6 +23,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/main/system/user/user.vue')
       }
     ]
+  },
+  {
+    path: '/regester',
+    name: 'regester',
+    component: () => import('@/views/login/regester.vue')
   }
 ]
 
@@ -32,13 +37,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  if (to.path !== '/login') {
-    const token = localcach.get('token')
-    if (!token) {
-      return '/login'
-    }
-    if (to.path === '/main') {
-      return mapMenu.firstMenu.url
+  if (to.path !== '/regester') {
+    if (to.path !== '/login') {
+      const token = localcach.get('token')
+      if (!token) {
+        return '/login'
+      }
+      if (to.path === '/main') {
+        return mapMenu.firstMenu.url
+      }
     }
   }
 })

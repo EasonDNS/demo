@@ -1,72 +1,68 @@
 <template>
   <div class="overview">
     <el-button @click="btn">测试</el-button>
-
-    <el-table
-      :data="arr"
-      stripe
-      highlight-current-row
-      border
-      :row-class-name="rowClassName"
-      @cell-mouse-enter="cellMouseEnter"
-    >
-      <el-table-column prop="name"></el-table-column>
-      <el-table-column prop="age"></el-table-column>
-    </el-table>
     <hr />
-    <ul>
-      <li v-for="item of arr" :key="item">
-        {{ item }}
-      </li>
-    </ul>
+    <input v-model="name" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
 import gsap from 'gsap'
+
+import Schema from 'async-validator'
+
 export default defineComponent({
   name: 'overview',
   setup() {
-    const arr = ref([
-      {
-        name: 'jxls',
-        age: 18
-      },
-      {
-        name: 'eason',
-        age: 19
-      },
-      {
-        name: 'xiao',
-        age: 99
-      },
-      {
-        name: 'bai',
-        age: 19
-      }
-    ])
+    const name = ref('xiao')
+    const password = ref(123456)
 
-    const isShow = ref(true)
-    const rowClassName = (row: any) => {
-      // console.log(row)
-      // console.log(rowIndex)
+    const volidator = (value: any) => {
+      if (value === '123456') {
+        return false
+      } else {
+        return new Error('不要设置这么简单的名字')
+      }
     }
-    const num = Math.random() * arr.value.length
-    const btn = () => {
-      // arr.value.pop()
-      arr.value.splice(num, 1)
+
+    const rules = {
+      name: [
+        {
+          required: true,
+          message: '用户名是必传内容~',
+          trigger: 'blur'
+        },
+        {
+          pattern: /^[a-z0-9]{5,10}$/,
+          message: '用户名必须是5~10个字母或者数字~',
+          trigger: 'blur'
+        }
+      ],
+      password: [
+        {
+          required: true,
+          message: '密码是必传内容~',
+          volidator: volidator,
+          trigger: 'blur'
+        },
+        {
+          pattern: /^[a-z0-9]{3,}$/,
+          message: '用户名必须是3位以上的字母或者数字~',
+          trigger: 'blur'
+        }
+      ]
     }
-    const cellMouseEnter = (data: any) => {
-      console.log('data.row :>> ', data)
-      // gsap.from(data.cell, { duration: 4, x: 500 })
-    }
+
+    const jxls = new Schema(rules)
+    jxls.validate({ name: 'go' }, (errors, fields) => {
+      if (errors) {
+        return 'errors ' + fields
+      }
+    })
     return {
-      arr,
-      isShow,
-      rowClassName,
-      btn,
-      cellMouseEnter
+      password,
+      name
     }
   }
 })

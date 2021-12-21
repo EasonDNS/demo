@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <h2 class="header">吉祥超市后台</h2>
+    <h1 class="header">吉祥超市后台</h1>
     <div class="content">
       <el-form ref="elformRef" :rules="rules" :model="formData">
-        <el-form-item prop="user" required
+        <el-form-item prop="user" required show-message
           ><el-input
             v-model="formData.user"
             placeholder="请输入用户名~"
@@ -11,7 +11,7 @@
             class="user"
           ></el-input
         ></el-form-item>
-        <el-form-item prop="password" required
+        <el-form-item prop="password" required show-message
           ><el-input
             v-model="formData.password"
             placeholder="输入密码~"
@@ -29,7 +29,9 @@
       <el-checkbox v-model="isRemenber" label="记住密码"></el-checkbox>
       <el-link href="#" type="info">忘记密码?</el-link>
     </div>
-    <el-link href="#" type="info">还没注册帐号!</el-link>
+    <el-link href="/regester" type="info" @click="handleRegester"
+      >还没注册帐号!</el-link
+    >
   </div>
 </template>
 <script lang="ts">
@@ -39,10 +41,13 @@ import { ElForm } from 'element-plus'
 import { localcach } from '@/utils'
 import { useStore } from '@/store'
 
+import { useRouter, useRoute } from 'vue-router'
 import { rules } from './config/login-roules'
 export default defineComponent({
   components: {},
   setup() {
+    const router = useRouter()
+    const route = useRoute()
     const store = useStore()
     const elformRef = ref<InstanceType<typeof ElForm>>()
     const formData = ref({
@@ -70,6 +75,9 @@ export default defineComponent({
         }
       })
     }
+    console.log(router)
+    console.log('++++++++++++++++++++++')
+    console.log(route.fullPath)
 
     return {
       formData,
