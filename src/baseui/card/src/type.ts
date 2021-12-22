@@ -16,3 +16,22 @@ export interface ICardConfig {
   elBodyStyle?: IelbodyStyle
   body?: any
 }
+
+export interface ICard1Config {
+  style?: cardstyle
+  title?: string
+  content?: any
+  footer?: footer
+  number?: number
+}
+
+interface cardstyle {
+  background?: string
+  height?: string
+}
+interface footer {
+  icon?: string
+  url?: string
+  Disable?: boolean
+  link?: string
+}

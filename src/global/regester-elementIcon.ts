@@ -1,17 +1,24 @@
 import { App } from 'vue'
 import {
+  Bowl,
+  Briefcase,
+  BrushFilled,
   CaretLeft,
   CaretRight,
   ChatDotRound,
   ChatLineRound,
   ChatRound,
+  Cherry,
   Coffee,
+  CoffeeCup,
   Delete,
   DeleteFilled,
   Edit,
   Expand,
   Fold,
   Goods,
+  GoodsFilled,
+  IceCream,
   Monitor,
   Refresh,
   Search,
@@ -44,7 +51,14 @@ const iconNames = [
   DeleteFilled,
   Refresh,
   Search,
-  Unlock
+  Unlock,
+  IceCream,
+  CoffeeCup,
+  GoodsFilled,
+  Briefcase,
+  Cherry,
+  Bowl,
+  BrushFilled
 ]
 
 const comicon = (app: App): void => {

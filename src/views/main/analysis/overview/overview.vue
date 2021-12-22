@@ -1,68 +1,58 @@
 <template>
   <div class="overview">
-    <el-button @click="btn">测试</el-button>
     <hr />
-    <input v-model="name" />
+    <card-one :config="config">
+      <template #footerIcon>
+        <el-icon><edit /></el-icon>
+      </template>
+    </card-one>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-import gsap from 'gsap'
-
-import Schema from 'async-validator'
-
+import cardOne from '@/baseui/card/src/cpns/card-1.vue'
+import { CountUp } from 'countup.js'
 export default defineComponent({
   name: 'overview',
+  components: { cardOne },
   setup() {
     const name = ref('xiao')
     const password = ref(123456)
-
-    const volidator = (value: any) => {
-      if (value === '123456') {
-        return false
-      } else {
-        return new Error('不要设置这么简单的名字')
-      }
+    const numRef = ref<HTMLElement>()
+    const countup = new CountUp(numRef.value!, 2, { startVal: 0 })
+    const num = ref(100)
+    if (!countup.error) {
+      countup.start()
+    } else {
+      console.log('object')
     }
 
-    const rules = {
-      name: [
-        {
-          required: true,
-          message: '用户名是必传内容~',
-          trigger: 'blur'
-        },
-        {
-          pattern: /^[a-z0-9]{5,10}$/,
-          message: '用户名必须是5~10个字母或者数字~',
-          trigger: 'blur'
-        }
-      ],
-      password: [
-        {
-          required: true,
-          message: '密码是必传内容~',
-          volidator: volidator,
-          trigger: 'blur'
-        },
-        {
-          pattern: /^[a-z0-9]{3,}$/,
-          message: '用户名必须是3位以上的字母或者数字~',
-          trigger: 'blur'
-        }
-      ]
+    const btn = () => {
+      countup.start()
+      countup.update(99999)
     }
-
-    const jxls = new Schema(rules)
-    jxls.validate({ name: 'go' }, (errors, fields) => {
-      if (errors) {
-        return 'errors ' + fields
+    const config = {
+      style: {
+        background: 'linear-gradient(to bottom, #1f4037, #99f2c8)',
+        height: '500px'
+      },
+      title: '我是小标题',
+      content: '我是内容',
+      footer: {
+        url: '#',
+        icon: 'Remove',
+        Disable: false
+        // link: '#'
       }
-    })
+    }
     return {
       password,
-      name
+      name,
+      num,
+      btn,
+      numRef,
+      config
     }
   }
 })

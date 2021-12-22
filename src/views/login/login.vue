@@ -41,13 +41,11 @@ import { ElForm } from 'element-plus'
 import { localcach } from '@/utils'
 import { useStore } from '@/store'
 
-import { useRouter, useRoute } from 'vue-router'
 import { rules } from './config/login-roules'
+
 export default defineComponent({
   components: {},
   setup() {
-    const router = useRouter()
-    const route = useRoute()
     const store = useStore()
     const elformRef = ref<InstanceType<typeof ElForm>>()
     const formData = ref({
@@ -75,10 +73,6 @@ export default defineComponent({
         }
       })
     }
-    console.log(router)
-    console.log('++++++++++++++++++++++')
-    console.log(route.fullPath)
-
     return {
       formData,
       isRemenber,
@@ -98,16 +92,25 @@ export default defineComponent({
   --el-border-radius-base: 20px;
 }
 
+.login::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  filter: blur(5px);
+  z-index: -1;
+  background-image: url('~@/assets/background.png');
+}
+
 .login {
   height: 100%;
   width: 100%;
-  background-image: url('~@/assets/background.png');
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  h2 {
-    color: whitesmoke;
+  h1 {
+    color: rgba(245, 245, 245, 0.822);
   }
   .content {
     width: 30%;

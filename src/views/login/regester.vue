@@ -14,6 +14,7 @@
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useStore } from '@/store'
 
+import { useRouter } from 'vue-router'
 import { regesterConfig } from './config/regester'
 import pageForm from '@/components/page-form'
 
@@ -24,7 +25,7 @@ export default defineComponent({
 
   components: { pageForm },
   setup() {
-    const msg = ref('msg in app')
+    const router = useRouter()
     const store = useStore()
     onMounted(() => {
       store.dispatch('roleModule/queryRoleAction')
@@ -57,11 +58,10 @@ export default defineComponent({
       }
     }
     const handleReSearch = (formdata: any) => {
-      console.log(formdata)
       store.dispatch('userModule/regesterUserAction', formdata)
+      router.push('/main')
     }
     return {
-      msg,
       regesterConfig,
       handleVisibleChange,
       handleReSearch

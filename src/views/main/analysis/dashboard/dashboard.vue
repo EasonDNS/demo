@@ -1,24 +1,76 @@
 <template>
   <div class="dashbaord">
     <hr />
-    <el-row :gutter="10">
+    <el-row gutter="10">
+      <template v-for="(item, index) of goodsAmountList" :key="item">
+        <el-col :span="6">
+          <jxls-card-one
+            :config="{
+              title: item.title,
+              content: '',
+              number: item.number1,
+              style: {
+                height: '130px',
+                background: backgrounds[index]
+              },
+              footer: {
+                link: item.tips,
+                Disabled: true
+              }
+            }"
+          >
+            <template #topIcon>
+              <template v-if="item.amount === 'sale'">
+                <el-icon :size="24" color="white"><briefcase /></el-icon>
+              </template>
+              <template v-if="item.amount === 'favor'">
+                <el-icon :size="24" color="white"><Cherry /></el-icon>
+              </template>
+              <template v-if="item.amount === 'inventory'">
+                <el-icon :size="24" color="white"><Bowl /></el-icon>
+              </template>
+              <template v-if="item.amount === 'saleroom'">
+                <el-icon :size="24" color="white"><BrushFilled /></el-icon>
+              </template>
+            </template>
+            <template #footerIcon>
+              <template v-if="item.amount === 'sale'">
+                <el-icon color="white"><briefcase /></el-icon>
+              </template>
+              <template v-if="item.amount === 'favor'">
+                <el-icon color="white"><Cherry /></el-icon>
+              </template>
+              <template v-if="item.amount === 'inventory'">
+                <el-icon color="white"><Bowl /></el-icon>
+              </template>
+              <template v-if="item.amount === 'saleroom'">
+                <el-icon color="white"><BrushFilled /></el-icon>
+              </template>
+            </template>
+          </jxls-card-one>
+        </el-col>
+      </template>
+    </el-row>
+
+    <hr />
+    <el-row class="row" :gutter="10">
       <el-col :span="8">
-        <jxls-card title="goodsSale">
+        <jxls-card title="goodsSale" :bodyStyle="{ height: '320px' }">
           <pie-echarts :pieConfig="pieConfig" ref="pieRef"></pie-echarts>
         </jxls-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card title="goodsCount">
+        <jxls-card title="goodsCount" :bodyStyle="{ height: '320px' }">
           <bar-echarts :barConfig="barConfig" ref="barRef"></bar-echarts>
         </jxls-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card title="goodsFavor">
+        <jxls-card title="goodsFavor" :bodyStyle="{ height: '320px' }">
           <pie-echarts :pieConfig="roseConfig" ref="roseRef"></pie-echarts>
         </jxls-card>
       </el-col>
     </el-row>
-    <el-row class="row">
+    <el-row class="row" gutter="10">
       <el-col :span="12">
         <div class="goods-sale-top">
           <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
@@ -50,10 +102,17 @@ import pieEcharts from '@/baseui/echarts/src/cpns/pieEchart.vue'
 import funnelEchart from '@/baseui/echarts/src/cpns/funnelEchart.vue'
 import { EChartsOption } from 'echarts'
 
-import customEchart from '@/baseui/echarts/src/cpns/customEchart.vue'
+import jxlsCardOne from '@/baseui/card/src/cpns/card-1.vue'
+import gsap from 'gsap'
 
 export default defineComponent({
-  components: { jxlsCard, pieEcharts, barEcharts, funnelEchart },
+  components: {
+    jxlsCard,
+    pieEcharts,
+    barEcharts,
+    funnelEchart,
+    jxlsCardOne
+  },
   setup() {
     const store = useStore()
     onMounted(() => {
@@ -194,8 +253,19 @@ export default defineComponent({
         }
       })
     })
+    const numberone = ref(0)
+    const enter = (el: any, done: any) => {
+      gsap.from(el, { duration: 10, onComplete: done })
+    }
+    const backgrounds = ref([
+      'linear-gradient(to bottom, #1f4037, #99f2c8)',
+      'linear-gradient(to bottom, #f12711, #f5af19)',
+      'linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1)',
+      'linear-gradient(to bottom, #e1eec3, #f05053)'
+    ])
 
     return {
+      numberone,
       barConfig,
       pieConfig,
       roseConfig,
@@ -204,7 +274,10 @@ export default defineComponent({
       barRef,
       pieRef,
       funnelRef,
-      anData
+      anData,
+      goodsAmountList,
+      backgrounds,
+      enter
     }
   }
 })
@@ -213,5 +286,22 @@ export default defineComponent({
 <style lang="less" scoped>
 .row {
   margin-top: 10px;
+}
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.card-foot {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  .left {
+    font-size: 14px;
+  }
+  .ritght {
+    font-size: 24px;
+  }
 }
 </style>
