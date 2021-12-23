@@ -11,6 +11,7 @@ import {
   Cherry,
   Coffee,
   CoffeeCup,
+  Connection,
   Delete,
   DeleteFilled,
   Edit,
@@ -25,6 +26,8 @@ import {
   Setting,
   Share,
   Smoking,
+  Sort,
+  StarFilled,
   Unlock,
   User,
   UserFilled
@@ -58,7 +61,10 @@ const iconNames = [
   Briefcase,
   Cherry,
   Bowl,
-  BrushFilled
+  BrushFilled,
+  StarFilled,
+  Sort,
+  Connection
 ]
 
 const comicon = (app: App): void => {

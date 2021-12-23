@@ -70,7 +70,7 @@ export default defineComponent({
       title: '我是小标题',
       content: '我是内容',
       footer: {
-        url: '#',
+        url: '/',
         icon: 'Remove',
         Disable: false,
         link: 'this is my Components'
@@ -136,10 +136,10 @@ export default defineComponent({
 }
 </style>
 <style lang="less">
-.el-card__header {
+.card-1.el-card__header {
   border-bottom: none;
 }
-.el-link {
+.card-1.el-link {
   .el-icon {
     padding-right: 5px;
   }

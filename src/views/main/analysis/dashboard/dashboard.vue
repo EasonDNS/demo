@@ -15,7 +15,7 @@
               },
               footer: {
                 link: item.tips,
-                Disabled: true
+                Disable: true
               }
             }"
           >
@@ -35,16 +35,16 @@
             </template>
             <template #footerIcon>
               <template v-if="item.amount === 'sale'">
-                <el-icon color="white"><briefcase /></el-icon>
+                <el-icon><briefcase /></el-icon>
               </template>
               <template v-if="item.amount === 'favor'">
-                <el-icon color="white"><Cherry /></el-icon>
+                <el-icon><Cherry /></el-icon>
               </template>
               <template v-if="item.amount === 'inventory'">
-                <el-icon color="white"><Bowl /></el-icon>
+                <el-icon><Bowl /></el-icon>
               </template>
               <template v-if="item.amount === 'saleroom'">
-                <el-icon color="white"><BrushFilled /></el-icon>
+                <el-icon><BrushFilled /></el-icon>
               </template>
             </template>
           </jxls-card-one>
@@ -84,7 +84,7 @@
       <el-col :span="12">
         <div class="goods-sale-top">
           <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
-            <custom-echart :anData="anData"></custom-echart>
+            <bar-echarts :barConfig="lineConfig" ref="lineRef"></bar-echarts>
           </jxls-card>
         </div>
       </el-col>
@@ -138,9 +138,11 @@ export default defineComponent({
     )
     // 绑定容器
     const barRef = ref<InstanceType<typeof barEcharts>>()
+    const lineRef = ref<InstanceType<typeof barEcharts>>()
     const pieRef = ref<InstanceType<typeof pieEcharts>>()
     const roseRef = ref<InstanceType<typeof pieEcharts>>()
     const funnelRef = ref<InstanceType<typeof funnelEchart>>()
+
     const anData = goodsFavor.value
 
     // 柱状图
@@ -200,6 +202,27 @@ export default defineComponent({
         source: goodsSaleTop.value
       }
     }
+    const lineOptions: EChartsOption = {
+      dataset: [
+        {
+          dimensions: [{ name: 'address' }],
+          source: goodsAddressSale.value
+        }
+      ],
+      series: [{ type: 'line', datasetIndex: 0 }],
+      dataZoom: [
+        {
+          xAxisIndex: [0],
+          type: 'inside'
+          // yAxisIndex: [0]
+        }
+      ]
+    }
+    const lineConfig = {
+      width: '100%',
+      height: '100%',
+      options: lineOptions
+    }
     const barConfig = {
       width: '100%',
       height: '100%',
@@ -220,7 +243,14 @@ export default defineComponent({
       height: '100%',
       options: funnelOptions
     }
-
+    watch(goodsAddressSale, (newValue) => {
+      lineRef.value?.setOption({
+        dataset: {
+          dimensions: ['address', 'count'],
+          source: newValue
+        }
+      })
+    })
     watch(goodsSale, (newValue) => {
       pieRef.value?.setOption({
         dataset: {
@@ -258,7 +288,8 @@ export default defineComponent({
       gsap.from(el, { duration: 10, onComplete: done })
     }
     const backgrounds = ref([
-      'linear-gradient(to bottom, #1f4037, #99f2c8)',
+      'linear-gradient(25deg, #e55509, #e19038, #d4c261, #b8f18a)',
+      // 'linear-gradient(to bottom, #1f4037, #99f2c8)',
       'linear-gradient(to bottom, #f12711, #f5af19)',
       'linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1)',
       'linear-gradient(to bottom, #e1eec3, #f05053)'
@@ -269,11 +300,13 @@ export default defineComponent({
       barConfig,
       pieConfig,
       roseConfig,
+      lineConfig,
       funnelConfig,
       roseRef,
       barRef,
       pieRef,
       funnelRef,
+      lineRef,
       anData,
       goodsAmountList,
       backgrounds,

@@ -23,6 +23,7 @@
     "gsap": "^3.8.0",
     "mitt": "^3.0.0",
     "normalize.css": "^8.0.1",
+    "particlesjs": "^2.2.3",
     "unplugin-vue-components": "^0.17.2",
     "vue": "^3.2.24",
     "vue-cli": "^2.9.6",
