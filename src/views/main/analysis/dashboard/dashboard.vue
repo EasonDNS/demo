@@ -51,42 +51,49 @@
         </el-col>
       </template>
     </el-row>
-
     <hr />
     <el-row class="row" :gutter="10">
       <el-col :span="8">
-        <jxls-card title="goodsSale" :bodyStyle="{ height: '320px' }">
-          <pie-echarts :pieConfig="pieConfig" ref="pieRef"></pie-echarts>
-        </jxls-card>
+        <base-card :config="baseCardConfig">
+          <template #header>
+            <pie-echarts :pieConfig="pieConfig" ref="pieRef"></pie-echarts>
+          </template>
+        </base-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card title="goodsCount" :bodyStyle="{ height: '320px' }">
-          <bar-echarts :barConfig="barConfig" ref="barRef"></bar-echarts>
-        </jxls-card>
+        <base-card :config="baseCardConfig">
+          <template #header>
+            <bar-echarts :barConfig="barConfig" ref="barRef"></bar-echarts>
+          </template>
+        </base-card>
       </el-col>
       <el-col :span="8">
-        <jxls-card title="goodsFavor" :bodyStyle="{ height: '320px' }">
-          <pie-echarts :pieConfig="roseConfig" ref="roseRef"></pie-echarts>
-        </jxls-card>
+        <base-card :config="baseCardConfig">
+          <template #header>
+            <pie-echarts :pieConfig="roseConfig" ref="roseRef"></pie-echarts>
+          </template>
+        </base-card>
       </el-col>
     </el-row>
-    <el-row class="row" gutter="10">
+
+    <hr />
+    <el-row class="row" :gutter="10">
       <el-col :span="12">
-        <div class="goods-sale-top">
-          <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
+        <base-card :config="baseCardConfig">
+          <template #header>
             <funnel-echart
               :funnelConfig="funnelConfig"
               ref="funnelRef"
             ></funnel-echart>
-          </jxls-card>
-        </div>
+          </template>
+        </base-card>
       </el-col>
       <el-col :span="12">
-        <div class="goods-sale-top">
-          <jxls-card :bodyStyle="{ height: '360px' }" title="goodsSaleTop">
+        <base-card :config="baseCardConfig">
+          <template #header>
             <bar-echarts :barConfig="lineConfig" ref="lineRef"></bar-echarts>
-          </jxls-card>
-        </div>
+          </template>
+        </base-card>
       </el-col>
     </el-row>
   </div>
@@ -96,7 +103,6 @@
 import { onMounted, ref, defineComponent, computed, watch } from 'vue'
 import { useStore } from '@/store'
 
-import jxlsCard from '@/baseui/card'
 import barEcharts from '@/baseui/echarts/src/cpns/barEchart.vue'
 import pieEcharts from '@/baseui/echarts/src/cpns/pieEchart.vue'
 import funnelEchart from '@/baseui/echarts/src/cpns/funnelEchart.vue'
@@ -105,13 +111,15 @@ import { EChartsOption } from 'echarts'
 import jxlsCardOne from '@/baseui/card/src/cpns/card-1.vue'
 import gsap from 'gsap'
 
+import baseCard from '@/baseui/card/src/cpns/baseCard.vue'
+
 export default defineComponent({
   components: {
-    jxlsCard,
     pieEcharts,
     barEcharts,
     funnelEchart,
-    jxlsCardOne
+    jxlsCardOne,
+    baseCard
   },
   setup() {
     const store = useStore()
@@ -194,6 +202,11 @@ export default defineComponent({
           }
         }
       ]
+      // legend: {
+      //   textStyle: {
+      //     color: '#fff'
+      //   }
+      // }
     }
     // 漏斗图
     const funnelOptions: EChartsOption = {
@@ -289,11 +302,23 @@ export default defineComponent({
     }
     const backgrounds = ref([
       'linear-gradient(25deg, #e55509, #e19038, #d4c261, #b8f18a)',
-      // 'linear-gradient(to bottom, #1f4037, #99f2c8)',
       'linear-gradient(to bottom, #f12711, #f5af19)',
       'linear-gradient(to bottom, #59c173, #a17fe0, #5d26c1)',
       'linear-gradient(to bottom, #e1eec3, #f05053)'
     ])
+
+    const baseCardConfig = ref({
+      header: {
+        height: '320px',
+        background: 'linear-gradient(to right, #43c6ac, #f8ffae)'
+      },
+      content: {
+        isShowContent: false
+      },
+      footer: {
+        isShowFooter: false
+      }
+    })
 
     return {
       numberone,
@@ -310,7 +335,8 @@ export default defineComponent({
       anData,
       goodsAmountList,
       backgrounds,
-      enter
+      enter,
+      baseCardConfig
     }
   }
 })

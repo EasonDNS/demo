@@ -31,7 +31,10 @@ export default defineComponent({
   name: 'goods',
   setup() {
     const store = useStore()
-    onMounted(() => store.dispatch('goodsModule/queryGoodsAction'))
+    onMounted(() => {
+      store.dispatch('goodsModule/queryGoodsAction')
+    })
+
     // const imgurlList = ref<string[]>([])
     const list = computed(() => store.state.goodsModule.list)
     const totalCount = computed(() => store.state.goodsModule.totalCount)

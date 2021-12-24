@@ -99,7 +99,8 @@ export default defineComponent({
   position: absolute;
   filter: blur(5px);
   z-index: -1;
-  background-image: url('~@/assets/background.png');
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  // background-image: url('~@/assets/background.png');
 }
 
 .login {

@@ -33,6 +33,9 @@ export default defineComponent({
     const baseEchartsRef = ref<InstanceType<typeof baseEcharts>>()
     // 默认的 pie 配置选项
     const baseOptions: echarts.EChartsOption = {
+      textStyle: {
+        color: '#fff'
+      },
       // 设置图例显示的位置及排列
       legend: {
         left: 'center'

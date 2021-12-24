@@ -1,6 +1,7 @@
 import { jaxiosRequestconfig } from './type'
 import './axios'
 const BASE_URL = '/api'
+// const BASE_URL = 'http://152.136.185.210:5000'
 if (process.env.NODE_ENV === 'development') {
   // BASE_URL = 'http://152.136.185.210:5000'
 }

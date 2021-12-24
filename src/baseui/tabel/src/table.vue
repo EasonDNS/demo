@@ -26,6 +26,7 @@
     <div class="content">
       <el-table
         class="table"
+        fit="false"
         :data="listData"
         :border="true"
         :row-style="rowStyle"

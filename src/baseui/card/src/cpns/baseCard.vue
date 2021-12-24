@@ -1,15 +1,19 @@
 <template>
-  <div class="base-card">
+  <div class="base-card" @mouseover="mouseover" @mouseout="mouseout">
     <!-- 头部 -->
     <div class="header">
       <div class="header-one">
         <!-- 头部 插入 -->
         <div
+          ref="headerRef"
           class="header-body"
           :style="{
             background: config?.header?.background ?? transparent,
             width: config?.header?.width ?? '100%',
-            height: config?.header?.height ?? '160px'
+            height: config?.header?.height ?? '160px',
+            boxShadow: config?.content?.isShowContent
+              ? '0 3px 3px 2px rgba(0, 0, 0, 0.3)'
+              : ''
           }"
         >
           <!-- 头部插槽 header  -->
@@ -25,6 +29,7 @@
     <!-- 中间  -->
     <div
       class="content"
+      v-if="config?.content?.isShowContent ?? true"
       :style="{ color: config?.content?.color ?? 'rgba(66, 66, 66, 0.5)' }"
     >
       <!-- 中间 content 插槽  -->
@@ -73,7 +78,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import gsap from 'gsap'
+
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'base-card',
   props: {
@@ -85,7 +92,21 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    const headerRef = ref<HTMLElement>()
+    const mouseover = () => {
+      gsap.to(headerRef.value!, {
+        duration: 0.2,
+        y: -10
+      })
+    }
+    const mouseout = () => {
+      gsap.to(headerRef.value!, { duration: 0.2, y: 0 })
+    }
+    return {
+      headerRef,
+      mouseover,
+      mouseout
+    }
   }
 })
 </script>
@@ -98,7 +119,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   // background-image: linear-gradient(61deg, #575461, #787984, #9ba0a9, #bfc9d0);
-  box-shadow: 0 3px 3px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.2);
   .header {
     box-sizing: border-box;
     margin-top: -20px;
@@ -112,7 +133,7 @@ export default defineComponent({
       flex-direction: column;
 
       .header-body {
-        box-shadow: 0 3px 3px 2px rgba(0, 0, 0, 0.3);
+        // box-shadow: 0 3px 3px 2px rgba(0, 0, 0, 0.3);
         // background: linear-gradient(60deg, #e76b0bb2, #ff9800);
         border-radius: 5px;
         padding: 10px;
