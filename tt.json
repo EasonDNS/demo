@@ -1,0 +1,18 @@
+{
+  "picBed": {
+    "uploader": "ftp-uploader",
+    "current": "ftp-uploader",
+    "ftp-uploader": {
+      "host": "http://img.easondns.top:88",
+      "username": "smms",
+      "password": "Abcd1956826601",
+      "path": "/uploads/{year}/{month}/{fullName}",
+      "port": "5542",
+      "uploadPath": "/uploads/{year}/{month}/{fullName}",
+      "url": "http://img.easondns.top:88"
+    }
+  },
+  "picgoPlugins": {
+    "picgo-plugin-ftp-uploader": true
+  }
+}

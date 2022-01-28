@@ -3,88 +3,86 @@
     <hr />
     <el-row :gutter="10">
       <el-col :span="24" class="one">
-        <el-table
-          :data="userInfo"
-          :row-style="rowStyle"
-          size="small"
-          highlight-current-row
-        >
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="expand"></el-table-column>
-          <el-table-column type="index"></el-table-column>
-          <el-table-column
-            label="id"
-            prop="id"
-            class-name="id"
-            label-class-name="labelclassname"
-            fixed
-          >
-          </el-table-column>
-          <el-table-column label="cellphone" prop="cellphone">
-          </el-table-column>
-          <el-table-column label="name" prop="name"> </el-table-column>
-          <el-table-column label="realname" prop="realname"> </el-table-column>
-          <el-table-column label="createAt" prop="createAt"> </el-table-column>
-        </el-table>
+        <el-button type="success" @click="btn">测试</el-button>
+        <el-input v-model="it"></el-input>
+        <h2 class="it" ref="hRef">{{ it }}</h2>
+      </el-col>
+      <el-col>
+        <div class="box"></div>
       </el-col>
     </el-row>
     <hr />
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { localcach } from '@/utils'
+import _ from 'lodash'
+import gsap from 'gsap'
+import { TextPlugin } from 'gsap/TextPlugin'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+// import { Flip } from 'gsap/Flip'
 export default defineComponent({
   name: 'overview',
   components: {},
   setup() {
     const userInfo = localcach.get('userInfo')
-    const tabelColors = ref<string[]>([
-      'linear-gradient(to right, #159957, #155799)',
-      'linear-gradient( 135deg, #5EFCE8 50%, #736EFE 100%)'
-    ])
+    const hRef = ref<HTMLElement>()
+    const boxref = ref<HTMLElement>()
+    gsap.registerPlugin(TextPlugin, ScrollTrigger)
 
-    const rowStyle = (pay: any) => {
-      const index = pay.rowIndex
-      if (index % 2) {
-      }
+    const it = ref('this is jxls')
+    gsap.defaults({
+      ease: 'bounce.out',
+      duration: 1
+    })
+
+    const anime = require('animejs')
+    onMounted(() => {
+      console.log('object')
+    })
+    gsap.to(boxref.value!, {
+      x: 400,
+      y: 400
+    })
+    const btn = () => {
+      console.log('object')
     }
+
     return {
       userInfo,
-
-      rowStyle
+      it,
+      btn,
+      hRef,
+      boxref
     }
   }
 })
 </script>
-<style lang="less" scoped>
+<style lang="less">
+.new {
+  color: #bfa;
+  font-size: 90px;
+  width: 200px;
+  height: 200px;
+  left: 0;
+}
+.old {
+  color: orange;
+  font-size: 90px;
+  width: 400px;
+  height: 500px;
+  bottom: 0;
+  border-radius: 50%;
+}
+
 .overview {
   text-align: left;
-
-  .id {
-    background: orangered;
-  }
-  .labelclassname {
-    background-color: #bfa;
-  }
-}
-</style>
-<style lang="less">
-.one {
-  // .id {
-  //   background: orangered;
-  // }
-  .l3 {
-    // background-color: rgba(205, 233, 206, 0.8);
-    background-color: red;
-  }
-  .l2 {
-    background-color: rgb(76, 0, 255);
-    // background-color: rgb(184, 236, 243);
-  }
-  .l1 {
-    background-color: yellowgreen;
-    // background-color: rgb(255, 249, 200);
+  .it {
+    // display: inline-block;
+    height: 200px;
+    width: 900px;
+    background-color: orangered;
   }
 }
 </style>

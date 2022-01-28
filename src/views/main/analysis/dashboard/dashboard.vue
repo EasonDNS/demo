@@ -310,7 +310,8 @@ export default defineComponent({
     const baseCardConfig = ref({
       header: {
         height: '320px',
-        background: 'linear-gradient(to right, #43c6ac, #f8ffae)'
+        background:
+          'linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea)'
       },
       content: {
         isShowContent: false
